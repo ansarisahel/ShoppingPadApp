@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.shoppingpad.R;
 import com.shoppingpad.viewmodelHandel.ContentListViewModel;
@@ -33,15 +34,17 @@ public class ContentListView extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         // making instance of ContentListViewModel class
-        mContentListViewModelInstance = new ContentListViewModel(this);
+       // mContentListViewModelInstance = new ContentListViewModel(this);
 
         // getting the list in the contentListViewModel class
-        mContentViewModelList = mContentListViewModelInstance.mContentListViewList;
+       // mContentViewModelList = mContentListViewModelInstance.mContentListViewList;
 
         // getting reference of recyclerview
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView1);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecyclerView.setAdapter(new ContentListViewAdapter(mContentListViewModelInstance));
+       // mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //mRecyclerView.setAdapter(new ContentListViewAdapter(mContentListViewModelInstance));
+
+        new MyNewThread().execute();
 
     }
 
@@ -51,6 +54,12 @@ public class ContentListView extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
+
+            // making instance of ContentListViewModel class
+             mContentListViewModelInstance = new ContentListViewModel(ContentListView.this);
+
+            // getting the list in the contentListViewModel class
+             mContentViewModelList = mContentListViewModelInstance.mContentListViewList;
             return null;
         }
 
@@ -62,6 +71,9 @@ public class ContentListView extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
+
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(ContentListView.this));
+            mRecyclerView.setAdapter(new ContentListViewAdapter(mContentListViewModelInstance));
         }
     }
 }

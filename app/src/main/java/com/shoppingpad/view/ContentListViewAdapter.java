@@ -20,7 +20,6 @@ import java.util.List;
 public class ContentListViewAdapter extends RecyclerView.Adapter
                     <ContentListViewAdapter.ContentListViewAdapterHolder> {
 
-    List<ContentViewModel> mContentViewModelList;
     ContentListViewModel mContentListViewModelInstance;
 
     // Constructor of this class which initializes the list so that it can be
