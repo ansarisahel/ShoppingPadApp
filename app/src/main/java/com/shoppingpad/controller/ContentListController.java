@@ -1,12 +1,9 @@
 package com.shoppingpad.controller;
 
 import android.content.Context;
-import android.database.Cursor;
 
-import com.shoppingpad.R;
 import com.shoppingpad.database.ContentListDatabase;
 import com.shoppingpad.model.ContentInfoModel;
-import com.shoppingpad.model.ContentListModel;
 import com.shoppingpad.model.ContentViewModel1;
 import com.shoppingpad.rest.ContentListRest;
 import com.shoppingpad.viewmodelHandel.ContentViewModel;
@@ -36,12 +33,10 @@ public class ContentListController {
     public List<ContentViewModel> mContentListControllerList;
     public List<ContentInfoModel> mContentInfoModelList;
     public List<ContentViewModel1> mContentViewModelList;
-    ContentListModel mContentListModelInstance;
     ContentListDatabase mDatabase;
     ContentListRest mContentListRestInstance;
 
     public ContentListController(Context context) {
-        mContentListModelInstance = new ContentListModel(context);
         if (UNIT_TEST)
             mContentListControllerList = controllerDummyData();
         else {

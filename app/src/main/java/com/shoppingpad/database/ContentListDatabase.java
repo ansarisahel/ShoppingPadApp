@@ -17,9 +17,9 @@ public class ContentListDatabase extends SQLiteOpenHelper {
 
    // SQLiteDatabase db;
     private static final String DATABASE_NAME = "ShoppingPadDatabase";
-    private static final int VERSION = 10;
+    private static final int VERSION = 12;
     private static final String CONTENT_INFO_TABLE = "content_infoTbl";
-    private static final String CONTENT_VIEW_TABLE = "user_content_viewTbl";
+    private static final String CONTENT_VIEW_TABLE = "content_viewTbl";
     private static final String CONTENT_LIST_VIEW_TABLE = "content_list_view_tbl";
 
 
@@ -42,7 +42,7 @@ public class ContentListDatabase extends SQLiteOpenHelper {
             "display_name VARCHAR(230),url VARCHAR(230)," +
             "title INTEGER,contentType VARCHAR(230),content_id INTEGER);";
 
-    String user_content_viewTbl = "CREATE TABLE "+ CONTENT_VIEW_TABLE +"" +
+    String content_viewTbl = "CREATE TABLE "+ CONTENT_VIEW_TABLE +"" +
             "(numberOfViews INTEGER,lastViewedDateTime VARCHAR(230)," +
             "displayProfile VARCHAR(230),email VARCHAR(230)," +
             "mobile VARCHAR(230),lastName VARCHAR(230)," +
@@ -58,9 +58,8 @@ public class ContentListDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(content_list_view_tbl);
         db.execSQL(content_infoTbl);
-        db.execSQL(user_content_viewTbl);
+        db.execSQL(content_viewTbl);
     }
 
     @Override
@@ -74,7 +73,6 @@ public class ContentListDatabase extends SQLiteOpenHelper {
 
     public void addRecord(){
         SQLiteDatabase db = getWritableDatabase();
-
 
         for(int i=0;i<5;i++) {
             ContentValues contentValues=new ContentValues();
@@ -144,11 +142,6 @@ public class ContentListDatabase extends SQLiteOpenHelper {
         return count;
     }
 
-    public Cursor getData()
-    {
-        SQLiteDatabase db = getReadableDatabase();
-        return db.rawQuery("SELECT * FROM "+CONTENT_LIST_VIEW_TABLE,null);
-    }
 
 
     // getting all the data from ContentInfoTable data
