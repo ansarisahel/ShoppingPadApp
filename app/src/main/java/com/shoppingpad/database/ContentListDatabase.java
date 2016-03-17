@@ -6,6 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.shoppingpad.controller.ContentListController;
+import com.shoppingpad.model.ContentInfoModel;
+import com.shoppingpad.model.ContentViewModel1;
+import com.shoppingpad.viewmodelHandel.ContentViewModel;
+
 /**
  * Created by bridgelabz on 13/3/16.
  * Purpose:
@@ -15,7 +20,7 @@ import android.database.sqlite.SQLiteOpenHelper;
     */
 public class ContentListDatabase extends SQLiteOpenHelper {
 
-   // SQLiteDatabase db;
+    private ContentListController mContentListController;
     private static final String DATABASE_NAME = "ShoppingPadDatabase";
     private static final int VERSION = 12;
     private static final String CONTENT_INFO_TABLE = "content_infoTbl";
@@ -51,8 +56,9 @@ public class ContentListDatabase extends SQLiteOpenHelper {
             "userContentId INTEGER);";
 
 
-    public ContentListDatabase(Context context) {
+    public ContentListDatabase(Context context, ContentListController contentListController) {
         super(context, DATABASE_NAME, null, VERSION);
+        mContentListController = contentListController;
       //  db = getWritableDatabase();
     }
 
@@ -86,60 +92,50 @@ public class ContentListDatabase extends SQLiteOpenHelper {
         }
     }
 
-    public int insert_into_user_content_viewTbl(int numberOfViews, String lastViewedDateTime,
-                          String displayProfile, String email,String mobile,
-                          String lastName,String firstName,int userId,
-                          int content_id,int userAdminId,int userContentId) {
-        int count = 0;
+    // Inserting data into the ContentViewTbl
+    public void insertIntoContentViewTbl() {
         SQLiteDatabase db = getWritableDatabase();
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < mContentListController.getContentViewListSize(); i++) {
+            ContentViewModel1 contentViewModel = mContentListController.getContentViewDataFromList(i);
             ContentValues values = new ContentValues();
-            values.put("numberOfViews", numberOfViews);
-            values.put("lastViewedDateTime", lastViewedDateTime);
-            values.put("displayProfile", displayProfile);
-            values.put("email", email);
-            values.put("mobile", mobile);
-            values.put("lastName", lastName);
-            values.put("firstName", firstName);
-            values.put("userId", userId);
-            values.put("content_id", content_id);
-            values.put("userAdminId", userAdminId);
-            values.put("userContentId", userContentId);
+            values.put("numberOfViews", contentViewModel.mNumberOfViews);
+            values.put("lastViewedDateTime",contentViewModel.mLastViewedDateTime);
+            values.put("displayProfile", contentViewModel.mDisplayProfile);
+            values.put("email", contentViewModel.mEmail);
+            values.put("mobile", "9563214569");
+            values.put("lastName", contentViewModel.mLastName);
+            values.put("firstName", contentViewModel.mFirstName);
+            values.put("userId", contentViewModel.mUserId);
+            values.put("content_id", contentViewModel.mContent_id);
+            values.put("userAdminId", contentViewModel.mUserAdminId);
+            values.put("userContentId", contentViewModel.mUserContentId);
 
-            if(db.insert(CONTENT_VIEW_TABLE, null, values) > 0)
-                count++;
+            db.insert(CONTENT_VIEW_TABLE, null, values);
         }
-        return count;
     }
 
 
-
-    public int insert_into_content_infoTbl(String modified_at, String created_at,
-                                           String syncDateTime, String description,
-                                           String contentLink, String imagesLink,
-                                           String display_name,String url,
-                                           int title,String contentType,
-                                           int content_id) {
-        int count = 0;
+    // inserting data into the ContentInfoTbl
+    public void insertIntoContentInfoTbl() {
         SQLiteDatabase db = getWritableDatabase();
-        for(int i = 0; i < 5; i++) {
+        for(int i = 0; i < mContentListController.getContentInfoListSize(); i++) {
+            ContentInfoModel contentInfoModel = mContentListController.getContentInfoDataFromList(i);
             ContentValues values = new ContentValues();
-            values.put("modified_at", modified_at);
-            values.put("created_at", created_at);
-            values.put("syncDateTime", syncDateTime);
-            values.put("description", description);
-            values.put("contentLink", contentLink);
-            values.put("imagesLink", imagesLink);
-            values.put("display_name", display_name);
-            values.put("url", url);
-            values.put("title", title);
-            values.put("contentType", contentType);
-            values.put("content_id", content_id);
+            values.put("modified_at", contentInfoModel.mModified_at);
+            values.put("created_at", contentInfoModel.mCreated_at);
+            values.put("syncDateTime", contentInfoModel.mSyncDateTime);
+            values.put("description", contentInfoModel.mDescription);
+            values.put("contentLink", contentInfoModel.mContentLink);
+            values.put("imagesLink", contentInfoModel.mImagesLink);
+            values.put("display_name", contentInfoModel.mDisplay_name);
+            values.put("url", contentInfoModel.mUrl);
+            values.put("title", contentInfoModel.mTitle);
+            values.put("contentType", contentInfoModel.mContentType);
+            values.put("content_id", contentInfoModel.mContentId);
 
-            if(db.insert(CONTENT_INFO_TABLE, null, values) > 0)
-                count++;
+            db.insert(CONTENT_INFO_TABLE, null, values);
+
         }
-        return count;
     }
 
 

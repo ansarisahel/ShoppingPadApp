@@ -40,10 +40,12 @@ public class ContentListController {
         if (UNIT_TEST)
             mContentListControllerList = controllerDummyData();
         else {
-            mDatabase = new ContentListDatabase(context);
+            mDatabase = new ContentListDatabase(context,ContentListController.this);
             mContentListRestInstance = new ContentListRest();
             mContentInfoModelList = getContentInfoData();
             mContentViewModelList = getContentViewData();
+            mDatabase.insertIntoContentInfoTbl();
+            mDatabase.insertIntoContentViewTbl();
         }
     }
 
@@ -51,18 +53,6 @@ public class ContentListController {
     // get ContentInfoTbl data and populate it into the ContentInfoModel
     private List<ContentInfoModel> getContentInfoData() {
         List<ContentInfoModel> contentInfoModelList = new ArrayList<>();
-       /* Cursor contentInfoData = database.getContentInfoData();
-        if(contentInfoData.getCount() != 0)
-        {
-            while (contentInfoData.moveToNext())
-            {
-                ContentInfoModel contentInfoModelInstance = new ContentInfoModel();
-                contentInfoModelInstance.setContentInfoModelInstance(contentInfoData);
-
-                contentInfoModelList.add(contentInfoModelInstance);
-
-            }
-        }*/
 
         String contentInfoData = mContentListRestInstance.mContentInfoData;
         try {
@@ -85,17 +75,6 @@ public class ContentListController {
     // get ContentViewTbl data and populate it into the ContentViewModel
     private List<ContentViewModel1> getContentViewData() {
         List<ContentViewModel1> contentViewModelList = new ArrayList<>();
-       /* Cursor contentViewData = database.getContentViewData();
-        if (contentViewData.getCount() != 0)
-        {
-            while (contentViewData.moveToNext())
-            {
-                ContentViewModel1 contentViewModelInstance = new ContentViewModel1();
-                contentViewModelInstance.setContentViewModelInstance(contentViewData);
-
-                contentViewModelList.add(contentViewModelInstance);
-            }
-        }*/
 
         String contentViewData = mContentListRestInstance.mContentViewData;
         try {
@@ -111,6 +90,28 @@ public class ContentListController {
             e.printStackTrace();
         }
         return  contentViewModelList;
+    }
+
+
+
+    public int getContentInfoListSize()
+    {
+        return mContentInfoModelList.size();
+    }
+
+    public int getContentViewListSize()
+    {
+        return mContentViewModelList.size();
+    }
+
+    public ContentInfoModel getContentInfoDataFromList(int position)
+    {
+        return mContentInfoModelList.get(position);
+    }
+
+    public ContentViewModel1 getContentViewDataFromList(int position)
+    {
+        return mContentViewModelList.get(position);
     }
 
 
@@ -130,4 +131,7 @@ public class ContentListController {
         }
         return contentListControllerList;
     }
+
+
+
 }
