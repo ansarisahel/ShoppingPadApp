@@ -1,11 +1,13 @@
 package com.shoppingpad.view;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.shoppingpad.R;
@@ -51,7 +53,7 @@ public class ContentListView extends AppCompatActivity {
 
     class MyNewThread extends AsyncTask<String,String,String>
     {
-
+        ProgressDialog progressDialog = new ProgressDialog(ContentListView.this);
         @Override
         protected String doInBackground(String... strings) {
 
@@ -59,21 +61,24 @@ public class ContentListView extends AppCompatActivity {
              mContentListViewModelInstance = new ContentListViewModel(ContentListView.this);
 
             // getting the list in the contentListViewModel class
-             mContentViewModelList = mContentListViewModelInstance.mContentListViewList;
+            // mContentViewModelList = mContentListViewModelInstance.mContentListViewList;
             return null;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog.setTitle("loading");
+            progressDialog.show();
         }
 
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
+            progressDialog.dismiss();
             mRecyclerView.setLayoutManager(new LinearLayoutManager(ContentListView.this));
             mRecyclerView.setAdapter(new ContentListViewAdapter(mContentListViewModelInstance));
+
         }
     }
 }

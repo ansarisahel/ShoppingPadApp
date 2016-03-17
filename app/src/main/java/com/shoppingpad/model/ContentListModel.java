@@ -65,7 +65,7 @@ public class ContentListModel {
             {
                 ContentViewModel contentViewModelInstance = new ContentViewModel();
                 contentViewModelInstance.mTitle = cursor.getString(0);
-                contentViewModelInstance.mImage = R.drawable.shahruk_khan;
+              //  contentViewModelInstance.mImage = R.drawable.shahruk_khan;
                 contentViewModelInstance.mLastSeen = cursor.getString(2);
                 contentViewModelInstance.mStatus = cursor.getString(1);
                 contentViewModelInstance.mNoOfParticipants = cursor.getString(4);

@@ -2,6 +2,10 @@ package com.shoppingpad.model;
 
 import android.database.Cursor;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by bridgelabz on 15/3/16.
  */
@@ -18,19 +22,22 @@ public class ContentInfoModel {
     public String mContentType;
     public int mContentId;
 
-    public void setContentInfoModelInstance(Cursor contentInfoData) {
-        mModified_at = contentInfoData.getString(0);
-        mCreated_at = contentInfoData.getString(1);
-        mSyncDateTime = contentInfoData.getString(2);
-        mDescription = contentInfoData.getString(3);
-        mContentLink = contentInfoData.getString(4);
-        mImagesLink = contentInfoData.getString(5);
-        mDisplay_name = contentInfoData.getString(6);
-        mUrl = contentInfoData.getString(7);
-        mTitle= contentInfoData.getInt(8);
-        mContentType= contentInfoData.getString(9);
-        mContentId = contentInfoData.getInt(10);
-
+    public void setContentInfoModelInstance(JSONObject contentInfoData) {
+        try {
+            mModified_at = contentInfoData.getString("modified_at");
+            mCreated_at = contentInfoData.getString("created_at");
+            mSyncDateTime = contentInfoData.getString("syncDateTime");
+            mDescription = contentInfoData.getString("decription");
+            mContentLink = contentInfoData.getString("contentLink");
+            mImagesLink = contentInfoData.getString("imagesLink");
+            mDisplay_name = contentInfoData.getString("display_name");
+            mUrl = contentInfoData.getString("url");
+            mTitle = contentInfoData.getInt("title");
+            mContentType = contentInfoData.getString("contentType");
+            mContentId = contentInfoData.getInt("content_id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }
 

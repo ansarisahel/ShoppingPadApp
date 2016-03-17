@@ -40,7 +40,8 @@ public class ContentListViewAdapter extends RecyclerView.Adapter
     @Override
     public void onBindViewHolder(ContentListViewAdapterHolder holder, int position) {
         ContentViewModel contentViewModelInstance = mContentListViewModelInstance.getdata(position);
-        holder.dp.setImageResource(contentViewModelInstance.mImage);
+       // holder.dp.setImageResource(contentViewModelInstance.mImage);
+        holder.dp.setImageBitmap(contentViewModelInstance.mImage);
         holder.title.setText(contentViewModelInstance.mTitle);
         holder.lastSeen.setText(contentViewModelInstance.mLastSeen);
         holder.noOfViews.setText(""+ contentViewModelInstance.mNoOfViews);

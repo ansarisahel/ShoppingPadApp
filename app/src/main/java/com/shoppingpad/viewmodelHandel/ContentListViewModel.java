@@ -1,12 +1,17 @@
 package com.shoppingpad.viewmodelHandel;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.shoppingpad.R;
 import com.shoppingpad.controller.ContentListController;
 import com.shoppingpad.model.ContentInfoModel;
 import com.shoppingpad.model.ContentViewModel1;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,12 +47,22 @@ public class ContentListViewModel {
         List<ContentViewModel> requiredList = new ArrayList();
         for(int i = 0; i <  mContentListControllerInstance.mContentInfoModelList.size(); i++)
         {
+
             ContentViewModel contentViewModelInstance = new ContentViewModel();
             ContentInfoModel contentInfoModel= mContentListControllerInstance.
                                                         mContentInfoModelList.get(i);
             ContentViewModel1 contentViewModel1 = mContentListControllerInstance.
                                                         mContentViewModelList.get(i);
-            contentViewModelInstance.mImage = R.drawable.shahruk_khan;
+            //contentViewModelInstance.mImage = R.drawable.shahruk_khan;
+            URL url = null;
+            try {
+                url = new URL("https://hilleletv.files.wordpress.com/2015/11/shahrukhkhan-jan30.jpg");
+                contentViewModelInstance.mImage = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             contentViewModelInstance.mTitle = contentInfoModel.mDisplay_name;
             contentViewModelInstance.mNoOfViews = contentViewModel1.mNumberOfViews;
             contentViewModelInstance.mLastSeen = contentViewModel1.mLastViewedDateTime;
@@ -68,7 +83,7 @@ public class ContentListViewModel {
         {
             ContentViewModel contentViewModelInstance = new ContentViewModel();
             contentViewModelInstance.mTitle = "shahruk khan";
-            contentViewModelInstance.mImage = R.drawable.shahruk_khan;
+           // contentViewModelInstance.mImage = R.drawable.shahruk_khan;
             contentViewModelInstance.mLastSeen = "11:00 AM";
             contentViewModelInstance.mNoOfParticipants = "1000";
             contentViewModelInstance.mNoOfViews = 2000;

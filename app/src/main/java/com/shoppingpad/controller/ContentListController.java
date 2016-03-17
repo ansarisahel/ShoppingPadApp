@@ -8,7 +8,12 @@ import com.shoppingpad.database.ContentListDatabase;
 import com.shoppingpad.model.ContentInfoModel;
 import com.shoppingpad.model.ContentListModel;
 import com.shoppingpad.model.ContentViewModel1;
+import com.shoppingpad.rest.ContentListRest;
 import com.shoppingpad.viewmodelHandel.ContentViewModel;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,14 +37,16 @@ public class ContentListController {
     public List<ContentInfoModel> mContentInfoModelList;
     public List<ContentViewModel1> mContentViewModelList;
     ContentListModel mContentListModelInstance;
-    ContentListDatabase database;
+    ContentListDatabase mDatabase;
+    ContentListRest mContentListRestInstance;
 
     public ContentListController(Context context) {
         mContentListModelInstance = new ContentListModel(context);
         if (UNIT_TEST)
             mContentListControllerList = controllerDummyData();
         else {
-            database = new ContentListDatabase(context);
+            mDatabase = new ContentListDatabase(context);
+            mContentListRestInstance = new ContentListRest();
             mContentInfoModelList = getContentInfoData();
             mContentViewModelList = getContentViewData();
         }
@@ -49,29 +56,33 @@ public class ContentListController {
     // get ContentInfoTbl data and populate it into the ContentInfoModel
     private List<ContentInfoModel> getContentInfoData() {
         List<ContentInfoModel> contentInfoModelList = new ArrayList<>();
-        Cursor contentInfoData = database.getContentInfoData();
+       /* Cursor contentInfoData = database.getContentInfoData();
         if(contentInfoData.getCount() != 0)
         {
             while (contentInfoData.moveToNext())
             {
                 ContentInfoModel contentInfoModelInstance = new ContentInfoModel();
                 contentInfoModelInstance.setContentInfoModelInstance(contentInfoData);
-//                contentInfoModelInstance.mModified_at = contentInfoData.getString(0);
-//                contentInfoModelInstance.mCreated_at = contentInfoData.getString(1);
-//                contentInfoModelInstance.mSyncDateTime = contentInfoData.getString(2);
-//                contentInfoModelInstance.mDescription = contentInfoData.getString(3);
-//                contentInfoModelInstance.mContentLink = contentInfoData.getString(4);
-//                contentInfoModelInstance.mImagesLink = contentInfoData.getString(5);
-//                contentInfoModelInstance.mDisplay_name = contentInfoData.getString(6);
-//                contentInfoModelInstance.mUrl = contentInfoData.getString(7);
-//                contentInfoModelInstance.mTitle= contentInfoData.getInt(8);
-//                contentInfoModelInstance.mContentType= contentInfoData.getString(9);
-//                contentInfoModelInstance.mContentId = contentInfoData.getInt(10);
+
                 contentInfoModelList.add(contentInfoModelInstance);
 
-
             }
+        }*/
+
+        String contentInfoData = mContentListRestInstance.mContentInfoData;
+        try {
+            JSONArray jsonArray = new JSONArray(contentInfoData);
+            for(int i = 0; i < jsonArray.length(); i++)
+            {
+                ContentInfoModel contentInfoModelInstance = new ContentInfoModel();
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                contentInfoModelInstance.setContentInfoModelInstance(jsonObject);
+                contentInfoModelList.add(contentInfoModelInstance);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+
         return contentInfoModelList;
     }
 
@@ -79,26 +90,30 @@ public class ContentListController {
     // get ContentViewTbl data and populate it into the ContentViewModel
     private List<ContentViewModel1> getContentViewData() {
         List<ContentViewModel1> contentViewModelList = new ArrayList<>();
-        Cursor contentViewData = database.getContentViewData();
+       /* Cursor contentViewData = database.getContentViewData();
         if (contentViewData.getCount() != 0)
         {
             while (contentViewData.moveToNext())
             {
                 ContentViewModel1 contentViewModelInstance = new ContentViewModel1();
                 contentViewModelInstance.setContentViewModelInstance(contentViewData);
-//                contentViewModelInstance.mNumberOfViews = contentViewData.getInt(0);
-//                contentViewModelInstance.mLastViewedDateTime = contentViewData.getString(1);
-//                contentViewModelInstance.mDisplayProfile = contentViewData.getString(2);
-//                contentViewModelInstance.mEmail = contentViewData.getString(3);
-//                contentViewModelInstance.mMobile = contentViewData.getString(4);
-//                contentViewModelInstance.mLastName = contentViewData.getString(5);
-//                contentViewModelInstance.mFirstName = contentViewData.getString(6);
-//                contentViewModelInstance.mUserId= contentViewData.getInt(7);
-//                contentViewModelInstance.mContent_id = contentViewData.getInt(8);
-//                contentViewModelInstance.mUserAdminId = contentViewData.getInt(8);
-//                contentViewModelInstance.mUserContentId = contentViewData.getInt(9);
+
                 contentViewModelList.add(contentViewModelInstance);
             }
+        }*/
+
+        String contentViewData = mContentListRestInstance.mContentViewData;
+        try {
+            JSONArray jsonArray = new JSONArray(contentViewData);
+            for(int i = 0; i < jsonArray.length(); i++)
+            {
+                ContentViewModel1 contentViewModelInstance = new ContentViewModel1();
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                contentViewModelInstance.setContentViewModelInstance(jsonObject);
+                contentViewModelList.add(contentViewModelInstance);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return  contentViewModelList;
     }
@@ -112,7 +127,7 @@ public class ContentListController {
         {
             ContentViewModel contentViewModelInstance = new ContentViewModel();
             contentViewModelInstance.mTitle = "shahruk khan";
-            contentViewModelInstance.mImage = R.drawable.shahruk_khan;
+            //contentViewModelInstance.mImage = R.drawable.shahruk_khan;
             contentViewModelInstance.mLastSeen = "11:00 AM";
             contentViewModelInstance.mNoOfParticipants = "1000";
             contentViewModelInstance.mNoOfViews = 2000;
