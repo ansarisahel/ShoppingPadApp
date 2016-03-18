@@ -25,7 +25,6 @@ import java.util.List;
     to the view. */
 
 
-//
 public class ContentListViewModel {
 
     private static final boolean UNIT_TEST = false;

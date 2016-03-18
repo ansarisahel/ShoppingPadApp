@@ -69,6 +69,7 @@ public class ContentListView extends AppCompatActivity {
         protected void onPreExecute() {
             super.onPreExecute();
             progressDialog.setTitle("loading");
+            progressDialog.setMessage("Downloading contents");
             progressDialog.show();
         }
 
