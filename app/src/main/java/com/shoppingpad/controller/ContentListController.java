@@ -6,7 +6,7 @@ import com.shoppingpad.database.ContentListDatabase;
 import com.shoppingpad.model.ContentInfoModel;
 import com.shoppingpad.model.ContentViewModel1;
 import com.shoppingpad.rest.ContentListRest;
-import com.shoppingpad.viewmodelHandel.ContentViewModel;
+import com.shoppingpad.viewModelHandel.ContentViewModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;

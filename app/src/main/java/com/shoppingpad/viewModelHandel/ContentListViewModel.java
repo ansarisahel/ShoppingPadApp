@@ -1,10 +1,8 @@
-package com.shoppingpad.viewmodelHandel;
+package com.shoppingpad.viewModelHandel;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.shoppingpad.R;
 import com.shoppingpad.controller.ContentListController;
 import com.shoppingpad.model.ContentInfoModel;
 import com.shoppingpad.model.ContentViewModel1;
@@ -56,18 +54,24 @@ public class ContentListViewModel {
             URL url = null;
             try {
                 url = new URL("https://hilleletv.files.wordpress.com/2015/11/shahrukhkhan-jan30.jpg");
-                contentViewModelInstance.mImage = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+//                contentViewModelInstance.mImage = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+//                contentViewModelInstance.mTitle = contentInfoModel.mDisplay_name;
+//                contentViewModelInstance.mNoOfViews = contentViewModel1.mNumberOfViews;
+//                contentViewModelInstance.mLastSeen = contentViewModel1.mLastViewedDateTime;
+//                contentViewModelInstance.mNoOfParticipants = Integer.toString(contentInfoModel.mContentId);
+//                contentViewModelInstance.mStatus = contentViewModel1.mFirstName;
+                contentViewModelInstance.setmImage(BitmapFactory.decodeStream(url.openConnection().getInputStream()));
+                contentViewModelInstance.setmTitle(""+contentInfoModel.mDisplay_name);
+                contentViewModelInstance.setmNoOfViews(Integer.parseInt(String.valueOf(contentViewModel1.mNumberOfViews)));
+                contentViewModelInstance.setmLastSeen(""+contentViewModel1.mLastViewedDateTime);
+                contentViewModelInstance.setmNoOfParticipants(Integer.toString(contentInfoModel.mContentId));
+                contentViewModelInstance.setmStatus(""+contentViewModel1.mFirstName);
+                requiredList.add(contentViewModelInstance);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            contentViewModelInstance.mTitle = contentInfoModel.mDisplay_name;
-            contentViewModelInstance.mNoOfViews = contentViewModel1.mNumberOfViews;
-            contentViewModelInstance.mLastSeen = contentViewModel1.mLastViewedDateTime;
-            contentViewModelInstance.mNoOfParticipants = Integer.toString(contentInfoModel.mContentId);
-            contentViewModelInstance.mStatus = contentViewModel1.mFirstName;
-            requiredList.add(contentViewModelInstance);
         }
         return requiredList;
     }

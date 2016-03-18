@@ -7,12 +7,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.shoppingpad.R;
-import com.shoppingpad.viewmodelHandel.ContentListViewModel;
-import com.shoppingpad.viewmodelHandel.ContentViewModel;
+import com.shoppingpad.viewModelHandel.ContentListViewModel;
+import com.shoppingpad.viewModelHandel.ContentViewModel;
 
 import java.util.List;
 
@@ -78,7 +76,7 @@ public class ContentListView extends AppCompatActivity {
             super.onPostExecute(s);
             progressDialog.dismiss();
             mRecyclerView.setLayoutManager(new LinearLayoutManager(ContentListView.this));
-            mRecyclerView.setAdapter(new ContentListViewAdapter(mContentListViewModelInstance));
+            mRecyclerView.setAdapter(new ContentListViewAdapter(mContentListViewModelInstance,getLayoutInflater()));
 
         }
     }

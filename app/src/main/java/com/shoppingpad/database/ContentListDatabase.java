@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.shoppingpad.controller.ContentListController;
 import com.shoppingpad.model.ContentInfoModel;
 import com.shoppingpad.model.ContentViewModel1;
-import com.shoppingpad.viewmodelHandel.ContentViewModel;
 
 /**
  * Created by bridgelabz on 13/3/16.
