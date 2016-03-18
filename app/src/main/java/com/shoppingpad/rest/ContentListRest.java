@@ -27,6 +27,8 @@ public class ContentListRest {
         mContentViewData = getContentViewDataFromREST();
     }
 
+    // This method will return the ContentInfoJSON which is then stored in the
+    // mContentInfoData variable and passed it into the Controller
     public String getContentInfoDataFromREST()
     {
         InputStream contentInfoDataStream;
@@ -52,7 +54,8 @@ public class ContentListRest {
         return contentInfoDataJSON;
     }
 
-
+    // This method will return the ContentViewJSON which is then stored in the
+    // mContentViewData variable and passed it into the Controller
     public String getContentViewDataFromREST()
     {
         InputStream contentViewDataStream;

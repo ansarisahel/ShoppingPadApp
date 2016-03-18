@@ -10,8 +10,12 @@ import com.shoppingpad.BR;
 
 /**
  * Created by bridgelabz on 13/3/16.
-    This class is created so that it's object gets created and can be used in populating
-    list and later in recycler view*/
+    Purpose: This class is created so that it's object gets created and can be used in populating
+             list and later in recycler view
+             This class is also used for databinding i.e if any member variable of this
+             class gets changed it will notify to the recycler view immediately that it's
+             data has been changed.
+    */
 
 public class ContentViewModel extends BaseObservable {
     //public int mImage;

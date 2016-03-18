@@ -24,7 +24,6 @@ import java.util.List;
 public class ContentListView extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
-    List<ContentViewModel> mContentViewModelList;
     ContentListViewModel mContentListViewModelInstance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,17 +32,11 @@ public class ContentListView extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // making instance of ContentListViewModel class
-       // mContentListViewModelInstance = new ContentListViewModel(this);
-
-        // getting the list in the contentListViewModel class
-       // mContentViewModelList = mContentListViewModelInstance.mContentListViewList;
-
         // getting reference of recyclerview
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView1);
-       // mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //mRecyclerView.setAdapter(new ContentListViewAdapter(mContentListViewModelInstance));
 
+        // calling Async Task so that all the work happens in another thread
+        // i.e calling JSON data from REST.
         new MyNewThread().execute();
 
     }
@@ -57,9 +50,6 @@ public class ContentListView extends AppCompatActivity {
 
             // making instance of ContentListViewModel class
              mContentListViewModelInstance = new ContentListViewModel(ContentListView.this);
-
-            // getting the list in the contentListViewModel class
-            // mContentViewModelList = mContentListViewModelInstance.mContentListViewList;
             return null;
         }
 
@@ -76,7 +66,7 @@ public class ContentListView extends AppCompatActivity {
             super.onPostExecute(s);
             progressDialog.dismiss();
             mRecyclerView.setLayoutManager(new LinearLayoutManager(ContentListView.this));
-            mRecyclerView.setAdapter(new ContentListViewAdapter(mContentListViewModelInstance,getLayoutInflater()));
+            mRecyclerView.setAdapter(new ContentListViewAdapter(mContentListViewModelInstance));
 
         }
     }

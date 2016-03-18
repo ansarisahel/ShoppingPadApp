@@ -16,18 +16,19 @@ import com.shoppingpad.viewModelHandel.ContentViewModel;
 
 /**
  * Created by bridgelabz on 13/3/16.
-    This is the adapter class created for the recycler view in the ContentListView */
+    This is the adapter class created for the recycler view in the ContentListView
+    This adapter class is resposible for populating the data in the recyclerview*/
 
 public class ContentListViewAdapter extends RecyclerView.Adapter
                     <ContentListViewAdapter.ContentListViewAdapterHolder> {
 
     ContentListViewModel mContentListViewModelInstance;
-    LayoutInflater inflater;
-    // Constructor of this class which initializes the list so that it can be
-    public ContentListViewAdapter(ContentListViewModel mContentListViewModelInstance,LayoutInflater inflater)
+
+    // Constructor of this class which initializes ContentListViewModel
+    // so that data can be retrieved from the list of this class
+    public ContentListViewAdapter(ContentListViewModel mContentListViewModelInstance)
     {
         this.mContentListViewModelInstance = mContentListViewModelInstance;
-        this.inflater = inflater;
     }
 
     @Override
@@ -42,13 +43,6 @@ public class ContentListViewAdapter extends RecyclerView.Adapter
     @Override
     public void onBindViewHolder(ContentListViewAdapterHolder holder, int position) {
         ContentViewModel contentViewModelInstance = mContentListViewModelInstance.getdata(position);
-       // holder.dp.setImageResource(contentViewModelInstance.mImage);
-       // holder.dp.setImageBitmap(contentViewModelInstance.mImage);
-      /*  holder.title.setText(contentViewModelInstance.mTitle);
-        holder.lastSeen.setText(contentViewModelInstance.mLastSeen);
-        holder.noOfViews.setText(""+ contentViewModelInstance.mNoOfViews);
-        holder.participants.setText(""+ contentViewModelInstance.mNoOfParticipants);
-        holder.status.setText(contentViewModelInstance.mStatus);*/
         holder.binding.setVariable(BR.data,contentViewModelInstance);
         holder.binding.executePendingBindings();
     }
@@ -58,19 +52,11 @@ public class ContentListViewAdapter extends RecyclerView.Adapter
        return mContentListViewModelInstance.getListSize();
     }
 
+    // This is the view holder class for recycler view.
     public class ContentListViewAdapterHolder extends RecyclerView.ViewHolder {
-       // TextView title,status,lastSeen,noOfViews,participants;
-        ImageView dp;
-
         RowViewBinding binding;
         public ContentListViewAdapterHolder(View view) {
             super(view);
-         //   dp = (ImageView) view.findViewById(R.id.imageViewDP);
-        /*    title = (TextView) view.findViewById(R.id.txtTitle);
-            status = (TextView) view.findViewById(R.id.txtStatus);
-            lastSeen = (TextView) view.findViewById(R.id.txtLastSeen);
-            noOfViews = (TextView) view.findViewById(R.id.textNoOfViews);
-            participants = (TextView) view.findViewById(R.id.txtParticipants);*/
             binding = RowViewBinding.bind(view);
         }
     }

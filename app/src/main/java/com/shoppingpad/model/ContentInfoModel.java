@@ -8,7 +8,11 @@ import org.json.JSONObject;
 
 /**
  * Created by bridgelabz on 15/3/16.
- */
+ Purpose: This class is used to be populated retrieved from JSON
+          This class contains the attributes of ContentInfoTbl*/
+
+
+
 public class ContentInfoModel {
     public String mModified_at;
     public String mCreated_at;

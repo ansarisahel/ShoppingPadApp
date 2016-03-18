@@ -32,16 +32,22 @@ public class ContentListViewModel {
 
     public ContentListViewModel(Context context)
     {
+        // calling the ContentListController
         mContentListControllerInstance = new ContentListController(context);
         if(UNIT_TEST)
             mContentListViewList = viewModelDummyData();
         else
+        // This will get the list containing all the data required for
+        // populating the recyclerview
             mContentListViewList = getRequiredDataForAdapter();
     }
 
+    // This method returns the list containing all the data required for
+    // populating the recyclerview
     public List<ContentViewModel> getRequiredDataForAdapter()
     {
         List<ContentViewModel> requiredList = new ArrayList();
+        URL url = null;
         for(int i = 0; i <  mContentListControllerInstance.mContentInfoModelList.size(); i++)
         {
 
@@ -50,17 +56,8 @@ public class ContentListViewModel {
                                                         mContentInfoModelList.get(i);
             ContentViewModel1 contentViewModel1 = mContentListControllerInstance.
                                                         mContentViewModelList.get(i);
-            //contentViewModelInstance.mImage = R.drawable.shahruk_khan;
-            URL url = null;
             try {
                 url = new URL("https://hilleletv.files.wordpress.com/2015/11/shahrukhkhan-jan30.jpg");
-//                contentViewModelInstance.mImage = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-//                contentViewModelInstance.mTitle = contentInfoModel.mDisplay_name;
-//                contentViewModelInstance.mNoOfViews = contentViewModel1.mNumberOfViews;
-//                contentViewModelInstance.mLastSeen = contentViewModel1.mLastViewedDateTime;
-//                contentViewModelInstance.mNoOfParticipants = Integer.toString(contentInfoModel.mContentId);
-//                contentViewModelInstance.mStatus = contentViewModel1.mFirstName;
-                //contentViewModelInstance.setmImage(BitmapFactory.decodeStream(url.openConnection().getInputStream()));
                 contentViewModelInstance.setmImage(url.toString());
                 contentViewModelInstance.setmTitle(contentInfoModel.mDisplay_name);
                 contentViewModelInstance.setmNoOfViews(contentViewModel1.mNumberOfViews);
@@ -96,10 +93,13 @@ public class ContentListViewModel {
         return contentViewModelList;
     }
 
+    // this will give the ContentViewModel object stored at a specified possition
+    // in the list.
     public ContentViewModel getdata(int position) {
         return mContentListViewList.get(position);
     }
 
+    // This will return the list size of the mContentListViewList
     public int getListSize()
     {
        return mContentListViewList.size();

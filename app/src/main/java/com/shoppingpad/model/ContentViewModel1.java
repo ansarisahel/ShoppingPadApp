@@ -7,7 +7,8 @@ import org.json.JSONObject;
 
 /**
  * Created by bridgelabz on 15/3/16.
- */
+ Purpose: This class is used to be populated retrieved from JSON
+ This class contains the attributes of ContentViewTbl*/
 public class ContentViewModel1 {
     public String mNumberOfViews;
     public String mLastViewedDateTime;

@@ -40,16 +40,24 @@ public class ContentListController {
         if (UNIT_TEST)
             mContentListControllerList = controllerDummyData();
         else {
+            // calling to the database
             mDatabase = new ContentListDatabase(context,ContentListController.this);
+
+            // calling to the REST service to get the JSONDATA
             mContentListRestInstance = new ContentListRest();
+
+            // Storing ContentInfoModel Object into the list
             mContentInfoModelList = getContentInfoData();
+
+            // Storing ContentViewModel Object into the list
             mContentViewModelList = getContentViewData();
             mDatabase.insertIntoContentInfoTbl();
             mDatabase.insertIntoContentViewTbl();
         }
     }
 
-    // get ContentInfoTbl data and populate it into the ContentInfoModel
+    // Returns the list containing the ContentInfoModel object with it's
+    // all field initialized
     private List<ContentInfoModel> getContentInfoData() {
         List<ContentInfoModel> contentInfoModelList = new ArrayList<>();
 
@@ -71,7 +79,8 @@ public class ContentListController {
     }
 
 
-    // get ContentViewTbl data and populate it into the ContentViewModel
+    // Returns the list containing the ContentViewModel object with it's
+    // all field initialized
     private List<ContentViewModel1> getContentViewData() {
         List<ContentViewModel1> contentViewModelList = new ArrayList<>();
 
@@ -92,26 +101,33 @@ public class ContentListController {
     }
 
 
-
+    // Returns the size of the mContentInfoModelList
     public int getContentInfoListSize()
     {
         return mContentInfoModelList.size();
     }
 
+    // Returns the size of the mContentViewModelList
     public int getContentViewListSize()
     {
         return mContentViewModelList.size();
     }
 
+    // Returns the ContentInfoModel Object stored in the list at a given position
     public ContentInfoModel getContentInfoDataFromList(int position)
     {
         return mContentInfoModelList.get(position);
     }
 
+    // Returns the ContentViewModel Object stored in the list at a given position
     public ContentViewModel1 getContentViewDataFromList(int position)
     {
         return mContentViewModelList.get(position);
     }
+
+
+
+
 
 
     // this method is for populating dummy data into the list
