@@ -2,7 +2,9 @@ package com.shoppingpad.viewModelHandel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.databinding.BindingAdapter;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 
 import com.shoppingpad.BR;
 
@@ -13,32 +15,33 @@ import com.shoppingpad.BR;
 
 public class ContentViewModel extends BaseObservable {
     //public int mImage;
-    public Bitmap mImage;
+    public String mImage;
     public String mTitle;
     public String mStatus;
     public String mLastSeen;
     public String mNoOfParticipants;
-    public int mNoOfViews;
+    public String mNoOfViews;
 
     public ContentViewModel()
     {
     }
 
-    public ContentViewModel(String mTitle, String mLastSeen, String mStatus, String mNoOfParticipants, int mNoOfViews) {
-        this.mImage = mImage;
-        this.mTitle = mTitle;
-        this.mLastSeen = mLastSeen;
-        this.mStatus = mStatus;
-        this.mNoOfParticipants = mNoOfParticipants;
-        this.mNoOfViews = mNoOfViews;
+    public ContentViewModel(String title, String lastSeen, String status,
+                            String noOfParticipants, String noOfViews, String image) {
+        this.mImage = image;
+        this.mTitle = title;
+        this.mLastSeen = lastSeen;
+        this.mStatus = status;
+        this.mNoOfParticipants = noOfParticipants;
+        this.mNoOfViews = noOfViews;
     }
 
     @Bindable
-    public Bitmap getmImage() {
+    public String getmImage() {
         return mImage;
     }
 
-    public void setmImage(Bitmap mImage) {
+    public void setmImage(String mImage) {
         this.mImage = mImage;
         notifyPropertyChanged(BR.mImage);
     }
@@ -84,11 +87,11 @@ public class ContentViewModel extends BaseObservable {
     }
 
     @Bindable
-    public int getmNoOfViews() {
+    public String getmNoOfViews() {
         return mNoOfViews;
     }
 
-    public void setmNoOfViews(int mNoOfViews) {
+    public void setmNoOfViews(String mNoOfViews) {
         this.mNoOfViews = mNoOfViews;
         notifyPropertyChanged(BR.mNoOfViews);
     }

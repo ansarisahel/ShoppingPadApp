@@ -18,9 +18,9 @@ public class ContentInfoModel {
     public String mImagesLink;
     public String mDisplay_name;
     public String mUrl;
-    public int mTitle;
+    public String mTitle;
     public String mContentType;
-    public int mContentId;
+    public String mContentId;
 
     public void setContentInfoModelInstance(JSONObject contentInfoData) {
         try {
@@ -32,9 +32,9 @@ public class ContentInfoModel {
             mImagesLink = contentInfoData.getString("imagesLink");
             mDisplay_name = contentInfoData.getString("display_name");
             mUrl = contentInfoData.getString("url");
-            mTitle = contentInfoData.getInt("title");
+            mTitle = contentInfoData.getString("title");
             mContentType = contentInfoData.getString("contentType");
-            mContentId = contentInfoData.getInt("content_id");
+            mContentId = contentInfoData.getString("content_id");
         } catch (JSONException e) {
             e.printStackTrace();
         }

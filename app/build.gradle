@@ -31,4 +31,5 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:23.0.+'
     compile 'com.oguzdev:CircularFloatingActionMenu:1.0.2'
     compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }

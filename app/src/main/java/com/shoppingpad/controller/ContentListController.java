@@ -49,7 +49,6 @@ public class ContentListController {
         }
     }
 
-
     // get ContentInfoTbl data and populate it into the ContentInfoModel
     private List<ContentInfoModel> getContentInfoData() {
         List<ContentInfoModel> contentInfoModelList = new ArrayList<>();
@@ -126,7 +125,7 @@ public class ContentListController {
             //contentViewModelInstance.mImage = R.drawable.shahruk_khan;
             contentViewModelInstance.mLastSeen = "11:00 AM";
             contentViewModelInstance.mNoOfParticipants = "1000";
-            contentViewModelInstance.mNoOfViews = 2000;
+            contentViewModelInstance.mNoOfViews = "2000";
             contentListControllerList.add(contentViewModelInstance);
         }
         return contentListControllerList;

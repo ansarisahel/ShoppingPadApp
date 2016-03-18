@@ -60,12 +60,13 @@ public class ContentListViewModel {
 //                contentViewModelInstance.mLastSeen = contentViewModel1.mLastViewedDateTime;
 //                contentViewModelInstance.mNoOfParticipants = Integer.toString(contentInfoModel.mContentId);
 //                contentViewModelInstance.mStatus = contentViewModel1.mFirstName;
-                contentViewModelInstance.setmImage(BitmapFactory.decodeStream(url.openConnection().getInputStream()));
-                contentViewModelInstance.setmTitle(""+contentInfoModel.mDisplay_name);
-                contentViewModelInstance.setmNoOfViews(Integer.parseInt(String.valueOf(contentViewModel1.mNumberOfViews)));
-                contentViewModelInstance.setmLastSeen(""+contentViewModel1.mLastViewedDateTime);
-                contentViewModelInstance.setmNoOfParticipants(Integer.toString(contentInfoModel.mContentId));
-                contentViewModelInstance.setmStatus(""+contentViewModel1.mFirstName);
+                //contentViewModelInstance.setmImage(BitmapFactory.decodeStream(url.openConnection().getInputStream()));
+                contentViewModelInstance.setmImage(url.toString());
+                contentViewModelInstance.setmTitle(contentInfoModel.mDisplay_name);
+                contentViewModelInstance.setmNoOfViews(contentViewModel1.mNumberOfViews);
+                contentViewModelInstance.setmLastSeen(contentViewModel1.mLastViewedDateTime);
+                contentViewModelInstance.setmNoOfParticipants(contentInfoModel.mContentId);
+                contentViewModelInstance.setmStatus(contentViewModel1.mFirstName);
                 requiredList.add(contentViewModelInstance);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
@@ -89,7 +90,7 @@ public class ContentListViewModel {
            // contentViewModelInstance.mImage = R.drawable.shahruk_khan;
             contentViewModelInstance.mLastSeen = "11:00 AM";
             contentViewModelInstance.mNoOfParticipants = "1000";
-            contentViewModelInstance.mNoOfViews = 2000;
+            contentViewModelInstance.mNoOfViews = "2000";
             contentViewModelList.add(contentViewModelInstance);
         }
         return contentViewModelList;
