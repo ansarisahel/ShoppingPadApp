@@ -35,21 +35,23 @@ public class ContentListView extends AppCompatActivity {
         // getting reference of recyclerview
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView1);
 
+        // making instance of ContentListViewModel class
+        mContentListViewModelInstance = new ContentListViewModel(ContentListView.this);
+
         // calling Async Task so that all the work happens in another thread
         // i.e calling JSON data from REST.
-        new MyNewThread().execute();
+        new ContentListViewTask().execute();
 
     }
 
-
-    class MyNewThread extends AsyncTask<String,String,String>
+    class ContentListViewTask extends AsyncTask<String,String,String>
     {
         ProgressDialog progressDialog = new ProgressDialog(ContentListView.this);
         @Override
         protected String doInBackground(String... strings) {
 
-            // making instance of ContentListViewModel class
-             mContentListViewModelInstance = new ContentListViewModel(ContentListView.this);
+             mContentListViewModelInstance.getRequiredDataForAdapter();
+            
             return null;
         }
 
@@ -65,7 +67,11 @@ public class ContentListView extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             progressDialog.dismiss();
+
+            // setting the layout for the recyclerView
             mRecyclerView.setLayoutManager(new LinearLayoutManager(ContentListView.this));
+
+            // setting the adapter for the recyclerView
             mRecyclerView.setAdapter(new ContentListViewAdapter(mContentListViewModelInstance));
 
         }

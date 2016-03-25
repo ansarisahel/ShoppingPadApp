@@ -26,36 +26,34 @@ import java.util.List;
 public class ContentListViewModel {
 
     private static final boolean UNIT_TEST = false;
-    public List<ContentViewModel> mContentListViewList;
+    private List<ContentViewModel> mContentListViewList;
     ContentListController mContentListControllerInstance;
 
 
     public ContentListViewModel(Context context)
     {
-        // calling the ContentListController
-        mContentListControllerInstance = new ContentListController(context);
         if(UNIT_TEST)
             mContentListViewList = viewModelDummyData();
         else
-        // This will get the list containing all the data required for
-        // populating the recyclerview
-            mContentListViewList = getRequiredDataForAdapter();
+            // calling the ContentListController
+            mContentListControllerInstance = new ContentListController(context);
+
     }
 
     // This method returns the list containing all the data required for
-    // populating the recyclerview
+    // populating the recyclerView
     public List<ContentViewModel> getRequiredDataForAdapter()
     {
-        List<ContentViewModel> requiredList = new ArrayList();
+        mContentListViewList = new ArrayList<>();
+        List<ContentInfoModel> contentInfoModelList = mContentListControllerInstance.getContentInfoData();
+        List<ContentViewModel1> contentViewModel1List = mContentListControllerInstance.getContentViewData();
         URL url = null;
-        for(int i = 0; i <  mContentListControllerInstance.mContentInfoModelList.size(); i++)
+        for(int i = 0; i <  contentInfoModelList.size(); i++)
         {
 
             ContentViewModel contentViewModelInstance = new ContentViewModel();
-            ContentInfoModel contentInfoModel= mContentListControllerInstance.
-                                                        mContentInfoModelList.get(i);
-            ContentViewModel1 contentViewModel1 = mContentListControllerInstance.
-                                                        mContentViewModelList.get(i);
+            ContentInfoModel contentInfoModel= contentInfoModelList.get(i);
+            ContentViewModel1 contentViewModel1 = contentViewModel1List.get(i);
             try {
                 url = new URL("https://hilleletv.files.wordpress.com/2015/11/shahrukhkhan-jan30.jpg");
                 contentViewModelInstance.setmImage(url.toString());
@@ -64,14 +62,14 @@ public class ContentListViewModel {
                 contentViewModelInstance.setmLastSeen(contentViewModel1.mLastViewedDateTime);
                 contentViewModelInstance.setmNoOfParticipants(contentInfoModel.mContentId);
                 contentViewModelInstance.setmStatus(contentViewModel1.mFirstName);
-                requiredList.add(contentViewModelInstance);
+                mContentListViewList.add(contentViewModelInstance);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return requiredList;
+        return mContentListViewList;
     }
 
 
@@ -79,6 +77,7 @@ public class ContentListViewModel {
     // this method is for populating dummy data into the list
     private List<ContentViewModel> viewModelDummyData() {
         List<ContentViewModel> contentViewModelList = new ArrayList<>();
+
         // creating 5 ContentViewModel instance and storing it into a database
         for (int i = 0; i < 5; i++)
         {
@@ -93,7 +92,7 @@ public class ContentListViewModel {
         return contentViewModelList;
     }
 
-    // this will give the ContentViewModel object stored at a specified possition
+    // this will give the ContentViewModel object stored at a specified position
     // in the list.
     public ContentViewModel getdata(int position) {
         return mContentListViewList.get(position);

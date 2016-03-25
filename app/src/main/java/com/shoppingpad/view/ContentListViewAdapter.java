@@ -17,12 +17,12 @@ import com.shoppingpad.viewModelHandel.ContentViewModel;
 /**
  * Created by bridgelabz on 13/3/16.
     This is the adapter class created for the recycler view in the ContentListView
-    This adapter class is resposible for populating the data in the recyclerview*/
+    This adapter class is responsible for populating the data in the recyclerview*/
 
 public class ContentListViewAdapter extends RecyclerView.Adapter
                     <ContentListViewAdapter.ContentListViewAdapterHolder> {
 
-    ContentListViewModel mContentListViewModelInstance;
+    private ContentListViewModel mContentListViewModelInstance;
 
     // Constructor of this class which initializes ContentListViewModel
     // so that data can be retrieved from the list of this class

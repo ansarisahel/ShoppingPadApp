@@ -30,9 +30,9 @@ import java.util.List;
 
 public class ContentListController {
     private static final boolean UNIT_TEST = false;
-    public List<ContentViewModel> mContentListControllerList;
-    public List<ContentInfoModel> mContentInfoModelList;
-    public List<ContentViewModel1> mContentViewModelList;
+    private List<ContentViewModel> mContentListControllerList;
+    private List<ContentInfoModel> mContentInfoModelList;
+    private List<ContentViewModel1> mContentViewModelList;
     ContentListDatabase mDatabase;
     ContentListRest mContentListRestInstance;
 
@@ -45,23 +45,15 @@ public class ContentListController {
 
             // calling to the REST service to get the JSONDATA
             mContentListRestInstance = new ContentListRest();
-
-            // Storing ContentInfoModel Object into the list
-            mContentInfoModelList = getContentInfoData();
-
-            // Storing ContentViewModel Object into the list
-            mContentViewModelList = getContentViewData();
-            mDatabase.insertIntoContentInfoTbl();
-            mDatabase.insertIntoContentViewTbl();
         }
     }
 
     // Returns the list containing the ContentInfoModel object with it's
     // all field initialized
-    private List<ContentInfoModel> getContentInfoData() {
+    public List<ContentInfoModel> getContentInfoData() {
         List<ContentInfoModel> contentInfoModelList = new ArrayList<>();
 
-        String contentInfoData = mContentListRestInstance.mContentInfoData;
+        String contentInfoData = mContentListRestInstance.getContentInfoDataFromREST();
         try {
             JSONArray jsonArray = new JSONArray(contentInfoData);
             for(int i = 0; i < jsonArray.length(); i++)
@@ -81,10 +73,10 @@ public class ContentListController {
 
     // Returns the list containing the ContentViewModel object with it's
     // all field initialized
-    private List<ContentViewModel1> getContentViewData() {
+    public List<ContentViewModel1> getContentViewData() {
         List<ContentViewModel1> contentViewModelList = new ArrayList<>();
 
-        String contentViewData = mContentListRestInstance.mContentViewData;
+        String contentViewData = mContentListRestInstance.getContentViewDataFromREST();
         try {
             JSONArray jsonArray = new JSONArray(contentViewData);
             for(int i = 0; i < jsonArray.length(); i++)
@@ -125,10 +117,19 @@ public class ContentListController {
         return mContentViewModelList.get(position);
     }
 
+    // inserting data into ContenteInfoTbl
+    public void insertContentInfoData()
+    {
+        for(int i = 0; i < mContentInfoModelList.size(); i++)
+        mDatabase.insertIntoContentInfoTbl(mContentInfoModelList.get(i));
+    }
 
-
-
-
+    // Inserting data into ContentInfoTbl
+    public void insertContentViewData() {
+        for (int i = 0; i < mContentViewModelList.size(); i++) {
+            mDatabase.insertIntoContentViewTbl(mContentViewModelList.get(i));
+        }
+    }
 
     // this method is for populating dummy data into the list
     private List<ContentViewModel> controllerDummyData() {
@@ -146,7 +147,5 @@ public class ContentListController {
         }
         return contentListControllerList;
     }
-
-
 
 }

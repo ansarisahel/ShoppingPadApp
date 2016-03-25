@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.shoppingpad.controller.ContentListController;
 import com.shoppingpad.model.ContentInfoModel;
 import com.shoppingpad.model.ContentViewModel1;
+import com.shoppingpad.viewModelHandel.ContentViewModel;
 
 /**
  * Created by bridgelabz on 13/3/16.
@@ -92,10 +93,8 @@ public class ContentListDatabase extends SQLiteOpenHelper {
     }
 
     // Inserting data into the ContentViewTbl
-    public void insertIntoContentViewTbl() {
+    public void insertIntoContentViewTbl(ContentViewModel1 contentViewModel) {
         SQLiteDatabase db = getWritableDatabase();
-        for(int i = 0; i < mContentListController.getContentViewListSize(); i++) {
-            ContentViewModel1 contentViewModel = mContentListController.getContentViewDataFromList(i);
             ContentValues values = new ContentValues();
             values.put("numberOfViews", contentViewModel.mNumberOfViews);
             values.put("lastViewedDateTime",contentViewModel.mLastViewedDateTime);
@@ -110,15 +109,12 @@ public class ContentListDatabase extends SQLiteOpenHelper {
             values.put("userContentId", contentViewModel.mUserContentId);
 
             db.insert(CONTENT_VIEW_TABLE, null, values);
-        }
     }
 
 
     // inserting data into the ContentInfoTbl
-    public void insertIntoContentInfoTbl() {
+    public void insertIntoContentInfoTbl(ContentInfoModel contentInfoModel) {
         SQLiteDatabase db = getWritableDatabase();
-        for(int i = 0; i < mContentListController.getContentInfoListSize(); i++) {
-            ContentInfoModel contentInfoModel = mContentListController.getContentInfoDataFromList(i);
             ContentValues values = new ContentValues();
             values.put("modified_at", contentInfoModel.mModified_at);
             values.put("created_at", contentInfoModel.mCreated_at);
@@ -133,8 +129,6 @@ public class ContentListDatabase extends SQLiteOpenHelper {
             values.put("content_id", contentInfoModel.mContentId);
 
             db.insert(CONTENT_INFO_TABLE, null, values);
-
-        }
     }
 
 

@@ -20,11 +20,7 @@ import java.net.URL;
  */
 public class ContentListRest {
 
-    public String mContentInfoData;
-    public String mContentViewData;
     public ContentListRest() {
-        mContentInfoData = getContentInfoDataFromREST();
-        mContentViewData = getContentViewDataFromREST();
     }
 
     // This method will return the ContentInfoJSON which is then stored in the
@@ -36,7 +32,7 @@ public class ContentListRest {
         String data;
         String contentInfoDataJSON = null;
         try {
-            URL contentInfoDataUrl = new URL("http://54.165.130.78:3000/api/v4/contentinfo");
+            URL contentInfoDataUrl = new URL("http://54.86.64.100:3000/api/v4/content/info");
             HttpURLConnection connection = (HttpURLConnection) contentInfoDataUrl.openConnection();
             contentInfoDataStream = connection.getInputStream();
             BufferedReader in =  new BufferedReader(new InputStreamReader(contentInfoDataStream));
@@ -63,7 +59,7 @@ public class ContentListRest {
         String data;
         String contentViewDataJSON = null;
         try {
-            URL contentViewDataUrl = new URL("http://54.165.130.78:3000/api/v4/usercontentview");
+            URL contentViewDataUrl = new URL("http://54.86.64.100:3000/api/v4/content/View");
             HttpURLConnection connection = (HttpURLConnection) contentViewDataUrl.openConnection();
             contentViewDataStream = connection.getInputStream();
             BufferedReader in =  new BufferedReader(new InputStreamReader(contentViewDataStream));
@@ -75,6 +71,7 @@ public class ContentListRest {
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
