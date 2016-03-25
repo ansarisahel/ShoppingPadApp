@@ -10,9 +10,6 @@ import android.support.v7.widget.Toolbar;
 
 import com.shoppingpad.R;
 import com.shoppingpad.viewModelHandel.ContentListViewModel;
-import com.shoppingpad.viewModelHandel.ContentViewModel;
-
-import java.util.List;
 
 // purpose:
 // 1:This is the view class whenever user perform any action on the UI,
@@ -29,7 +26,7 @@ public class ContentListView extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.viewContentToolbar);
         setSupportActionBar(toolbar);
 
         // getting reference of recyclerview
@@ -72,7 +69,8 @@ public class ContentListView extends AppCompatActivity {
             mRecyclerView.setLayoutManager(new LinearLayoutManager(ContentListView.this));
 
             // setting the adapter for the recyclerView
-            mRecyclerView.setAdapter(new ContentListViewAdapter(mContentListViewModelInstance));
+            mRecyclerView.setAdapter(new ContentListViewAdapter
+                                (mContentListViewModelInstance,ContentListView.this));
 
         }
     }

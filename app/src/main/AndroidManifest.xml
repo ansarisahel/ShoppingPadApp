@@ -19,6 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".view.ViewContent"
+            android:label="View Content"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".view.ContentListView">
+        </activity>
     </application>
 
 </manifest>

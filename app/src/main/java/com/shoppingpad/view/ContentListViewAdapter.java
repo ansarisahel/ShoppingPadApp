@@ -1,18 +1,28 @@
 package com.shoppingpad.view;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.inputmethodservice.Keyboard;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shoppingpad.BR;
 import com.shoppingpad.R;
 import com.shoppingpad.databinding.RowViewBinding;
 import com.shoppingpad.viewModelHandel.ContentListViewModel;
 import com.shoppingpad.viewModelHandel.ContentViewModel;
+
+import java.io.ByteArrayOutputStream;
 
 /**
  * Created by bridgelabz on 13/3/16.
@@ -23,12 +33,14 @@ public class ContentListViewAdapter extends RecyclerView.Adapter
                     <ContentListViewAdapter.ContentListViewAdapterHolder> {
 
     private ContentListViewModel mContentListViewModelInstance;
+    Context context;
 
     // Constructor of this class which initializes ContentListViewModel
     // so that data can be retrieved from the list of this class
-    public ContentListViewAdapter(ContentListViewModel mContentListViewModelInstance)
+    public ContentListViewAdapter(ContentListViewModel mContentListViewModelInstance,Context context)
     {
         this.mContentListViewModelInstance = mContentListViewModelInstance;
+        this.context = context;
     }
 
     @Override
@@ -52,12 +64,35 @@ public class ContentListViewAdapter extends RecyclerView.Adapter
        return mContentListViewModelInstance.getListSize();
     }
 
+
     // This is the view holder class for recycler view.
-    public class ContentListViewAdapterHolder extends RecyclerView.ViewHolder {
+    public class ContentListViewAdapterHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         RowViewBinding binding;
+        View view;
         public ContentListViewAdapterHolder(View view) {
             super(view);
+            this.view = view;
             binding = RowViewBinding.bind(view);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Bundle bundle = new Bundle();
+           // Bitmap imageBitmap = binding.imageViewDP.getDrawingCache();
+            Drawable drawable = binding.imageViewDP.getDrawable();
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            Bitmap imageBitmap = bitmapDrawable.getBitmap();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.JPEG,70,stream);
+            byte[] byteStream = stream.toByteArray();
+
+            bundle.putByteArray("image",byteStream);
+            bundle.putString("title",binding.txtTitle.getText().toString());
+            bundle.putString("noOfViews",binding.textNoOfViews.getText().toString());
+            bundle.putString("noOfParticipants",binding.txtParticipants.getText().toString());
+            context.startActivity(new Intent(context,ViewContent.class).putExtras(bundle));
+
         }
     }
 }

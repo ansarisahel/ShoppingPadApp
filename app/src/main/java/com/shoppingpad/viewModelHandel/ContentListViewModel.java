@@ -58,9 +58,9 @@ public class ContentListViewModel {
                 url = new URL("https://hilleletv.files.wordpress.com/2015/11/shahrukhkhan-jan30.jpg");
                 contentViewModelInstance.setmImage(url.toString());
                 contentViewModelInstance.setmTitle(contentInfoModel.mDisplay_name);
-                contentViewModelInstance.setmNoOfViews(contentViewModel1.mNumberOfViews);
-                contentViewModelInstance.setmLastSeen(contentViewModel1.mLastViewedDateTime);
-                contentViewModelInstance.setmNoOfParticipants(contentInfoModel.mContentId);
+                contentViewModelInstance.setmNoOfViews(contentViewModel1.mNumberOfViews + " views");
+                contentViewModelInstance.setmLastSeen(contentViewModel1.mUserId);
+                contentViewModelInstance.setmNoOfParticipants(contentViewModel1.mNumberOfParticipants + " participants");
                 contentViewModelInstance.setmStatus(contentViewModel1.mFirstName);
                 mContentListViewList.add(contentViewModelInstance);
             } catch (MalformedURLException e) {

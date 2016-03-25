@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="?android:attr/actionBarSize"
+    android:background="@color/toolbar_color"
+    android:id="@+id/viewContentToolbar"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentLeft="true">
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/viewContentToolbarRelativeLayout">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="60dp"
+            android:src="@drawable/facebook_f_logo"
+            android:id="@+id/viewContentToolbarImageView"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:onClick="onToolbarImageClicked"
+            android:clickable="true"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Content Title 1"
+            android:textSize="20dp"
+            android:layout_toRightOf="@+id/viewContentToolbarImageView"
+            android:id="@+id/viewContentToolbarTitle"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="42 views"
+            android:id="@+id/viewContentToolbarNoOfViews"
+            android:layout_marginLeft="20dp"
+            android:textSize="12dp"
+            android:layout_below="@+id/viewContentToolbarTitle"
+            android:layout_toRightOf="@+id/viewContentToolbarImageView"
+            android:layout_alignBaseline="@id/viewContentToolbarImageView"
+            android:layout_marginTop="2dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1000 participants"
+            android:id="@+id/viewContentToolbarNoOfParticiapnts"
+            android:layout_toRightOf="@+id/viewContentToolbarNoOfViews"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/viewContentToolbarTitle"
+            android:textSize="12dp" />
+    </RelativeLayout>
+</android.support.v7.widget.Toolbar>
+
+
+
