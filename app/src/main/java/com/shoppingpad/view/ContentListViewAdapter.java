@@ -86,6 +86,7 @@ public class ContentListViewAdapter extends RecyclerView.Adapter
             bundle.putString("title",binding.txtTitle.getText().toString());
             bundle.putString("noOfViews",binding.textNoOfViews.getText().toString());
             bundle.putString("noOfParticipants",binding.txtParticipants.getText().toString());
+            bundle.putString("mContentId",binding.txtLastSeen.getText().toString());
             context.startActivity(new Intent(context,ViewContent.class).putExtras(bundle));
 
         }

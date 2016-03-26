@@ -42,27 +42,27 @@ public class ContentListDatabase extends SQLiteOpenHelper {
             TITLE+" TEXT,"+STATUS+" TEXT,"+VIEWS+" TEXT,"+PARTICIPANT+" TEXT,"+
             TIME+" TEXT);";
 
-    String content_infoTbl = "CREATE Table "+CONTENT_INFO_TABLE+" " +
-            "( modified_at VARCHAR(230),created_at VARCHAR(230)," +
-            "syncDateTime VARCHAR(230),description VARCHAR(230)," +
-            "contentLink VARCHAR(230),imagesLink VARCHAR(230)," +
-            "display_name VARCHAR(230),url VARCHAR(230)," +
-            "title INTEGER,contentType VARCHAR(230),content_id INTEGER);";
+    String content_infoTbl = "CREATE TABLE "+CONTENT_INFO_TABLE+" " +
+            "(content_id VARCHAR(230),contentType VARCHAR(230)," +
+            "title VARCHAR(230),url VARCHAR(230)," +
+            "display_name VARCHAR(230),imagesLink VARCHAR(230)," +
+            "contentLink VARCHAR(230),description VARCHAR(230)," +
+            "syncDateTime VARCHAR(230),created_at VARCHAR(230)," +
+            "modified_at VARCHAR(230),zip VARCHAR(230));";
 
     String content_viewTbl = "CREATE TABLE "+ CONTENT_VIEW_TABLE +"" +
-            "(numberOfViews INTEGER,lastViewedDateTime VARCHAR(230)," +
-            "displayProfile VARCHAR(230),email VARCHAR(230)," +
-            "mobile VARCHAR(230),lastName VARCHAR(230)," +
-            "firstName VARCHAR(230),userId INTEGER," +
-            "content_id INTEGER,userAdminId INTEGER," +
-            "userContentId INTEGER);";
+            "(userContentId VARCHAR(230),userAdminId VARCHAR(230)," +
+            "contentId VARCHAR(230),userId VARCHAR(230)," +
+            "firstName VARCHAR(230),lastName VARCHAR(230)," +
+            "email VARCHAR(230),displayProfile VARCHAR(230)," +
+            "lastViewedDateTime VARCHAR(230),numberOfViews VARCHAR(230)," +
+            "numberOfParticipant VARCHAR(230),action VARCHAR(230));";
 
 
     public ContentListDatabase(Context context, ContentListController contentListController) {
         super(context, DATABASE_NAME, null, VERSION);
         mContentListController = contentListController;
         this.context = context;
-        Toast.makeText(context, "Database called", Toast.LENGTH_SHORT).show();
         getWritableDatabase();
     }
 
@@ -70,7 +70,6 @@ public class ContentListDatabase extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(content_infoTbl);
         db.execSQL(content_viewTbl);
-        Toast.makeText(context, "onCreate", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -78,14 +77,21 @@ public class ContentListDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + CONTENT_LIST_VIEW_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + CONTENT_INFO_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + CONTENT_VIEW_TABLE);
-        Toast.makeText(context, "onUpgrade", Toast.LENGTH_SHORT).show();
         onCreate(db);
+    }
+
+
+    public Cursor getSpecificDataFromContentInfoTbl(String content_id)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor= db.rawQuery(" SELECT * FROM " + CONTENT_INFO_TABLE +
+                " WHERE " + "content_id" + " = " + "" + content_id + " ", null);
+        return cursor;
     }
 
 
     public void addRecord(){
         SQLiteDatabase db = getWritableDatabase();
-
         for(int i=0;i<5;i++) {
             ContentValues contentValues=new ContentValues();
             contentValues.put(TITLE, "Salman khan");
@@ -103,11 +109,12 @@ public class ContentListDatabase extends SQLiteOpenHelper {
         Log.e("inserting","inserting");
         SQLiteDatabase db = getWritableDatabase();
             ContentValues values = new ContentValues();
+            values.put("action",contentViewModel.mAction);
+            values.put("numberOfParticipant",contentViewModel.mNumberOfParticipants);
             values.put("numberOfViews", contentViewModel.mNumberOfViews);
             values.put("lastViewedDateTime",contentViewModel.mLastViewedDateTime);
             values.put("displayProfile", contentViewModel.mDisplayProfile);
             values.put("email", contentViewModel.mEmail);
-            values.put("mobile", "9563214569");
             values.put("lastName", contentViewModel.mLastName);
             values.put("firstName", contentViewModel.mFirstName);
             values.put("userId", contentViewModel.mUserId);
@@ -124,6 +131,7 @@ public class ContentListDatabase extends SQLiteOpenHelper {
         Log.e("inserting","inserting");
         SQLiteDatabase db = getWritableDatabase();
             ContentValues values = new ContentValues();
+            values.put("zip",contentInfoModel.mZip);
             values.put("modified_at", contentInfoModel.mModified_at);
             values.put("created_at", contentInfoModel.mCreated_at);
             values.put("syncDateTime", contentInfoModel.mSyncDateTime);

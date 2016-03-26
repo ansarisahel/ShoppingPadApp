@@ -1,6 +1,9 @@
 package com.shoppingpad.controller;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.shoppingpad.database.ContentListDatabase;
 import com.shoppingpad.model.ContentInfoModel;
@@ -35,8 +38,10 @@ public class ContentListController {
     private List<ContentViewModel> mContentViewModelList;
     ContentListDatabase mDatabase;
     ContentListRest mContentListRestInstance;
+    Context context;
 
     public ContentListController(Context context) {
+        this.context = context;
         if (UNIT_TEST)
             mContentListControllerList = controllerDummyData();
         else {
@@ -61,6 +66,7 @@ public class ContentListController {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 contentInfoModelInstance.setContentInfoModelInstance(jsonObject);
                 contentInfoModelList.add(contentInfoModelInstance);
+               // mDatabase.insertIntoContentInfoTbl(contentInfoModelInstance);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -84,6 +90,7 @@ public class ContentListController {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 contentViewModelInstance.setContentViewModelInstance(jsonObject);
                 contentViewModelList.add(contentViewModelInstance);
+               // mDatabase.insertIntoContentViewTbl(contentViewModelInstance);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -91,6 +98,39 @@ public class ContentListController {
         return  contentViewModelList;
     }
 
+
+    // Retrieving perticular record from the ContentInfoTbl by passing ContentId
+    public Cursor getContentInfoDataFromTable(String mContentId)
+    {
+       Cursor retrievedData = mDatabase.getSpecificDataFromContentInfoTbl(mContentId);
+        if(retrievedData != null)
+            Toast.makeText(context,"data",Toast.LENGTH_LONG).show();
+            while (retrievedData.moveToNext())
+            {
+               String contentId = retrievedData.getString(0);
+                String contentType = retrievedData.getString(1);
+                String title = retrievedData.getString(2);
+                String url = retrievedData.getString(3);
+                String abc = retrievedData.getString(4);
+                String def = retrievedData.getString(5);
+                String fd = retrievedData.getString(6);
+                String fsdf = retrievedData.getString(7);
+                String ggf = retrievedData.getString(8);
+
+
+                Log.e("contentId",""+contentId);
+                Log.e("title",""+title);
+                Log.e("url",""+url);
+                Log.e("contentType",""+abc);
+                Log.e("contentType",""+def);
+                Log.e("contentType",""+fd);
+                Log.e("contentType",""+fsdf);
+                Log.e("contentType",""+ggf);
+
+
+            }
+        return retrievedData;
+    }
 
     // Returns the size of the mContentInfoModelList
     public int getContentInfoListSize()

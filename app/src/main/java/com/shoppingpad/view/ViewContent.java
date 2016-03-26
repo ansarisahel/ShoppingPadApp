@@ -1,26 +1,25 @@
 package com.shoppingpad.view;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shoppingpad.R;
+import com.shoppingpad.viewModelHandel.ViewContentHandler;
 
 // This is java class for view content activity.
 public class ViewContent extends ActionBarActivity {
 
     Toolbar toolbar;
     ViewPager viewPager;
+    ViewContentHandler mViewContentHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +35,7 @@ public class ViewContent extends ActionBarActivity {
         String title = bundle.getString("title");
         String noOfViews = bundle.getString("noOfViews");
         String noOfParticipants = bundle.getString("noOfParticipants");
+        String contentId = bundle.getString("mContentId");
 
         // getting reference of the toolbar in the view content activity
         toolbar = (Toolbar) findViewById(R.id.viewContentToolbar);
@@ -50,10 +50,12 @@ public class ViewContent extends ActionBarActivity {
         // enable the home button which will navigate to its parent activity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        mViewContentHandler = new ViewContentHandler(this);
         ((ImageView) findViewById(R.id.viewContentToolbarImageView)).setImageBitmap(bmp);
         ((TextView) findViewById(R.id.viewContentToolbarTitle)).setText(title);
         ((TextView) findViewById(R.id.viewContentToolbarNoOfViews)).setText(noOfViews);
         ((TextView) findViewById(R.id.viewContentToolbarNoOfParticiapnts)).setText(noOfParticipants);
+        mViewContentHandler.getRequiredDataForViewContent(contentId);
     }
 
     public void onToolbarImageClicked(View view)

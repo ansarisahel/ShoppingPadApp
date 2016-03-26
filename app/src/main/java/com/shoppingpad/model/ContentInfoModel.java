@@ -25,6 +25,7 @@ public class ContentInfoModel {
     public String mTitle;
     public String mContentType;
     public String mContentId;
+    public String mZip;
 
     public void setContentInfoModelInstance(JSONObject contentInfoData) {
         try {
@@ -39,6 +40,7 @@ public class ContentInfoModel {
             mTitle = contentInfoData.getString("title");
             mContentType = contentInfoData.getString("contentType");
             mContentId = contentInfoData.getString("content_id");
+            mZip = contentInfoData.getString("zip");
         } catch (JSONException e) {
             e.printStackTrace();
         }
