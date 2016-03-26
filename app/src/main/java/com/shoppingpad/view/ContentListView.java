@@ -47,7 +47,7 @@ public class ContentListView extends AppCompatActivity {
         @Override
         protected String doInBackground(String... strings) {
 
-             mContentListViewModelInstance.getRequiredDataForAdapter();
+             mContentListViewModelInstance.getRequiredDataForContentListViewAdapter();
             
             return null;
         }

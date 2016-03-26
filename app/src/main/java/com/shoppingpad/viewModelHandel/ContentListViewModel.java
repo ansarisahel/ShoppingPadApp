@@ -41,7 +41,7 @@ public class ContentListViewModel {
 
     // This method returns the list containing all the data required for
     // populating the recyclerView
-    public List<ContentModel> getRequiredDataForAdapter()
+    public List<ContentModel> getRequiredDataForContentListViewAdapter()
     {
         mContentListViewList = new ArrayList<>();
         List<ContentInfoModel> contentInfoModelList = mContentListControllerInstance.getContentInfoData();
@@ -58,7 +58,7 @@ public class ContentListViewModel {
                 contentModelInstance.setmImage(url.toString());
                 contentModelInstance.setmTitle(contentInfoModel.mDisplay_name);
                 contentModelInstance.setmNoOfViews(contentViewModel.mNumberOfViews + " views");
-                contentModelInstance.setmLastSeen(contentViewModel.mUserId);
+                contentModelInstance.setmLastSeen(contentViewModel.mContent_id);
                 contentModelInstance.setmNoOfParticipants(contentViewModel.mNumberOfParticipants + " participants");
                 contentModelInstance.setmStatus(contentViewModel.mFirstName);
                 mContentListViewList.add(contentModelInstance);

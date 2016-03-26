@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.shoppingpad.controller.ContentListController;
 import com.shoppingpad.model.ContentInfoModel;
@@ -19,9 +21,10 @@ import com.shoppingpad.model.ContentViewModel;
     */
 public class ContentListDatabase extends SQLiteOpenHelper {
 
+    Context context;
     private ContentListController mContentListController;
     private static final String DATABASE_NAME = "ShoppingPadDatabase";
-    private static final int VERSION = 12;
+    private static final int VERSION = 13;
     private static final String CONTENT_INFO_TABLE = "content_infoTbl";
     private static final String CONTENT_VIEW_TABLE = "content_viewTbl";
     private static final String CONTENT_LIST_VIEW_TABLE = "content_list_view_tbl";
@@ -58,13 +61,16 @@ public class ContentListDatabase extends SQLiteOpenHelper {
     public ContentListDatabase(Context context, ContentListController contentListController) {
         super(context, DATABASE_NAME, null, VERSION);
         mContentListController = contentListController;
-      //  db = getWritableDatabase();
+        this.context = context;
+        Toast.makeText(context, "Database called", Toast.LENGTH_SHORT).show();
+        getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(content_infoTbl);
         db.execSQL(content_viewTbl);
+        Toast.makeText(context, "onCreate", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -72,6 +78,7 @@ public class ContentListDatabase extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + CONTENT_LIST_VIEW_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + CONTENT_INFO_TABLE);
         db.execSQL("DROP TABLE IF EXISTS " + CONTENT_VIEW_TABLE);
+        Toast.makeText(context, "onUpgrade", Toast.LENGTH_SHORT).show();
         onCreate(db);
     }
 
@@ -93,6 +100,7 @@ public class ContentListDatabase extends SQLiteOpenHelper {
 
     // Inserting data into the ContentViewTbl
     public void insertIntoContentViewTbl(ContentViewModel contentViewModel) {
+        Log.e("inserting","inserting");
         SQLiteDatabase db = getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put("numberOfViews", contentViewModel.mNumberOfViews);
@@ -113,6 +121,7 @@ public class ContentListDatabase extends SQLiteOpenHelper {
 
     // inserting data into the ContentInfoTbl
     public void insertIntoContentInfoTbl(ContentInfoModel contentInfoModel) {
+        Log.e("inserting","inserting");
         SQLiteDatabase db = getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put("modified_at", contentInfoModel.mModified_at);

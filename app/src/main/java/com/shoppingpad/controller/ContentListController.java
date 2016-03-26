@@ -52,7 +52,6 @@ public class ContentListController {
     // all field initialized
     public List<ContentInfoModel> getContentInfoData() {
         List<ContentInfoModel> contentInfoModelList = new ArrayList<>();
-
         String contentInfoData = mContentListRestInstance.getContentInfoDataFromREST();
         try {
             JSONArray jsonArray = new JSONArray(contentInfoData);
@@ -120,12 +119,14 @@ public class ContentListController {
     // inserting data into ContenteInfoTbl
     public void insertContentInfoData()
     {
+        mContentInfoModelList = getContentInfoData();
         for(int i = 0; i < mContentInfoModelList.size(); i++)
         mDatabase.insertIntoContentInfoTbl(mContentInfoModelList.get(i));
     }
 
     // Inserting data into ContentInfoTbl
     public void insertContentViewData() {
+        mContentViewModelList = getContentViewData();
         for (int i = 0; i < mContentViewModelList.size(); i++) {
             mDatabase.insertIntoContentViewTbl(mContentViewModelList.get(i));
         }
