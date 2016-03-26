@@ -33,17 +33,9 @@ public class ViewContent extends ActionBarActivity {
         Bundle bundle = getIntent().getExtras();
         byte[] image = bundle.getByteArray("image");
         Bitmap bmp = BitmapFactory.decodeByteArray(image,0,image.length);
-        if(image != null)
-        {
-            Toast.makeText(this,"not null",Toast.LENGTH_LONG);
-            Toast.makeText(ViewContent.this, image.toString(), Toast.LENGTH_LONG).show();
-        }
-        else
-            Toast.makeText(ViewContent.this, "null", Toast.LENGTH_SHORT).show();
         String title = bundle.getString("title");
         String noOfViews = bundle.getString("noOfViews");
         String noOfParticipants = bundle.getString("noOfParticipants");
-        Toast.makeText(ViewContent.this, noOfViews, Toast.LENGTH_SHORT).show();
 
         // getting reference of the toolbar in the view content activity
         toolbar = (Toolbar) findViewById(R.id.viewContentToolbar);
