@@ -8,8 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.shoppingpad.controller.ContentListController;
 import com.shoppingpad.model.ContentInfoModel;
-import com.shoppingpad.model.ContentViewModel1;
-import com.shoppingpad.viewModelHandel.ContentViewModel;
+import com.shoppingpad.model.ContentViewModel;
 
 /**
  * Created by bridgelabz on 13/3/16.
@@ -93,7 +92,7 @@ public class ContentListDatabase extends SQLiteOpenHelper {
     }
 
     // Inserting data into the ContentViewTbl
-    public void insertIntoContentViewTbl(ContentViewModel1 contentViewModel) {
+    public void insertIntoContentViewTbl(ContentViewModel contentViewModel) {
         SQLiteDatabase db = getWritableDatabase();
             ContentValues values = new ContentValues();
             values.put("numberOfViews", contentViewModel.mNumberOfViews);

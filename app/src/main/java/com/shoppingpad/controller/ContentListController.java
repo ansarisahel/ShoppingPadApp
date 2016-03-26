@@ -4,9 +4,9 @@ import android.content.Context;
 
 import com.shoppingpad.database.ContentListDatabase;
 import com.shoppingpad.model.ContentInfoModel;
-import com.shoppingpad.model.ContentViewModel1;
+import com.shoppingpad.model.ContentViewModel;
 import com.shoppingpad.rest.ContentListRest;
-import com.shoppingpad.viewModelHandel.ContentViewModel;
+import com.shoppingpad.viewModelHandel.ContentModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,9 +30,9 @@ import java.util.List;
 
 public class ContentListController {
     private static final boolean UNIT_TEST = false;
-    private List<ContentViewModel> mContentListControllerList;
+    private List<ContentModel> mContentListControllerList;
     private List<ContentInfoModel> mContentInfoModelList;
-    private List<ContentViewModel1> mContentViewModelList;
+    private List<ContentViewModel> mContentViewModelList;
     ContentListDatabase mDatabase;
     ContentListRest mContentListRestInstance;
 
@@ -71,17 +71,17 @@ public class ContentListController {
     }
 
 
-    // Returns the list containing the ContentViewModel object with it's
+    // Returns the list containing the ContentModel object with it's
     // all field initialized
-    public List<ContentViewModel1> getContentViewData() {
-        List<ContentViewModel1> contentViewModelList = new ArrayList<>();
+    public List<ContentViewModel> getContentViewData() {
+        List<ContentViewModel> contentViewModelList = new ArrayList<>();
 
         String contentViewData = mContentListRestInstance.getContentViewDataFromREST();
         try {
             JSONArray jsonArray = new JSONArray(contentViewData);
             for(int i = 0; i < jsonArray.length(); i++)
             {
-                ContentViewModel1 contentViewModelInstance = new ContentViewModel1();
+                ContentViewModel contentViewModelInstance = new ContentViewModel();
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 contentViewModelInstance.setContentViewModelInstance(jsonObject);
                 contentViewModelList.add(contentViewModelInstance);
@@ -111,8 +111,8 @@ public class ContentListController {
         return mContentInfoModelList.get(position);
     }
 
-    // Returns the ContentViewModel Object stored in the list at a given position
-    public ContentViewModel1 getContentViewDataFromList(int position)
+    // Returns the ContentModel Object stored in the list at a given position
+    public ContentViewModel getContentViewDataFromList(int position)
     {
         return mContentViewModelList.get(position);
     }
@@ -132,18 +132,18 @@ public class ContentListController {
     }
 
     // this method is for populating dummy data into the list
-    private List<ContentViewModel> controllerDummyData() {
-        List<ContentViewModel> contentListControllerList = new ArrayList<>();
+    private List<ContentModel> controllerDummyData() {
+        List<ContentModel> contentListControllerList = new ArrayList<>();
 
         for (int i = 0; i < 5; i++)
         {
-            ContentViewModel contentViewModelInstance = new ContentViewModel();
-            contentViewModelInstance.mTitle = "shahruk khan";
-            //contentViewModelInstance.mImage = R.drawable.shahruk_khan;
-            contentViewModelInstance.mLastSeen = "11:00 AM";
-            contentViewModelInstance.mNoOfParticipants = "1000";
-            contentViewModelInstance.mNoOfViews = "2000";
-            contentListControllerList.add(contentViewModelInstance);
+            ContentModel contentModelInstance = new ContentModel();
+            contentModelInstance.mTitle = "shahruk khan";
+            //contentModelInstance.mImage = R.drawable.shahruk_khan;
+            contentModelInstance.mLastSeen = "11:00 AM";
+            contentModelInstance.mNoOfParticipants = "1000";
+            contentModelInstance.mNoOfViews = "2000";
+            contentListControllerList.add(contentModelInstance);
         }
         return contentListControllerList;
     }

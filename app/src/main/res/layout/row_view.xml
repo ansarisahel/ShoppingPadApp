@@ -6,7 +6,7 @@
     <data>
         <variable
             name="data"
-            type="com.shoppingpad.viewModelHandel.ContentViewModel"/>
+            type="com.shoppingpad.viewModelHandel.ContentModel"/>
     </data>
 <RelativeLayout
 

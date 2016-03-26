@@ -2,25 +2,20 @@ package com.shoppingpad.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.inputmethodservice.Keyboard;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.shoppingpad.BR;
 import com.shoppingpad.R;
 import com.shoppingpad.databinding.RowViewBinding;
 import com.shoppingpad.viewModelHandel.ContentListViewModel;
-import com.shoppingpad.viewModelHandel.ContentViewModel;
+import com.shoppingpad.viewModelHandel.ContentModel;
 
 import java.io.ByteArrayOutputStream;
 
@@ -54,8 +49,8 @@ public class ContentListViewAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(ContentListViewAdapterHolder holder, int position) {
-        ContentViewModel contentViewModelInstance = mContentListViewModelInstance.getdata(position);
-        holder.binding.setVariable(BR.data,contentViewModelInstance);
+        ContentModel contentModelInstance = mContentListViewModelInstance.getdata(position);
+        holder.binding.setVariable(BR.data, contentModelInstance);
         holder.binding.executePendingBindings();
     }
 

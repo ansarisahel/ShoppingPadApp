@@ -1,11 +1,10 @@
 package com.shoppingpad.viewModelHandel;
 
 import android.content.Context;
-import android.graphics.BitmapFactory;
 
 import com.shoppingpad.controller.ContentListController;
 import com.shoppingpad.model.ContentInfoModel;
-import com.shoppingpad.model.ContentViewModel1;
+import com.shoppingpad.model.ContentViewModel;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -26,7 +25,7 @@ import java.util.List;
 public class ContentListViewModel {
 
     private static final boolean UNIT_TEST = false;
-    private List<ContentViewModel> mContentListViewList;
+    private List<ContentModel> mContentListViewList;
     ContentListController mContentListControllerInstance;
 
 
@@ -42,27 +41,27 @@ public class ContentListViewModel {
 
     // This method returns the list containing all the data required for
     // populating the recyclerView
-    public List<ContentViewModel> getRequiredDataForAdapter()
+    public List<ContentModel> getRequiredDataForAdapter()
     {
         mContentListViewList = new ArrayList<>();
         List<ContentInfoModel> contentInfoModelList = mContentListControllerInstance.getContentInfoData();
-        List<ContentViewModel1> contentViewModel1List = mContentListControllerInstance.getContentViewData();
+        List<ContentViewModel> contentViewModelList = mContentListControllerInstance.getContentViewData();
         URL url = null;
         for(int i = 0; i <  contentInfoModelList.size(); i++)
         {
 
-            ContentViewModel contentViewModelInstance = new ContentViewModel();
+            ContentModel contentModelInstance = new ContentModel();
             ContentInfoModel contentInfoModel= contentInfoModelList.get(i);
-            ContentViewModel1 contentViewModel1 = contentViewModel1List.get(i);
+            ContentViewModel contentViewModel = contentViewModelList.get(i);
             try {
                 url = new URL("https://hilleletv.files.wordpress.com/2015/11/shahrukhkhan-jan30.jpg");
-                contentViewModelInstance.setmImage(url.toString());
-                contentViewModelInstance.setmTitle(contentInfoModel.mDisplay_name);
-                contentViewModelInstance.setmNoOfViews(contentViewModel1.mNumberOfViews + " views");
-                contentViewModelInstance.setmLastSeen(contentViewModel1.mUserId);
-                contentViewModelInstance.setmNoOfParticipants(contentViewModel1.mNumberOfParticipants + " participants");
-                contentViewModelInstance.setmStatus(contentViewModel1.mFirstName);
-                mContentListViewList.add(contentViewModelInstance);
+                contentModelInstance.setmImage(url.toString());
+                contentModelInstance.setmTitle(contentInfoModel.mDisplay_name);
+                contentModelInstance.setmNoOfViews(contentViewModel.mNumberOfViews + " views");
+                contentModelInstance.setmLastSeen(contentViewModel.mUserId);
+                contentModelInstance.setmNoOfParticipants(contentViewModel.mNumberOfParticipants + " participants");
+                contentModelInstance.setmStatus(contentViewModel.mFirstName);
+                mContentListViewList.add(contentModelInstance);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -75,26 +74,26 @@ public class ContentListViewModel {
 
 
     // this method is for populating dummy data into the list
-    private List<ContentViewModel> viewModelDummyData() {
-        List<ContentViewModel> contentViewModelList = new ArrayList<>();
+    private List<ContentModel> viewModelDummyData() {
+        List<ContentModel> contentModelList = new ArrayList<>();
 
-        // creating 5 ContentViewModel instance and storing it into a database
+        // creating 5 ContentModel instance and storing it into a database
         for (int i = 0; i < 5; i++)
         {
-            ContentViewModel contentViewModelInstance = new ContentViewModel();
-            contentViewModelInstance.mTitle = "shahruk khan";
-           // contentViewModelInstance.mImage = R.drawable.shahruk_khan;
-            contentViewModelInstance.mLastSeen = "11:00 AM";
-            contentViewModelInstance.mNoOfParticipants = "1000";
-            contentViewModelInstance.mNoOfViews = "2000";
-            contentViewModelList.add(contentViewModelInstance);
+            ContentModel contentModelInstance = new ContentModel();
+            contentModelInstance.mTitle = "shahruk khan";
+           // contentModelInstance.mImage = R.drawable.shahruk_khan;
+            contentModelInstance.mLastSeen = "11:00 AM";
+            contentModelInstance.mNoOfParticipants = "1000";
+            contentModelInstance.mNoOfViews = "2000";
+            contentModelList.add(contentModelInstance);
         }
-        return contentViewModelList;
+        return contentModelList;
     }
 
-    // this will give the ContentViewModel object stored at a specified position
+    // this will give the ContentModel object stored at a specified position
     // in the list.
-    public ContentViewModel getdata(int position) {
+    public ContentModel getdata(int position) {
         return mContentListViewList.get(position);
     }
 

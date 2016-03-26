@@ -17,7 +17,7 @@ import com.shoppingpad.BR;
              data has been changed.
     */
 
-public class ContentViewModel extends BaseObservable {
+public class ContentModel extends BaseObservable {
     //public int mImage;
     public String mImage;
     public String mTitle;
@@ -26,12 +26,12 @@ public class ContentViewModel extends BaseObservable {
     public String mNoOfParticipants;
     public String mNoOfViews;
 
-    public ContentViewModel()
+    public ContentModel()
     {
     }
 
-    public ContentViewModel(String title, String lastSeen, String status,
-                            String noOfParticipants, String noOfViews, String image) {
+    public ContentModel(String title, String lastSeen, String status,
+                        String noOfParticipants, String noOfViews, String image) {
         this.mImage = image;
         this.mTitle = title;
         this.mLastSeen = lastSeen;
