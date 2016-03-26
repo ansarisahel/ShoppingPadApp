@@ -15,10 +15,11 @@
             android:src="@drawable/fast_reverse"
             android:scaleType="fitXY"
             android:id="@+id/imageButton1"
+            android:elevation="1dp"
             android:background="@color/toolbar_color"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            />
+            android:layout_alignParentLeft="true" />
 
             <ImageButton
             android:layout_width="40dp"
@@ -27,7 +28,9 @@
             android:src="@drawable/reverse" android:scaleType="fitXY"
             android:background="@color/toolbar_color"
             android:id="@+id/imageButton2"
-            android:layout_toEndOf="@+id/imageButton1" />
+            android:layout_toEndOf="@+id/imageButton1"
+            android:layout_toRightOf="@+id/imageButton1" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,7 +49,8 @@
             android:layout_alignParentTop="true"
             android:background="@color/toolbar_color"
             android:layout_toStartOf="@+id/imageButton4"
-            android:layout_marginRight="10dp"/>
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/imageButton4" />
 
         <ImageButton
             android:layout_width="40dp"
@@ -56,7 +60,9 @@
             android:scaleType="fitXY"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
-            android:id="@+id/imageButton4" />
+            android:id="@+id/imageButton4"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp" />
     </RelativeLayout>
 
 </android.support.v7.widget.Toolbar>

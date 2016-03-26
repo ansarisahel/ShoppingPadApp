@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -18,9 +19,8 @@ import com.shoppingpad.R;
 // This is java class for view content activity.
 public class ViewContent extends ActionBarActivity {
 
-    View view;
     Toolbar toolbar;
-    RelativeLayout layout;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class ViewContent extends ActionBarActivity {
 
       //  Intent intent = getIntent();
       //  Bitmap image = (Bitmap)intent.getParcelableExtra("image");
-
+        viewPager = (ViewPager) findViewById(R.id.viewContentViewPager);
         Bundle bundle = getIntent().getExtras();
         byte[] image = bundle.getByteArray("image");
         Bitmap bmp = BitmapFactory.decodeByteArray(image,0,image.length);
