@@ -1,5 +1,6 @@
 package com.shoppingpad.view;
 
+import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shoppingpad.R;
+import com.shoppingpad.databinding.ActivityViewContentBinding;
 import com.shoppingpad.viewModelHandel.ViewContentHandler;
 import com.shoppingpad.viewModelHandel.ViewContentViewModel;
 
@@ -31,26 +33,32 @@ public class ViewContent extends ActionBarActivity {
         Bundle bundle = getIntent().getExtras();
         String contentId = bundle.getString("mContentId");
 
-        // getting reference of the toolbar in the view content activity
-        toolbar = (Toolbar) findViewById(R.id.viewContentToolbar);
-       // toolbar = (Toolbar) layout.findViewById(R.id.viewContentToolbar);
-
-        // setting the toolbar in the view content activity
-        setSupportActionBar(toolbar);
-
-        // setting the title of the toolbar to the null
-        getSupportActionBar().setTitle(null);
-
-        // enable the home button which will navigate to its parent activity
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         mViewContentHandler = new ViewContentHandler(this);
 
         ViewContentViewModel viewContentViewModelInstance = mViewContentHandler.getRequiredDataForViewContent(contentId);
-        ((ImageView) findViewById(R.id.viewContentToolbarImageView)).setImageResource(viewContentViewModelInstance.mImage);
-        ((TextView) findViewById(R.id.viewContentToolbarTitle)).setText(viewContentViewModelInstance.mTitle);
-        ((TextView) findViewById(R.id.viewContentToolbarNoOfViews)).setText(viewContentViewModelInstance.mNoOfViews);
-        ((TextView) findViewById(R.id.viewContentToolbarNoOfParticiapnts)).setText(viewContentViewModelInstance.mNoOfParticipants);
+        ActivityViewContentBinding binding = DataBindingUtil.setContentView(this,R.layout.activity_view_content);
+
+        binding.setViewContentData(viewContentViewModelInstance);
+        binding.executePendingBindings();
+        //setContentView(R.layout.view_content_toolbar);
+
+        // getting reference of the toolbar in the view content activity
+      //  toolbar = (Toolbar) findViewById(R.id.viewContentToolbar);
+       // toolbar = (Toolbar) layout.findViewById(R.id.viewContentToolbar);
+
+        // setting the toolbar in the view content activity
+     //   setSupportActionBar(toolbar);
+
+        // setting the title of the toolbar to the null
+       // getSupportActionBar().setTitle(null);
+
+        // enable the home button which will navigate to its parent activity
+      //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+       // ((ImageView) findViewById(R.id.viewContentToolbarImageView)).setImageResource(viewContentViewModelInstance.mImage);
+        //((TextView) findViewById(R.id.viewContentToolbarTitle)).setText(viewContentViewModelInstance.mTitle);
+       // ((TextView) findViewById(R.id.viewContentToolbarNoOfViews)).setText(viewContentViewModelInstance.mNoOfViews);
+       // ((TextView) findViewById(R.id.viewContentToolbarNoOfParticiapnts)).setText(viewContentViewModelInstance.mNoOfParticipants);
     }
 
     public void onToolbarImageClicked(View view)

@@ -1,11 +1,13 @@
 package com.shoppingpad.viewModelHandel;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 
 import com.shoppingpad.R;
 import com.shoppingpad.controller.ContentListController;
 import com.shoppingpad.model.ContentInfoModel;
 import com.shoppingpad.model.ContentViewModel;
+import com.shoppingpad.view.ViewContent;
 
 /**
  * Created by bridgelabz on 26/3/16.
@@ -13,9 +15,11 @@ import com.shoppingpad.model.ContentViewModel;
 public class ViewContentHandler {
 
     ContentListController mContentListControllerInstance;
-    public ViewContentHandler(Context context)
+    ViewContent context;
+    public ViewContentHandler(ViewContent context)
     {
         this.mContentListControllerInstance = new ContentListController(context);
+        this.context = context;
     }
 
 
@@ -25,10 +29,10 @@ public class ViewContentHandler {
         ViewContentViewModel viewContentViewModelInstance = new ViewContentViewModel();
         ContentInfoModel contentInfoModelInstance = mContentListControllerInstance.getContentInfoDataFromTable(contentId);
         ContentViewModel contentViewModelInstance = mContentListControllerInstance.getContentViewDataFromTable(contentId);
-        viewContentViewModelInstance.mImage = R.drawable.shahruk;
-        viewContentViewModelInstance.mNoOfParticipants = contentViewModelInstance.mNumberOfParticipants;
-        viewContentViewModelInstance.mNoOfViews = contentViewModelInstance.mNumberOfViews;
-        viewContentViewModelInstance.mTitle = contentInfoModelInstance.mTitle;
+        viewContentViewModelInstance.setmImage(R.drawable.shahruk);
+        viewContentViewModelInstance.setmNoOfParticipants( contentViewModelInstance.mNumberOfParticipants);
+        viewContentViewModelInstance.setmNoOfViews(contentViewModelInstance.mNumberOfViews);
+        viewContentViewModelInstance.setmTitle(contentInfoModelInstance.mTitle);
         return viewContentViewModelInstance;
     }
 }
