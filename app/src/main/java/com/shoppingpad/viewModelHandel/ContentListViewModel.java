@@ -54,8 +54,8 @@ public class ContentListViewModel {
             ContentInfoModel contentInfoModel= contentInfoModelList.get(i);
             ContentViewModel contentViewModel = contentViewModelList.get(i);
             try {
-                url = new URL("https://hilleletv.files.wordpress.com/2015/11/shahrukhkhan-jan30.jpg");
-                contentModelInstance.setmImage(url.toString());
+                URL displayProfileUrl = new URL(contentViewModel.mDisplayProfile);
+                contentModelInstance.setmImage(displayProfileUrl.toString());
                 contentModelInstance.setmTitle(contentInfoModel.mDisplay_name);
                 contentModelInstance.setmNoOfViews(contentViewModel.mNumberOfViews + " views");
                 contentModelInstance.setmLastSeen(contentViewModel.mContent_id);

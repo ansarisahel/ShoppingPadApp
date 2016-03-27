@@ -89,6 +89,13 @@ public class ContentListDatabase extends SQLiteOpenHelper {
         return cursor;
     }
 
+    public Cursor getSpecificDataFromContentViewTbl(String content_id)
+    {
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor= db.rawQuery(" SELECT * FROM " + CONTENT_VIEW_TABLE +
+                " WHERE " + "contentId" + " = " + "" + content_id + " ", null);
+        return cursor;
+    }
 
     public void addRecord(){
         SQLiteDatabase db = getWritableDatabase();
@@ -104,6 +111,28 @@ public class ContentListDatabase extends SQLiteOpenHelper {
         }
     }
 
+    // inserting data into the ContentInfoTbl
+    public void insertIntoContentInfoTbl(ContentInfoModel contentInfoModel) {
+        Log.e("inserting","inserting");
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("zip",contentInfoModel.mZip);
+        values.put("modified_at", contentInfoModel.mModified_at);
+        values.put("created_at", contentInfoModel.mCreated_at);
+        values.put("syncDateTime", contentInfoModel.mSyncDateTime);
+        values.put("description", contentInfoModel.mDescription);
+        values.put("contentLink", contentInfoModel.mContentLink);
+        values.put("imagesLink", contentInfoModel.mImagesLink);
+        values.put("display_name", contentInfoModel.mDisplay_name);
+        values.put("url", contentInfoModel.mUrl);
+        values.put("title", contentInfoModel.mTitle);
+        values.put("contentType", contentInfoModel.mContentType);
+        values.put("content_id", contentInfoModel.mContentId);
+
+        db.insert(CONTENT_INFO_TABLE, null, values);
+    }
+
+
     // Inserting data into the ContentViewTbl
     public void insertIntoContentViewTbl(ContentViewModel contentViewModel) {
         Log.e("inserting","inserting");
@@ -118,35 +147,12 @@ public class ContentListDatabase extends SQLiteOpenHelper {
             values.put("lastName", contentViewModel.mLastName);
             values.put("firstName", contentViewModel.mFirstName);
             values.put("userId", contentViewModel.mUserId);
-            values.put("content_id", contentViewModel.mContent_id);
+            values.put("contentId", contentViewModel.mContent_id);
             values.put("userAdminId", contentViewModel.mUserAdminId);
             values.put("userContentId", contentViewModel.mUserContentId);
 
             db.insert(CONTENT_VIEW_TABLE, null, values);
     }
-
-
-    // inserting data into the ContentInfoTbl
-    public void insertIntoContentInfoTbl(ContentInfoModel contentInfoModel) {
-        Log.e("inserting","inserting");
-        SQLiteDatabase db = getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put("zip",contentInfoModel.mZip);
-            values.put("modified_at", contentInfoModel.mModified_at);
-            values.put("created_at", contentInfoModel.mCreated_at);
-            values.put("syncDateTime", contentInfoModel.mSyncDateTime);
-            values.put("description", contentInfoModel.mDescription);
-            values.put("contentLink", contentInfoModel.mContentLink);
-            values.put("imagesLink", contentInfoModel.mImagesLink);
-            values.put("display_name", contentInfoModel.mDisplay_name);
-            values.put("url", contentInfoModel.mUrl);
-            values.put("title", contentInfoModel.mTitle);
-            values.put("contentType", contentInfoModel.mContentType);
-            values.put("content_id", contentInfoModel.mContentId);
-
-            db.insert(CONTENT_INFO_TABLE, null, values);
-    }
-
 
 
     // getting all the data from ContentInfoTable data

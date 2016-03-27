@@ -90,7 +90,7 @@ public class ContentListController {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 contentViewModelInstance.setContentViewModelInstance(jsonObject);
                 contentViewModelList.add(contentViewModelInstance);
-               // mDatabase.insertIntoContentViewTbl(contentViewModelInstance);
+                //mDatabase.insertIntoContentViewTbl(contentViewModelInstance);
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -99,23 +99,25 @@ public class ContentListController {
     }
 
 
-    // Retrieving perticular record from the ContentInfoTbl by passing ContentId
-    public Cursor getContentInfoDataFromTable(String mContentId)
+    // Retrieving particular record from the ContentInfoTbl by passing ContentId
+    public ContentInfoModel getContentInfoDataFromTable(String mContentId)
     {
-       Cursor retrievedData = mDatabase.getSpecificDataFromContentInfoTbl(mContentId);
-        if(retrievedData != null)
+        ContentInfoModel contentInfoModelInstance = new ContentInfoModel();
+       Cursor dataFromContentInfoTbl = mDatabase.getSpecificDataFromContentInfoTbl(mContentId);
+        if(dataFromContentInfoTbl != null)
             Toast.makeText(context,"data",Toast.LENGTH_LONG).show();
-            while (retrievedData.moveToNext())
+            while (dataFromContentInfoTbl.moveToNext())
             {
-               String contentId = retrievedData.getString(0);
-                String contentType = retrievedData.getString(1);
-                String title = retrievedData.getString(2);
-                String url = retrievedData.getString(3);
-                String abc = retrievedData.getString(4);
-                String def = retrievedData.getString(5);
-                String fd = retrievedData.getString(6);
-                String fsdf = retrievedData.getString(7);
-                String ggf = retrievedData.getString(8);
+                contentInfoModelInstance.setContentInfoModelInstance(dataFromContentInfoTbl);
+              /*  String contentId = dataFromContentInfoTbl.getString(0);
+                String contentType = dataFromContentInfoTbl.getString(1);
+                String title = dataFromContentInfoTbl.getString(2);
+                String url = dataFromContentInfoTbl.getString(3);
+                String abc = dataFromContentInfoTbl.getString(4);
+                String def = dataFromContentInfoTbl.getString(5);
+                String fd = dataFromContentInfoTbl.getString(6);
+                String fsdf = dataFromContentInfoTbl.getString(7);
+                String ggf = dataFromContentInfoTbl.getString(8);
 
 
                 Log.e("contentId",""+contentId);
@@ -125,11 +127,47 @@ public class ContentListController {
                 Log.e("contentType",""+def);
                 Log.e("contentType",""+fd);
                 Log.e("contentType",""+fsdf);
-                Log.e("contentType",""+ggf);
-
+                Log.e("contentType",""+ggf);*/
 
             }
-        return retrievedData;
+        return contentInfoModelInstance;
+    }
+
+
+
+    // Retrieving particular record from the ContentViewTbl by passing ContentId
+    public ContentViewModel getContentViewDataFromTable(String mContentId)
+    {
+        ContentViewModel contentViewModelInstance = new ContentViewModel();
+        Cursor dataFromContentViewTbl = mDatabase.getSpecificDataFromContentViewTbl(mContentId);
+        if(dataFromContentViewTbl != null)
+            Toast.makeText(context,"data",Toast.LENGTH_LONG).show();
+        while (dataFromContentViewTbl.moveToNext())
+        {
+            contentViewModelInstance.setContentViewModelInstance(dataFromContentViewTbl);
+           /* String contentId = dataFromContentViewTbl.getString(0);
+            String contentType = dataFromContentViewTbl.getString(1);
+            String title = dataFromContentViewTbl.getString(2);
+            String url = dataFromContentViewTbl.getString(3);
+            String abc = dataFromContentViewTbl.getString(4);
+            String def = dataFromContentViewTbl.getString(5);
+            String fd = dataFromContentViewTbl.getString(6);
+            String fsdf = dataFromContentViewTbl.getString(7);
+            String ggf = dataFromContentViewTbl.getString(8);
+
+
+            Log.e("contentId",""+contentId);
+            Log.e("title",""+title);
+            Log.e("url",""+url);
+            Log.e("contentType",""+abc);
+            Log.e("contentType",""+def);
+            Log.e("contentType",""+fd);
+            Log.e("contentType",""+fsdf);
+            Log.e("contentType",""+ggf);*/
+
+
+        }
+        return contentViewModelInstance;
     }
 
     // Returns the size of the mContentInfoModelList

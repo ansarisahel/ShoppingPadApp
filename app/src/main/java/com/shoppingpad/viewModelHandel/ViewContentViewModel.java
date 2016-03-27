@@ -4,8 +4,8 @@ package com.shoppingpad.viewModelHandel;
  * Created by bridgelabz on 26/3/16.
  */
 public class ViewContentViewModel {
-    String mImage;
-    String mTitle;
-    String mNoOfViews;
-    String mNoOfParticipants;
+    public int mImage;
+    public String mTitle;
+    public String mNoOfViews;
+    public String mNoOfParticipants;
 }

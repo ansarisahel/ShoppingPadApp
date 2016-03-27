@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.shoppingpad.R;
 import com.shoppingpad.viewModelHandel.ViewContentHandler;
+import com.shoppingpad.viewModelHandel.ViewContentViewModel;
 
 // This is java class for view content activity.
 public class ViewContent extends ActionBarActivity {
@@ -26,15 +27,8 @@ public class ViewContent extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_content);
 
-      //  Intent intent = getIntent();
-      //  Bitmap image = (Bitmap)intent.getParcelableExtra("image");
         viewPager = (ViewPager) findViewById(R.id.viewContentViewPager);
         Bundle bundle = getIntent().getExtras();
-        byte[] image = bundle.getByteArray("image");
-        Bitmap bmp = BitmapFactory.decodeByteArray(image,0,image.length);
-        String title = bundle.getString("title");
-        String noOfViews = bundle.getString("noOfViews");
-        String noOfParticipants = bundle.getString("noOfParticipants");
         String contentId = bundle.getString("mContentId");
 
         // getting reference of the toolbar in the view content activity
@@ -51,11 +45,12 @@ public class ViewContent extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mViewContentHandler = new ViewContentHandler(this);
-        ((ImageView) findViewById(R.id.viewContentToolbarImageView)).setImageBitmap(bmp);
-        ((TextView) findViewById(R.id.viewContentToolbarTitle)).setText(title);
-        ((TextView) findViewById(R.id.viewContentToolbarNoOfViews)).setText(noOfViews);
-        ((TextView) findViewById(R.id.viewContentToolbarNoOfParticiapnts)).setText(noOfParticipants);
-        mViewContentHandler.getRequiredDataForViewContent(contentId);
+
+        ViewContentViewModel viewContentViewModelInstance = mViewContentHandler.getRequiredDataForViewContent(contentId);
+        ((ImageView) findViewById(R.id.viewContentToolbarImageView)).setImageResource(viewContentViewModelInstance.mImage);
+        ((TextView) findViewById(R.id.viewContentToolbarTitle)).setText(viewContentViewModelInstance.mTitle);
+        ((TextView) findViewById(R.id.viewContentToolbarNoOfViews)).setText(viewContentViewModelInstance.mNoOfViews);
+        ((TextView) findViewById(R.id.viewContentToolbarNoOfParticiapnts)).setText(viewContentViewModelInstance.mNoOfParticipants);
     }
 
     public void onToolbarImageClicked(View view)

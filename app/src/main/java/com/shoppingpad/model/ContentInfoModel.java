@@ -14,6 +14,8 @@ import org.json.JSONObject;
 
 
 public class ContentInfoModel {
+
+    public String mZip;
     public String mModified_at;
     public String mCreated_at;
     public String mSyncDateTime;
@@ -25,8 +27,10 @@ public class ContentInfoModel {
     public String mTitle;
     public String mContentType;
     public String mContentId;
-    public String mZip;
 
+
+    // this method will fetch the data form the JSONObject passed in the argument and
+    // populate the contentInfoModelInstance
     public void setContentInfoModelInstance(JSONObject contentInfoData) {
         try {
             mModified_at = contentInfoData.getString("modified_at");
@@ -45,5 +49,28 @@ public class ContentInfoModel {
             e.printStackTrace();
         }
     }
+
+    // this method will fetch the data form the table row passed in the argument and
+    // populate the contentInfoModelInstance
+    public void setContentInfoModelInstance(Cursor contentInfoData) {
+        try {
+            mModified_at = contentInfoData.getString(contentInfoData.getColumnIndex("modified_at"));
+            mCreated_at = contentInfoData.getString(contentInfoData.getColumnIndex("created_at"));
+            mSyncDateTime = contentInfoData.getString(contentInfoData.getColumnIndex("syncDateTime"));
+            mDescription = contentInfoData.getString(contentInfoData.getColumnIndex("description"));
+            mContentLink = contentInfoData.getString(contentInfoData.getColumnIndex("contentLink"));
+            mImagesLink = contentInfoData.getString(contentInfoData.getColumnIndex("imagesLink"));
+            mDisplay_name = contentInfoData.getString(contentInfoData.getColumnIndex("display_name"));
+            mUrl = contentInfoData.getString(contentInfoData.getColumnIndex("url"));
+            mTitle = contentInfoData.getString(contentInfoData.getColumnIndex("title"));
+            mContentType = contentInfoData.getString(contentInfoData.getColumnIndex("contentType"));
+            mContentId = contentInfoData.getString(contentInfoData.getColumnIndex("content_id"));
+            mZip = contentInfoData.getString(contentInfoData.getColumnIndex("zip"));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
 
