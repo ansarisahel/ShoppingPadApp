@@ -44,7 +44,7 @@ public class ContentListRest {
         String data;
         String contentInfoDataJSON = null;
         try {
-            URL contentInfoDataUrl = new URL("http://54.86.64.100:3000/api/v4/content/info");
+            URL contentInfoDataUrl = new URL("http://54.86.64.100:3000/api/v1/content/content-info");
             HttpURLConnection connection = (HttpURLConnection) contentInfoDataUrl.openConnection();
             contentInfoDataStream = connection.getInputStream();
             BufferedReader in =  new BufferedReader(new InputStreamReader(contentInfoDataStream));
@@ -71,7 +71,7 @@ public class ContentListRest {
         String data;
         String contentViewDataJSON = null;
         try {
-            URL contentViewDataUrl = new URL("http://54.86.64.100:3000/api/v4/content/View");
+            URL contentViewDataUrl = new URL("http://54.86.64.100:3000/api/v1/content/user-content-view");
             HttpURLConnection connection = (HttpURLConnection) contentViewDataUrl.openConnection();
             contentViewDataStream = connection.getInputStream();
             BufferedReader in =  new BufferedReader(new InputStreamReader(contentViewDataStream));
