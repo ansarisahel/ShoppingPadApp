@@ -2,6 +2,7 @@ package com.shoppingpad.controller;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -10,6 +11,7 @@ import com.shoppingpad.model.ContentInfoModel;
 import com.shoppingpad.model.ContentViewModel;
 import com.shoppingpad.rest.ContentListRest;
 import com.shoppingpad.viewModelHandel.ContentModel;
+import com.shoppingpad.zip.ZipUtility;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -108,7 +110,9 @@ public class ContentListController {
         if(dataFromContentInfoTbl != null) {
             while (dataFromContentInfoTbl.moveToNext()) {
                 contentInfoModelInstance.setContentInfoModelInstance(dataFromContentInfoTbl);
-               // mContentListRestInstance.getZipFile(mContentId);
+                String zipFile = mContentListRestInstance.getZipFile(mContentId);
+                String targetLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files Extracted";
+                new ZipUtility().unZip(zipFile,targetLocation);
             }
         }
         return contentInfoModelInstance;

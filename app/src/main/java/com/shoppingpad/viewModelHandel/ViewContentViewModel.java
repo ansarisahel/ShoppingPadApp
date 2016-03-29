@@ -5,6 +5,8 @@ import android.databinding.Bindable;
 
 import com.shoppingpad.BR;
 
+import java.io.InputStream;
+
 /**
  * Created by bridgelabz on 26/3/16.
  */

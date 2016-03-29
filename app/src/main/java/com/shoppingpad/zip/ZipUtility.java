@@ -1,5 +1,7 @@
 package com.shoppingpad.zip;
 
+import android.util.Log;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -79,6 +81,7 @@ public class ZipUtility {
             e.printStackTrace();
             return false ;
         }
+        Log.e("File has been extracted","File has been extracted");
         return true;
     }
 }

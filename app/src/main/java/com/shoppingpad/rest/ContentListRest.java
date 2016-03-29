@@ -91,11 +91,10 @@ public class ContentListRest {
     }
 
     // downloading zip file from the REST server and
-    public void getZipFile(String mContentId) {
+    public String getZipFile(String mContentId) {
         String path = Environment.getExternalStorageDirectory().getPath()+"/Zip Files/View_Content";
-        String targetLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files Extracted";
         try {
-            URL url = new URL("http://54.86.64.100:3000/api/v4/content/zip");
+            URL url = new URL("http://54.86.64.100:3000/api/v1/content/zip");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = connection.getInputStream();
             BufferedInputStream in = new BufferedInputStream(inputStream);
@@ -114,6 +113,6 @@ public class ContentListRest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        new ZipUtility().unZip(path,targetLocation);
+        return path;
     }
 }

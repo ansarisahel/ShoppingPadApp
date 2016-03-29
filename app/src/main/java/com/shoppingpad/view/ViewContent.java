@@ -87,7 +87,7 @@ public class ViewContent extends ActionBarActivity {
             binding.executePendingBindings();
             progressDialog.dismiss();
             viewPager = (ViewPager) findViewById(R.id.viewContentViewPager);
-            viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+            viewPager.setAdapter(new ViewContentPagerAdapter(getSupportFragmentManager()));
         }
     }
 }
