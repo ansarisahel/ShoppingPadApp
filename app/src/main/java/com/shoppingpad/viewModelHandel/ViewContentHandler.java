@@ -27,12 +27,12 @@ public class ViewContentHandler {
     public ViewContentViewModel getRequiredDataForViewContent(String contentId)
     {
         ViewContentViewModel viewContentViewModelInstance = new ViewContentViewModel();
-        ContentInfoModel contentInfoModelInstance = mContentListControllerInstance.getContentInfoDataFromTable(contentId);
         ContentViewModel contentViewModelInstance = mContentListControllerInstance.getContentViewDataFromTable(contentId);
-        viewContentViewModelInstance.setmImage(R.drawable.shahruk);
-        viewContentViewModelInstance.setmNoOfParticipants( contentViewModelInstance.mNumberOfParticipants);
-        viewContentViewModelInstance.setmNoOfViews(contentViewModelInstance.mNumberOfViews);
-        viewContentViewModelInstance.setmTitle(contentInfoModelInstance.mTitle);
+        ContentInfoModel contentInfoModelInstance = mContentListControllerInstance.getContentInfoDataFromTable(contentId);
+        viewContentViewModelInstance.setmImage(contentViewModelInstance.mDisplayProfile);
+        viewContentViewModelInstance.setmNoOfParticipants( contentViewModelInstance.mNumberOfParticipants + " participants");
+        viewContentViewModelInstance.setmNoOfViews(contentViewModelInstance.mNumberOfViews + " views");
+        viewContentViewModelInstance.setmTitle(contentViewModelInstance.mFirstName);
         return viewContentViewModelInstance;
     }
 }

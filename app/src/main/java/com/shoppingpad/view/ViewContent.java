@@ -1,8 +1,14 @@
 package com.shoppingpad.view;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
@@ -20,45 +26,24 @@ import com.shoppingpad.viewModelHandel.ViewContentViewModel;
 // This is java class for view content activity.
 public class ViewContent extends ActionBarActivity {
 
-    Toolbar toolbar;
-    ViewPager viewPager;
     ViewContentHandler mViewContentHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_content);
+       // setContentView(R.layout.activity_view_content);
 
-        viewPager = (ViewPager) findViewById(R.id.viewContentViewPager);
         Bundle bundle = getIntent().getExtras();
         String contentId = bundle.getString("mContentId");
 
         mViewContentHandler = new ViewContentHandler(this);
+        new ViewContentAsyncTask().execute(contentId);
 
-        ViewContentViewModel viewContentViewModelInstance = mViewContentHandler.getRequiredDataForViewContent(contentId);
-        ActivityViewContentBinding binding = DataBindingUtil.setContentView(this,R.layout.activity_view_content);
+    }
 
-        binding.setViewContentData(viewContentViewModelInstance);
-        binding.executePendingBindings();
-        //setContentView(R.layout.view_content_toolbar);
-
-        // getting reference of the toolbar in the view content activity
-      //  toolbar = (Toolbar) findViewById(R.id.viewContentToolbar);
-       // toolbar = (Toolbar) layout.findViewById(R.id.viewContentToolbar);
-
-        // setting the toolbar in the view content activity
-     //   setSupportActionBar(toolbar);
-
-        // setting the title of the toolbar to the null
-       // getSupportActionBar().setTitle(null);
-
-        // enable the home button which will navigate to its parent activity
-      //  getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-       // ((ImageView) findViewById(R.id.viewContentToolbarImageView)).setImageResource(viewContentViewModelInstance.mImage);
-        //((TextView) findViewById(R.id.viewContentToolbarTitle)).setText(viewContentViewModelInstance.mTitle);
-       // ((TextView) findViewById(R.id.viewContentToolbarNoOfViews)).setText(viewContentViewModelInstance.mNoOfViews);
-       // ((TextView) findViewById(R.id.viewContentToolbarNoOfParticiapnts)).setText(viewContentViewModelInstance.mNoOfParticipants);
+    public void onBackBtnClicked(View view)
+    {
+        startActivity(new Intent(this,ContentListView.class));
     }
 
     public void onToolbarImageClicked(View view)
@@ -71,18 +56,38 @@ public class ViewContent extends ActionBarActivity {
         Toast.makeText(ViewContent.this, Integer.toString(view.getId()) , Toast.LENGTH_SHORT).show();
     }
 
- /*   @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu,menu);
-        return true;
-    }*/
 
-    /*@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == android.R.id.selectedIcon)
-            Toast.makeText(this,"icon",Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this,item.getTitle().toString(),Toast.LENGTH_SHORT).show();
-        return super.onOptionsItemSelected(item);
-    }*/
+    class ViewContentAsyncTask extends AsyncTask<String,String,String>
+    {
+        ViewPager viewPager;
+        ViewContentViewModel viewContentViewModelInstance;
+        ActivityViewContentBinding binding;
+        ProgressDialog progressDialog;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(ViewContent.this);
+            progressDialog.setTitle("Downloading");
+            progressDialog.setMessage("Downloading Zip File");
+            progressDialog.show();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            viewContentViewModelInstance = mViewContentHandler.getRequiredDataForViewContent(strings[0]);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            binding = DataBindingUtil.setContentView(ViewContent.this,R.layout.activity_view_content);
+            binding.setViewContentData(viewContentViewModelInstance);
+            binding.executePendingBindings();
+            progressDialog.dismiss();
+            viewPager = (ViewPager) findViewById(R.id.viewContentViewPager);
+            viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager()));
+        }
+    }
 }

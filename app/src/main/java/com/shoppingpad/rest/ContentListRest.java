@@ -1,15 +1,25 @@
 package com.shoppingpad.rest;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.shoppingpad.zip.ZipUtility;
+
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.Buffer;
+import java.nio.ByteBuffer;
 
 /**
  * Created by bridgelabz on 13/3/16.
@@ -20,7 +30,9 @@ import java.net.URL;
  */
 public class ContentListRest {
 
-    public ContentListRest() {
+    Context context;
+    public ContentListRest(Context context) {
+        this.context = context;
     }
 
     // This method will return the ContentInfoJSON which is then stored in the
@@ -78,4 +90,30 @@ public class ContentListRest {
         return contentViewDataJSON;
     }
 
+    // downloading zip file from the REST server and
+    public void getZipFile(String mContentId) {
+        String path = Environment.getExternalStorageDirectory().getPath()+"/Zip Files/View_Content";
+        String targetLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files Extracted";
+        try {
+            URL url = new URL("http://54.86.64.100:3000/api/v4/content/zip");
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            InputStream inputStream = connection.getInputStream();
+            BufferedInputStream in = new BufferedInputStream(inputStream);
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            byte[] data = new byte[50];
+            int current = 0;
+            while ((current = in.read(data,0,data.length)) != -1)
+            {
+                buffer.write(data,0,current);
+            }
+
+            FileOutputStream fos = new FileOutputStream(path);
+            fos.write(buffer.toByteArray());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        new ZipUtility().unZip(path,targetLocation);
+    }
 }

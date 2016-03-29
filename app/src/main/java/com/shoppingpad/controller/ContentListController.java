@@ -49,7 +49,7 @@ public class ContentListController {
             mDatabase = new ContentListDatabase(context,ContentListController.this);
 
             // calling to the REST service to get the JSONDATA
-            mContentListRestInstance = new ContentListRest();
+            mContentListRestInstance = new ContentListRest(context);
         }
     }
 
@@ -57,20 +57,21 @@ public class ContentListController {
     // all field initialized
     public List<ContentInfoModel> getContentInfoData() {
         List<ContentInfoModel> contentInfoModelList = new ArrayList<>();
-        String contentInfoData = mContentListRestInstance.getContentInfoDataFromREST();
-        try {
-            JSONArray jsonArray = new JSONArray(contentInfoData);
-            for(int i = 0; i < jsonArray.length(); i++)
-            {
-                ContentInfoModel contentInfoModelInstance = new ContentInfoModel();
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                contentInfoModelInstance.setContentInfoModelInstance(jsonObject);
-                contentInfoModelList.add(contentInfoModelInstance);
-               // mDatabase.insertIntoContentInfoTbl(contentInfoModelInstance);
+            String contentInfoData = mContentListRestInstance.getContentInfoDataFromREST();
+            if(contentInfoData != null) {
+                try {
+                    JSONArray jsonArray = new JSONArray(contentInfoData);
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        ContentInfoModel contentInfoModelInstance = new ContentInfoModel();
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        contentInfoModelInstance.setContentInfoModelInstance(jsonObject);
+                        contentInfoModelList.add(contentInfoModelInstance);
+                        // mDatabase.insertIntoContentInfoTbl(contentInfoModelInstance);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         return contentInfoModelList;
     }
@@ -82,54 +83,34 @@ public class ContentListController {
         List<ContentViewModel> contentViewModelList = new ArrayList<>();
 
         String contentViewData = mContentListRestInstance.getContentViewDataFromREST();
-        try {
-            JSONArray jsonArray = new JSONArray(contentViewData);
-            for(int i = 0; i < jsonArray.length(); i++)
-            {
-                ContentViewModel contentViewModelInstance = new ContentViewModel();
-                JSONObject jsonObject = jsonArray.getJSONObject(i);
-                contentViewModelInstance.setContentViewModelInstance(jsonObject);
-                contentViewModelList.add(contentViewModelInstance);
-                //mDatabase.insertIntoContentViewTbl(contentViewModelInstance);
+        if(contentViewData != null) {
+            try {
+                JSONArray jsonArray = new JSONArray(contentViewData);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    ContentViewModel contentViewModelInstance = new ContentViewModel();
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    contentViewModelInstance.setContentViewModelInstance(jsonObject);
+                    contentViewModelList.add(contentViewModelInstance);
+                    //mDatabase.insertIntoContentViewTbl(contentViewModelInstance);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
         return  contentViewModelList;
     }
-
 
     // Retrieving particular record from the ContentInfoTbl by passing ContentId
     public ContentInfoModel getContentInfoDataFromTable(String mContentId)
     {
         ContentInfoModel contentInfoModelInstance = new ContentInfoModel();
        Cursor dataFromContentInfoTbl = mDatabase.getSpecificDataFromContentInfoTbl(mContentId);
-        if(dataFromContentInfoTbl != null)
-            Toast.makeText(context,"data",Toast.LENGTH_LONG).show();
-            while (dataFromContentInfoTbl.moveToNext())
-            {
+        if(dataFromContentInfoTbl != null) {
+            while (dataFromContentInfoTbl.moveToNext()) {
                 contentInfoModelInstance.setContentInfoModelInstance(dataFromContentInfoTbl);
-              /*  String contentId = dataFromContentInfoTbl.getString(0);
-                String contentType = dataFromContentInfoTbl.getString(1);
-                String title = dataFromContentInfoTbl.getString(2);
-                String url = dataFromContentInfoTbl.getString(3);
-                String abc = dataFromContentInfoTbl.getString(4);
-                String def = dataFromContentInfoTbl.getString(5);
-                String fd = dataFromContentInfoTbl.getString(6);
-                String fsdf = dataFromContentInfoTbl.getString(7);
-                String ggf = dataFromContentInfoTbl.getString(8);
-
-
-                Log.e("contentId",""+contentId);
-                Log.e("title",""+title);
-                Log.e("url",""+url);
-                Log.e("contentType",""+abc);
-                Log.e("contentType",""+def);
-                Log.e("contentType",""+fd);
-                Log.e("contentType",""+fsdf);
-                Log.e("contentType",""+ggf);*/
-
+               // mContentListRestInstance.getZipFile(mContentId);
             }
+        }
         return contentInfoModelInstance;
     }
 
@@ -140,32 +121,9 @@ public class ContentListController {
     {
         ContentViewModel contentViewModelInstance = new ContentViewModel();
         Cursor dataFromContentViewTbl = mDatabase.getSpecificDataFromContentViewTbl(mContentId);
-        if(dataFromContentViewTbl != null)
-            Toast.makeText(context,"data",Toast.LENGTH_LONG).show();
-        while (dataFromContentViewTbl.moveToNext())
-        {
-            contentViewModelInstance.setContentViewModelInstance(dataFromContentViewTbl);
-           /* String contentId = dataFromContentViewTbl.getString(0);
-            String contentType = dataFromContentViewTbl.getString(1);
-            String title = dataFromContentViewTbl.getString(2);
-            String url = dataFromContentViewTbl.getString(3);
-            String abc = dataFromContentViewTbl.getString(4);
-            String def = dataFromContentViewTbl.getString(5);
-            String fd = dataFromContentViewTbl.getString(6);
-            String fsdf = dataFromContentViewTbl.getString(7);
-            String ggf = dataFromContentViewTbl.getString(8);
-
-
-            Log.e("contentId",""+contentId);
-            Log.e("title",""+title);
-            Log.e("url",""+url);
-            Log.e("contentType",""+abc);
-            Log.e("contentType",""+def);
-            Log.e("contentType",""+fd);
-            Log.e("contentType",""+fsdf);
-            Log.e("contentType",""+ggf);*/
-
-
+        if(dataFromContentViewTbl != null) {
+            while (dataFromContentViewTbl.moveToNext())
+                contentViewModelInstance.setContentViewModelInstance(dataFromContentViewTbl);
         }
         return contentViewModelInstance;
     }

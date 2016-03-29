@@ -9,7 +9,7 @@ import com.shoppingpad.BR;
  * Created by bridgelabz on 26/3/16.
  */
 public class ViewContentViewModel extends BaseObservable {
-    public int mImage;
+    public String mImage;
     public String mTitle;
     public String mNoOfViews;
     public String mNoOfParticipants;
@@ -18,7 +18,7 @@ public class ViewContentViewModel extends BaseObservable {
     {
     }
 
-    public ViewContentViewModel(int mImage, String mTitle, String mNoOfViews, String mNoOfParticipants) {
+    public ViewContentViewModel(String mImage, String mTitle, String mNoOfViews, String mNoOfParticipants) {
         this.mImage = mImage;
         this.mTitle = mTitle;
         this.mNoOfViews = mNoOfViews;
@@ -26,11 +26,11 @@ public class ViewContentViewModel extends BaseObservable {
     }
 
     @Bindable
-    public int getmImage() {
+    public String getmImage() {
         return mImage;
     }
 
-    public void setmImage(int mImage) {
+    public void setmImage(String mImage) {
         this.mImage = mImage;
         notifyPropertyChanged(BR.mImage);
     }

@@ -1,12 +1,18 @@
 package com.shoppingpad.view;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.shoppingpad.R;
 import com.shoppingpad.viewModelHandel.ContentListViewModel;
@@ -32,13 +38,36 @@ public class ContentListView extends AppCompatActivity {
         // getting reference of recyclerview
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView1);
 
-        // making instance of ContentListViewModel class
-        mContentListViewModelInstance = new ContentListViewModel(ContentListView.this);
+        // Checking the internet connection
+        if(isConnceted()) {
+            // making instance of ContentListViewModel class
+            mContentListViewModelInstance = new ContentListViewModel(ContentListView.this);
 
-        // calling Async Task so that all the work happens in another thread
-        // i.e calling JSON data from REST.
-        new ContentListViewTask().execute();
+            // calling Async Task so that all the work happens in another thread
+            // i.e calling JSON data from REST.
+            new ContentListViewTask().execute();
+        }
 
+        else {
+            Toast.makeText(ContentListView.this, "Please check the internet connection", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, InternetIsNotAvailableActivity.class));
+        }
+
+    }
+
+
+    // checking internet connection
+    private boolean isConnceted() {
+        ConnectivityManager manager = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
+            Log.e("status", "available");
+            return true;
+        }
+        else {
+            Log.e("status","not available");
+            return false;
+        }
     }
 
     class ContentListViewTask extends AsyncTask<String,String,String>

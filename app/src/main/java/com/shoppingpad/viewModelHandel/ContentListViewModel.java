@@ -56,11 +56,11 @@ public class ContentListViewModel {
             try {
                 URL displayProfileUrl = new URL(contentViewModel.mDisplayProfile);
                 contentModelInstance.setmImage(displayProfileUrl.toString());
-                contentModelInstance.setmTitle(contentInfoModel.mDisplay_name);
+                contentModelInstance.setmTitle(contentViewModel.mFirstName);
                 contentModelInstance.setmNoOfViews(contentViewModel.mNumberOfViews + " views");
                 contentModelInstance.setmLastSeen(contentViewModel.mContent_id);
                 contentModelInstance.setmNoOfParticipants(contentViewModel.mNumberOfParticipants + " participants");
-                contentModelInstance.setmStatus(contentViewModel.mFirstName);
+                contentModelInstance.setmStatus(contentViewModel.mAction);
                 mContentListViewList.add(contentModelInstance);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
