@@ -110,9 +110,9 @@ public class ContentListController {
         if(dataFromContentInfoTbl != null) {
             while (dataFromContentInfoTbl.moveToNext()) {
                 contentInfoModelInstance.setContentInfoModelInstance(dataFromContentInfoTbl);
-                String zipFile = mContentListRestInstance.getZipFile(mContentId);
-                String targetLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files Extracted";
-                new ZipUtility().unZip(zipFile,targetLocation);
+               // String zipFile = mContentListRestInstance.getZipFile(mContentId);
+              //  String targetLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files Extracted";
+              //  new ZipUtility().unZip(zipFile,targetLocation);
             }
         }
         return contentInfoModelInstance;

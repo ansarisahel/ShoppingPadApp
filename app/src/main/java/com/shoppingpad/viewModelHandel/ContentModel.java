@@ -18,7 +18,7 @@ import com.shoppingpad.BR;
     */
 
 public class ContentModel extends BaseObservable {
-    //public int mImage;
+    //public int mViewPagerImage;
     public String mImage;
     public String mTitle;
     public String mStatus;

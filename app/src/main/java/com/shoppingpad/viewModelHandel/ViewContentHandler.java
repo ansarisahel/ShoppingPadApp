@@ -2,12 +2,17 @@ package com.shoppingpad.viewModelHandel;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.os.Environment;
 
 import com.shoppingpad.R;
 import com.shoppingpad.controller.ContentListController;
 import com.shoppingpad.model.ContentInfoModel;
 import com.shoppingpad.model.ContentViewModel;
 import com.shoppingpad.view.ViewContent;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 /**
  * Created by bridgelabz on 26/3/16.
@@ -35,4 +40,5 @@ public class ViewContentHandler {
         viewContentViewModelInstance.setmTitle(contentViewModelInstance.mFirstName);
         return viewContentViewModelInstance;
     }
+
 }

@@ -82,7 +82,7 @@ public class ContentListViewModel {
         {
             ContentModel contentModelInstance = new ContentModel();
             contentModelInstance.mTitle = "shahruk khan";
-           // contentModelInstance.mImage = R.drawable.shahruk_khan;
+           // contentModelInstance.mViewPagerImage = R.drawable.shahruk_khan;
             contentModelInstance.mLastSeen = "11:00 AM";
             contentModelInstance.mNoOfParticipants = "1000";
             contentModelInstance.mNoOfViews = "2000";

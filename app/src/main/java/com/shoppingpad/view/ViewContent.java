@@ -1,21 +1,13 @@
 package com.shoppingpad.view;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.shoppingpad.R;
@@ -61,6 +53,7 @@ public class ViewContent extends ActionBarActivity {
     {
         ViewPager viewPager;
         ViewContentViewModel viewContentViewModelInstance;
+
         ActivityViewContentBinding binding;
         ProgressDialog progressDialog;
 
@@ -87,7 +80,7 @@ public class ViewContent extends ActionBarActivity {
             binding.executePendingBindings();
             progressDialog.dismiss();
             viewPager = (ViewPager) findViewById(R.id.viewContentViewPager);
-            viewPager.setAdapter(new ViewContentPagerAdapter(getSupportFragmentManager()));
+            viewPager.setAdapter(new ViewContentPagerAdapter(getSupportFragmentManager(),ViewContent.this,mViewContentHandler));
         }
     }
 }

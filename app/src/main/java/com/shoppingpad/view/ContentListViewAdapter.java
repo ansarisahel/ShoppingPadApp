@@ -74,18 +74,6 @@ public class ContentListViewAdapter extends RecyclerView.Adapter
         @Override
         public void onClick(View view) {
             Bundle bundle = new Bundle();
-           // Bitmap imageBitmap = binding.imageViewDP.getDrawingCache();
-            Drawable drawable = binding.imageViewDP.getDrawable();
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            Bitmap imageBitmap = bitmapDrawable.getBitmap();
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            imageBitmap.compress(Bitmap.CompressFormat.JPEG,70,stream);
-            byte[] byteStream = stream.toByteArray();
-
-            bundle.putByteArray("image",byteStream);
-            bundle.putString("title",binding.txtTitle.getText().toString());
-            bundle.putString("noOfViews",binding.textNoOfViews.getText().toString());
-            bundle.putString("noOfParticipants",binding.txtParticipants.getText().toString());
             bundle.putString("mContentId",binding.txtLastSeen.getText().toString());
             context.startActivity(new Intent(context,ViewContent.class).putExtras(bundle));
 
