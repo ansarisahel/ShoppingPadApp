@@ -8,9 +8,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.repacked.kotlin.properties.NULL_VALUE;
 import com.shoppingpad.controller.ContentListController;
 import com.shoppingpad.model.ContentInfoModel;
 import com.shoppingpad.model.ContentViewModel;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by bridgelabz on 13/3/16.
@@ -24,7 +28,7 @@ public class ContentListDatabase extends SQLiteOpenHelper {
     Context context;
     private ContentListController mContentListController;
     private static final String DATABASE_NAME = "ShoppingPadDatabase";
-    private static final int VERSION = 13;
+    private static final int VERSION = 15;
     private static final String CONTENT_INFO_TABLE = "content_infoTbl";
     private static final String CONTENT_VIEW_TABLE = "content_viewTbl";
     private static final String CONTENT_LIST_VIEW_TABLE = "content_list_view_tbl";
@@ -48,7 +52,8 @@ public class ContentListDatabase extends SQLiteOpenHelper {
             "display_name VARCHAR(230),imagesLink VARCHAR(230)," +
             "contentLink VARCHAR(230),description VARCHAR(230)," +
             "syncDateTime VARCHAR(230),created_at VARCHAR(230)," +
-            "modified_at VARCHAR(230),zip VARCHAR(230));";
+            "modified_at VARCHAR(230),zip VARCHAR(230)," +
+            "image1Uri VARCHAR(230),image2Uri VARCHAR(230));";
 
     String content_viewTbl = "CREATE TABLE "+ CONTENT_VIEW_TABLE +"" +
             "(userContentId VARCHAR(230),userAdminId VARCHAR(230)," +
@@ -112,51 +117,57 @@ public class ContentListDatabase extends SQLiteOpenHelper {
     }
 
     // inserting data into the ContentInfoTbl
-    public void insertIntoContentInfoTbl(ContentInfoModel contentInfoModel) {
-        Log.e("inserting","inserting");
+    public void insertIntoContentInfoTbl(JSONObject contentInfoData) {
+        Log.e("sertIntoContentInfoTbl","inserting");
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("zip",contentInfoModel.mZip);
-        values.put("modified_at", contentInfoModel.mModified_at);
-        values.put("created_at", contentInfoModel.mCreated_at);
-        values.put("syncDateTime", contentInfoModel.mSyncDateTime);
-        values.put("description", contentInfoModel.mDescription);
-        values.put("contentLink", contentInfoModel.mContentLink);
-        values.put("imagesLink", contentInfoModel.mImagesLink);
-        values.put("display_name", contentInfoModel.mDisplay_name);
-        values.put("url", contentInfoModel.mUrl);
-        values.put("title", contentInfoModel.mTitle);
-        values.put("contentType", contentInfoModel.mContentType);
-        values.put("content_id", contentInfoModel.mContentId);
 
-        db.insert(CONTENT_INFO_TABLE, null, values);
+        try {
+            values.put("zip",contentInfoData.getString("zip"));
+            values.put("modified_at", contentInfoData.getString("modified_at"));
+            values.put("created_at", contentInfoData.getString("created_at"));
+            values.put("syncDateTime", contentInfoData.getString("syncDateTime"));
+            values.put("description", contentInfoData.getString("decription"));
+            values.put("contentLink", contentInfoData.getString("contentLink"));
+            values.put("imagesLink", contentInfoData.getString("imagesLink"));
+            values.put("display_name", contentInfoData.getString("display_name"));
+            values.put("url", contentInfoData.getString("url"));
+            values.put("title", contentInfoData.getString("title"));
+            values.put("contentType", contentInfoData.getString("contentType"));
+            values.put("content_id", contentInfoData.getString("content_id"));
+            db.insert(CONTENT_INFO_TABLE, null, values);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
     // Inserting data into the ContentViewTbl
-    public void insertIntoContentViewTbl(ContentViewModel contentViewModel) {
-        Log.e("inserting","inserting");
+    public void insertIntoContentViewTbl(JSONObject contentViewData) {
+        ContentValues values123 = new ContentValues();
         SQLiteDatabase db = getWritableDatabase();
-            ContentValues values = new ContentValues();
-            values.put("action",contentViewModel.mAction);
-            values.put("numberOfParticipant",contentViewModel.mNumberOfParticipants);
-            values.put("numberOfViews", contentViewModel.mNumberOfViews);
-            values.put("lastViewedDateTime",contentViewModel.mLastViewedDateTime);
-            values.put("displayProfile", contentViewModel.mDisplayProfile);
-            values.put("email", contentViewModel.mEmail);
-            values.put("lastName", contentViewModel.mLastName);
-            values.put("firstName", contentViewModel.mFirstName);
-            values.put("userId", contentViewModel.mUserId);
-            values.put("contentId", contentViewModel.mContent_id);
-            values.put("userAdminId", contentViewModel.mUserAdminId);
-            values.put("userContentId", contentViewModel.mUserContentId);
-
-            db.insert(CONTENT_VIEW_TABLE, null, values);
+        try {
+            values123.put("action",contentViewData.getString("action"));
+            values123.put("numberOfParticipant",contentViewData.getString("numberofparticipant"));
+            values123.put("numberOfViews", contentViewData.getString("numberOfViews"));
+            values123.put("lastViewedDateTime",contentViewData.getString("lastViewedDateTime"));
+            values123.put("displayProfile", contentViewData.getString("displayProfile"));
+            values123.put("email", contentViewData.getString("email"));
+            values123.put("lastName", contentViewData.getString("lastName"));
+            values123.put("firstName", contentViewData.getString("firstName"));
+            values123.put("userId", contentViewData.getString("userId"));
+            values123.put("contentId", contentViewData.getString("contentId"));
+            values123.put("userAdminId", contentViewData.getString("userAdminId"));
+            values123.put("userContentId", contentViewData.getString("userContentId"));
+            db.insert(CONTENT_VIEW_TABLE, null, values123);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
     // getting all the data from ContentInfoTable data
-    public Cursor getContentInfoData()
+    public Cursor getContentInfoDataFromTbl()
     {
         SQLiteDatabase db = getReadableDatabase();
         return db.rawQuery("SELECT * FROM "+CONTENT_INFO_TABLE, null);
@@ -164,11 +175,59 @@ public class ContentListDatabase extends SQLiteOpenHelper {
 
 
     // getting all the data from ContentViewTable data
-    public Cursor getContentViewData()
+    public Cursor getContentViewDataFromTbl()
     {
         SQLiteDatabase db = getReadableDatabase();
         return db.rawQuery("SELECT * FROM "+ CONTENT_VIEW_TABLE,null);
     }
+
+
+    // checking if the SyncDateTime entry in the database is same or not as SyncDateTime
+    // retrieved from the REST
+    public boolean checkSyncDateTimeEntry(JSONObject tableRow)
+    {
+        String title = null;
+        SQLiteDatabase db = getReadableDatabase();
+        try {
+            title = tableRow.getString("title");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+            Cursor cursor= db.rawQuery("SELECT * FROM " + CONTENT_INFO_TABLE +
+                    " WHERE " + "title ="+title, null);
+
+            if (cursor != null)
+                return true;
+            else
+                return false;
+    }
+
+    // update rexord in the contentInfoTbl
+    public void updateContentInfoTblEntry(JSONObject contentInfoData)
+    {
+        try {
+            String contentId = contentInfoData.getString("content_id");
+            SQLiteDatabase db = getWritableDatabase();
+            ContentValues values = new ContentValues();
+
+            values.put("zip",contentInfoData.getString("zip"));
+            values.put("modified_at", contentInfoData.getString("modified_at"));
+            values.put("created_at", contentInfoData.getString("created_at"));
+            values.put("syncDateTime", contentInfoData.getString("syncDateTime"));
+            values.put("description", contentInfoData.getString("decription"));
+            values.put("contentLink", contentInfoData.getString("contentLink"));
+            values.put("imagesLink", contentInfoData.getString("imagesLink"));
+            values.put("display_name", contentInfoData.getString("display_name"));
+            values.put("url", contentInfoData.getString("url"));
+            values.put("title", contentInfoData.getString("title"));
+            values.put("contentType", contentInfoData.getString("contentType"));
+            values.put("content_id", contentInfoData.getString("content_id"));
+            db.update(CONTENT_INFO_TABLE,values,"content_id = ?",new String[] {contentId});
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }

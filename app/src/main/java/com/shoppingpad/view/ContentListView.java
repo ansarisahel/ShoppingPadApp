@@ -49,7 +49,6 @@ public class ContentListView extends AppCompatActivity {
         }
 
         else {
-            Toast.makeText(ContentListView.this, "Please check the internet connection", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, InternetIsNotAvailableActivity.class));
         }
 

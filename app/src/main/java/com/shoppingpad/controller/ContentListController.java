@@ -1,7 +1,10 @@
 package com.shoppingpad.controller;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
@@ -59,21 +62,58 @@ public class ContentListController {
     // all field initialized
     public List<ContentInfoModel> getContentInfoData() {
         List<ContentInfoModel> contentInfoModelList = new ArrayList<>();
+
+        // if Internet connection is available
+        if(internetConnection()) {
+
+            // get ContentInfoData from REST
             String contentInfoData = mContentListRestInstance.getContentInfoDataFromREST();
-            if(contentInfoData != null) {
+
+            if (contentInfoData != null) {
+
                 try {
                     JSONArray jsonArray = new JSONArray(contentInfoData);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        ContentInfoModel contentInfoModelInstance = new ContentInfoModel();
-                        JSONObject jsonObject = jsonArray.getJSONObject(i);
-                        contentInfoModelInstance.setContentInfoModelInstance(jsonObject);
-                        contentInfoModelList.add(contentInfoModelInstance);
-                        // mDatabase.insertIntoContentInfoTbl(contentInfoModelInstance);
+
+                    // get the contentInfoTableData
+                    Cursor checkIfTableIsNull = mDatabase.getContentInfoDataFromTbl();
+
+                    // check if the contentInfoTable has entry
+                    if (checkIfTableIsNull.getCount() > 0) {
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            boolean entrySame = mDatabase.checkSyncDateTimeEntry(jsonObject);
+
+                            // if data is there in the table is not same as the REST data then update the entry in the table
+                            if (!entrySame)
+                                mDatabase.updateContentInfoTblEntry(jsonObject);
+                        }
                     }
+
+                    // if the table has no entry then insert the REST data into the table
+                    else {
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            mDatabase.insertIntoContentInfoTbl(jsonObject);
+                        }
+                    }
+
+                    // retrieve data from the table and populate the Model ContentInfoModel and add in the list
+                    getContentInfoDataFromTable(contentInfoModelList);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
+
+            // if the REST data is null then retrieve data from the table
+            else
+                getContentInfoDataFromTable(contentInfoModelList);
+        }
+
+        // if internet connection is not available then get the data from the database
+        else
+            getContentInfoDataFromTable(contentInfoModelList);
 
         return contentInfoModelList;
     }
@@ -84,20 +124,37 @@ public class ContentListController {
     public List<ContentViewModel> getContentViewData() {
         List<ContentViewModel> contentViewModelList = new ArrayList<>();
 
-        String contentViewData = mContentListRestInstance.getContentViewDataFromREST();
-        if(contentViewData != null) {
-            try {
-                JSONArray jsonArray = new JSONArray(contentViewData);
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    ContentViewModel contentViewModelInstance = new ContentViewModel();
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    contentViewModelInstance.setContentViewModelInstance(jsonObject);
-                    contentViewModelList.add(contentViewModelInstance);
-                    //mDatabase.insertIntoContentViewTbl(contentViewModelInstance);
+        // if internet connection is available
+        if(internetConnection()) {
+
+            // get the data from the REST
+            String contentViewData = mContentListRestInstance.getContentViewDataFromREST();
+            if (contentViewData != null) {
+
+                // get the data from the content info table
+                Cursor cursor = mDatabase.getContentViewDataFromTbl();
+
+                // if table is empty then insert the REST data into the table
+                if(cursor.getCount() == 0) {
+                    try {
+                        JSONArray jsonArray = new JSONArray(contentViewData);
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            mDatabase.insertIntoContentViewTbl(jsonObject);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+
+                // retrieve the data from the table and populate the contentViewModel and the add in the list
+                getContentViewDataFromTable(contentViewModelList);
             }
+
+            // if internet connection is not available then get the data from the database
+            else
+                getContentViewDataFromTable(contentViewModelList);
         }
         return  contentViewModelList;
     }
@@ -119,7 +176,6 @@ public class ContentListController {
     }
 
 
-
     // Retrieving particular record from the ContentViewTbl by passing ContentId
     public ContentViewModel getContentViewDataFromTable(String mContentId)
     {
@@ -132,45 +188,42 @@ public class ContentListController {
         return contentViewModelInstance;
     }
 
-    // Returns the size of the mContentInfoModelList
-    public int getContentInfoListSize()
-    {
-        return mContentInfoModelList.size();
-    }
 
-    // Returns the size of the mContentViewModelList
-    public int getContentViewListSize()
+    public void getContentInfoDataFromTable(List<ContentInfoModel> contentInfoModelList)
     {
-        return mContentViewModelList.size();
-    }
-
-    // Returns the ContentInfoModel Object stored in the list at a given position
-    public ContentInfoModel getContentInfoDataFromList(int position)
-    {
-        return mContentInfoModelList.get(position);
-    }
-
-    // Returns the ContentModel Object stored in the list at a given position
-    public ContentViewModel getContentViewDataFromList(int position)
-    {
-        return mContentViewModelList.get(position);
-    }
-
-    // inserting data into ContenteInfoTbl
-    public void insertContentInfoData()
-    {
-        mContentInfoModelList = getContentInfoData();
-        for(int i = 0; i < mContentInfoModelList.size(); i++)
-        mDatabase.insertIntoContentInfoTbl(mContentInfoModelList.get(i));
-    }
-
-    // Inserting data into ContentInfoTbl
-    public void insertContentViewData() {
-        mContentViewModelList = getContentViewData();
-        for (int i = 0; i < mContentViewModelList.size(); i++) {
-            mDatabase.insertIntoContentViewTbl(mContentViewModelList.get(i));
+        Cursor cursor = mDatabase.getContentInfoDataFromTbl();
+        while (cursor.moveToNext())
+        {
+            ContentInfoModel contentInfoModelInstance = new ContentInfoModel();
+            contentInfoModelInstance.setContentInfoModelInstance(cursor);
+            contentInfoModelList.add(contentInfoModelInstance);
         }
     }
+
+
+    public void getContentViewDataFromTable(List<ContentViewModel> contentViewModelList)
+    {
+        Cursor getContentViewData = mDatabase.getContentViewDataFromTbl();
+        while (getContentViewData.moveToNext())
+        {
+            ContentViewModel contentViewModelInstance = new ContentViewModel();
+            contentViewModelInstance.setContentViewModelInstance(getContentViewData);
+            contentViewModelList.add(contentViewModelInstance);
+        }
+    }
+
+
+
+    // checking internet connection
+    private boolean internetConnection() {
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Activity.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnectedOrConnecting())
+            return true;
+        else
+            return false;
+    }
+
 
     // this method is for populating dummy data into the list
     private List<ContentModel> controllerDummyData() {
