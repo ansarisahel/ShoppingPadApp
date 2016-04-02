@@ -176,7 +176,7 @@ public class ContentListController {
                 if (image1Column == null && image2Column == null)
                 {
                    // mContentListRestInstance.downloadZip(zipUrl,zipTargetLocation);
-                    new ZipUtility().unZip(zipTargetLocation,zipExtractedLocation);
+                   // new ZipUtility().unZip(zipTargetLocation,zipExtractedLocation);
                 }
                // String zipFile = mContentListRestInstance.getZipFile(mContentId);
               //  String targetLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files Extracted";

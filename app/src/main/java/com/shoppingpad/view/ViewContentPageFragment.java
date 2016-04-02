@@ -9,15 +9,14 @@ import android.view.ViewGroup;
 
 import com.shoppingpad.R;
 
-
 /**
- * Created by bridgelabz on 29/3/16.
+ * Created by bridgelabz on 2/4/16.
  */
-public class ViewContentFragment1 extends Fragment {
+public class ViewContentPageFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.view_content_fragment_1,container,false);
+        return inflater.inflate(R.layout.view_content_page_fragment,container,false);
     }
 }
