@@ -38,36 +38,14 @@ public class ContentListView extends AppCompatActivity {
         // getting reference of recyclerview
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView1);
 
-        // Checking the internet connection
-        if(isConnceted()) {
             // making instance of ContentListViewModel class
             mContentListViewModelInstance = new ContentListViewModel(ContentListView.this);
 
             // calling Async Task so that all the work happens in another thread
             // i.e calling JSON data from REST.
             new ContentListViewTask().execute();
-        }
-
-        else {
-            startActivity(new Intent(this, InternetIsNotAvailableActivity.class));
-        }
-
     }
 
-
-    // checking internet connection
-    private boolean isConnceted() {
-        ConnectivityManager manager = (ConnectivityManager) getSystemService(Activity.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-        if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
-            Log.e("status", "available");
-            return true;
-        }
-        else {
-            Log.e("status","not available");
-            return false;
-        }
-    }
 
     class ContentListViewTask extends AsyncTask<String,String,String>
     {

@@ -90,29 +90,10 @@ public class ContentListRest {
         return contentViewDataJSON;
     }
 
-    // downloading zip file from the REST server and
-    public String getZipFile(String mContentId) {
-        String path = Environment.getExternalStorageDirectory().getPath()+"/Zip Files/View_Content";
-        try {
-            URL url = new URL("http://54.86.64.100:3000/api/v1/content/zip");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            InputStream inputStream = connection.getInputStream();
-            BufferedInputStream in = new BufferedInputStream(inputStream);
-            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-            byte[] data = new byte[50];
-            int current = 0;
-            while ((current = in.read(data,0,data.length)) != -1)
-            {
-                buffer.write(data,0,current);
-            }
-
-            FileOutputStream fos = new FileOutputStream(path);
-            fos.write(buffer.toByteArray());
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return path;
+    // this method will download the zip file passed in the url and returns the path where
+    // the images have been downloaded.
+    public void downloadZip(String zipUrl,String zipTargetLocation)
+    {
+        new ZipUtility().getZipFile(zipUrl,zipTargetLocation);
     }
 }

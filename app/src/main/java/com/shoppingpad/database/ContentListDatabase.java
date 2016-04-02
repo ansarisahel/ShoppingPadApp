@@ -28,7 +28,7 @@ public class ContentListDatabase extends SQLiteOpenHelper {
     Context context;
     private ContentListController mContentListController;
     private static final String DATABASE_NAME = "ShoppingPadDatabase";
-    private static final int VERSION = 15;
+    private static final int VERSION = 16;
     private static final String CONTENT_INFO_TABLE = "content_infoTbl";
     private static final String CONTENT_VIEW_TABLE = "content_viewTbl";
     private static final String CONTENT_LIST_VIEW_TABLE = "content_list_view_tbl";
@@ -202,7 +202,7 @@ public class ContentListDatabase extends SQLiteOpenHelper {
                 return false;
     }
 
-    // update rexord in the contentInfoTbl
+    // update record in the contentInfoTbl
     public void updateContentInfoTblEntry(JSONObject contentInfoData)
     {
         try {
@@ -228,6 +228,12 @@ public class ContentListDatabase extends SQLiteOpenHelper {
         }
     }
 
-
-
+    public void updateContentInfoTblEntry(String image1Uri,String image2Uri,String contentId)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("image1Uri",image1Uri);
+        values.put("image2Uri",image2Uri);
+        db.update(CONTENT_INFO_TABLE,values,"content_id = ?",new String[] {contentId});
+    }
 }

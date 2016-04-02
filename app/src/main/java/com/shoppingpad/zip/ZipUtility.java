@@ -1,12 +1,18 @@
 package com.shoppingpad.zip;
 
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -20,6 +26,31 @@ import java.util.zip.ZipFile;
 
 // this class is used for handling zip operation
 public class ZipUtility {
+
+
+    // downloading zip file from the REST server and
+    public void getZipFile(String zipUrl,String targetLocation) {
+        try {
+            URL url = new URL(zipUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            InputStream inputStream = connection.getInputStream();
+            BufferedInputStream in = new BufferedInputStream(inputStream);
+            ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+            byte[] data = new byte[50];
+            int current = 0;
+            while ((current = in.read(data,0,data.length)) != -1)
+            {
+                buffer.write(data,0,current);
+            }
+
+            FileOutputStream fos = new FileOutputStream(targetLocation);
+            fos.write(buffer.toByteArray());
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     // unzipping the file
     public boolean unZip(String inputZipFile, String destinationDirectory)

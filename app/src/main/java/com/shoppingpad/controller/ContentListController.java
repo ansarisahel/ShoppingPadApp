@@ -159,14 +159,25 @@ public class ContentListController {
         return  contentViewModelList;
     }
 
+
     // Retrieving particular record from the ContentInfoTbl by passing ContentId
     public ContentInfoModel getContentInfoDataFromTable(String mContentId)
     {
+        String zipTargetLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files/View_Content";
+        String zipExtractedLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files Extracted";
         ContentInfoModel contentInfoModelInstance = new ContentInfoModel();
-       Cursor dataFromContentInfoTbl = mDatabase.getSpecificDataFromContentInfoTbl(mContentId);
+        Cursor dataFromContentInfoTbl = mDatabase.getSpecificDataFromContentInfoTbl(mContentId);
         if(dataFromContentInfoTbl != null) {
             while (dataFromContentInfoTbl.moveToNext()) {
                 contentInfoModelInstance.setContentInfoModelInstance(dataFromContentInfoTbl);
+                String image1Column = dataFromContentInfoTbl.getString(dataFromContentInfoTbl.getColumnIndex("image1Uri"));
+                String image2Column = dataFromContentInfoTbl.getString(dataFromContentInfoTbl.getColumnIndex("image2Uri"));
+                String zipUrl = dataFromContentInfoTbl.getString(dataFromContentInfoTbl.getColumnIndex("zip"));
+                if (image1Column == null && image2Column == null)
+                {
+                   // mContentListRestInstance.downloadZip(zipUrl,zipTargetLocation);
+                    new ZipUtility().unZip(zipTargetLocation,zipExtractedLocation);
+                }
                // String zipFile = mContentListRestInstance.getZipFile(mContentId);
               //  String targetLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files Extracted";
               //  new ZipUtility().unZip(zipFile,targetLocation);
@@ -189,6 +200,8 @@ public class ContentListController {
     }
 
 
+    // retrieve all the contentInfoData from the table and populate the ContentInfoModel
+    // and add it into the list
     public void getContentInfoDataFromTable(List<ContentInfoModel> contentInfoModelList)
     {
         Cursor cursor = mDatabase.getContentInfoDataFromTbl();
@@ -201,6 +214,8 @@ public class ContentListController {
     }
 
 
+    // retrieve all the contentViewData from the table and populate the ContentViewModel
+    // and add it into the list
     public void getContentViewDataFromTable(List<ContentViewModel> contentViewModelList)
     {
         Cursor getContentViewData = mDatabase.getContentViewDataFromTbl();
@@ -211,7 +226,6 @@ public class ContentListController {
             contentViewModelList.add(contentViewModelInstance);
         }
     }
-
 
 
     // checking internet connection
