@@ -1,8 +1,12 @@
 package com.shoppingpad.view;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,10 +14,12 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cocosw.bottomsheet.BottomSheet;
 import com.shoppingpad.R;
 import com.shoppingpad.databinding.ActivityViewContentBinding;
 import com.shoppingpad.viewModelHandel.ViewContentHandler;
@@ -26,24 +32,15 @@ import java.util.List;
 public class ViewContent extends AppCompatActivity {
 
     ViewContentHandler mViewContentHandler;
-//    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_view_content);
 
         Bundle bundle = getIntent().getExtras();
         String contentId = bundle.getString("mContentId");
         mViewContentHandler = new ViewContentHandler(this);
         new ViewContentAsyncTask().execute(contentId);
-//        viewPager = (ViewPager) findViewById(R.id.viewContentViewPager);
-//        viewPager.setAdapter(new ViewContentImagePagerAdapter(getSupportFragmentManager()));
-
-    }
-
-    public void onPageBtnClicked(View view)
-    {
 
     }
 
@@ -58,11 +55,6 @@ public class ViewContent extends AppCompatActivity {
         Toast.makeText(ViewContent.this,"Image Cliked", Toast.LENGTH_SHORT).show();
     }
 
-    public void onImageBtnClicked(View view)
-    {
-        Toast.makeText(ViewContent.this, Integer.toString(view.getId()) , Toast.LENGTH_SHORT).show();
-    }
-
 
     class ViewContentAsyncTask extends AsyncTask<String,String,String>
     {
@@ -71,7 +63,8 @@ public class ViewContent extends AppCompatActivity {
 
         ActivityViewContentBinding binding;
         ProgressDialog progressDialog;
-        ImageButton reverseBtn,forwardBtn,fastReverseBtn,fastForwardBtn,pageImageBtn;
+        ImageButton reverseBtn,forwardBtn,fastReverseBtn,fastForwardBtn,pageImageBtn,
+                mediaImageBtn,shareImageBtn;
         TextView txtPageNumber;
 
         @Override
@@ -101,8 +94,11 @@ public class ViewContent extends AppCompatActivity {
             fastReverseBtn = (ImageButton) findViewById(R.id.fastReverseimageBtn);
             fastForwardBtn = (ImageButton) findViewById(R.id.fastForwardImageBtn);
             pageImageBtn = (ImageButton) findViewById(R.id.pageImageBtn);
+            mediaImageBtn = (ImageButton) findViewById(R.id.mediaImageBtn);
+            shareImageBtn = (ImageButton) findViewById(R.id.shareImageBtn);
             viewPager = (ViewPager) findViewById(R.id.viewContentViewPager);
             txtPageNumber = (TextView) findViewById(R.id.txtPageNum);
+            final GridView gridView = (GridView) findViewById(R.id.gridView);
             final List<Fragment> fragments = getFragments();
             viewPager.setAdapter(new ViewContentImagePagerAdapter(getSupportFragmentManager(),fragments));
             txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(viewPager.getChildCount()+1));
@@ -110,7 +106,63 @@ public class ViewContent extends AppCompatActivity {
             pageImageBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager()));
+                    viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager(),viewPager,fragments));
+                }
+            });
+
+
+            mediaImageBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager(),viewPager,fragments));
+                }
+            });
+
+            // share the image of the view pager.
+            shareImageBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    // bottom sheet code
+                    new BottomSheet.Builder(ViewContent.this).title("Share On").sheet(R.menu.bottom_sheet).listener(new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            // user has clicked on whatsapp
+                            if (which == R.id.whatsapp)
+                            {
+                                // check if the app is installed or not
+                                boolean whatsAppInstalled = appInstalledOrNot("com.whatsapp.android");
+
+                                // if app is installed then just start the app
+                                if (whatsAppInstalled) {
+                                    Intent intent = getPackageManager().getLaunchIntentForPackage("com.whatsapp.android");
+                                    startActivity(intent);
+                                }
+
+                                // toast that app is not installed
+                                else
+                                    Toast.makeText(ViewContent.this, "Whatsapp is not installed", Toast.LENGTH_SHORT).show();
+                            }
+
+                            // user clicked on whatsapp
+                            if(which == R.id.facebook) {
+
+                                // check if the app is installed or not
+                                boolean fbInstalled = appInstalledOrNot("com.facebook.katana");
+
+                                // if app is installed then just start the app
+                                if(fbInstalled) {
+                                    Intent intent = getPackageManager().getLaunchIntentForPackage("com.facebook.android");
+                                    startActivity(intent);
+                                }
+
+                                // toast that app is not installed
+                                else
+                                    Toast.makeText(ViewContent.this, "facebook in not installed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).show();
                 }
             });
 
@@ -173,7 +225,7 @@ public class ViewContent extends AppCompatActivity {
                 }
             });
 
-            //
+            // onFastForwardBtnClick
             fastForwardBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -185,18 +237,29 @@ public class ViewContent extends AppCompatActivity {
             });
         }
 
+        // getting the fragment to display in viewpager
         private List<Fragment> getFragments() {
             List<Fragment> fragments = new ArrayList<>();
-            fragments.add(ViewContentImageFragment.getFragments(R.drawable.facebook_f_logo));
-            fragments.add(ViewContentImageFragment.getFragments(R.drawable.message));
-            fragments.add(ViewContentImageFragment.getFragments(R.drawable.fast_forward));
+            fragments.add(ViewContentImageFragment.getFragments(R.raw.computer));
+            fragments.add(ViewContentImageFragment.getFragments(R.raw.ic));
+            fragments.add(ViewContentImageFragment.getFragments(R.raw.ic_open_with_black_24px));
             return fragments;
         }
 
-        public void onPageBtnClicked1()
+        // to check if the app is installed or not
+        public boolean appInstalledOrNot(String uri)
         {
-            Toast.makeText(ViewContent.this, "page Btn Clicked", Toast.LENGTH_SHORT).show();
+            boolean appInstalled = false;
+            PackageManager pm = getPackageManager();
+            try {
+                pm.getPackageInfo(uri,PackageManager.GET_ACTIVITIES);
+                appInstalled = true;
+            } catch (PackageManager.NameNotFoundException e) {
+                appInstalled = false;
+            }
+            return appInstalled;
         }
 
     }
+
 }

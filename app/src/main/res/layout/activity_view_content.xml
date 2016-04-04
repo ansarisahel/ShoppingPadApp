@@ -101,7 +101,6 @@
         android:layout_marginTop="10dp"
         android:padding="0dp"
         android:scaleType="fitXY"
-        android:onClick="onPageBtnClicked"
         android:clickable="true"
         android:adjustViewBounds="true"
         android:layout_marginLeft="80dp"/>
@@ -110,11 +109,10 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:src="@drawable/view"
-        android:id="@+id/imageBtn2"
+        android:id="@+id/mediaImageBtn"
         android:layout_marginStart="60dp"
         android:layout_toRightOf="@+id/pageImageBtn"
         android:layout_marginTop="10dp"
-        android:onClick="onImageBtnClicked"
         android:padding="0dp"
         android:scaleType="fitXY"
         android:clickable="true"
@@ -125,11 +123,10 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:src="@drawable/share"
-        android:id="@+id/imageBtn3"
+        android:id="@+id/shareImageBtn"
         android:layout_marginStart="60dp"
-        android:layout_toRightOf="@+id/imageBtn2"
+        android:layout_toRightOf="@+id/mediaImageBtn"
         android:layout_marginTop="10dp"
-        android:onClick="onImageBtnClicked"
         android:padding="0dp"
         android:scaleType="fitXY"
         android:clickable="true"
@@ -156,8 +153,8 @@
         android:textSize="13dp"
         android:id="@+id/textView2"
         android:layout_alignTop="@+id/txtPageNumber"
-        android:layout_alignStart="@+id/imageBtn2"
-        android:layout_alignLeft="@+id/imageBtn2" />
+        android:layout_alignStart="@+id/mediaImageBtn"
+        android:layout_alignLeft="@+id/mediaImageBtn" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -166,8 +163,8 @@
             android:textSize="13dp"
             android:id="@+id/textView3"
             android:layout_alignTop="@+id/textView2"
-            android:layout_alignStart="@+id/imageBtn3"
-            android:layout_alignLeft="@+id/imageBtn3" />
+            android:layout_alignStart="@+id/shareImageBtn"
+            android:layout_alignLeft="@+id/shareImageBtn" />
 
     </RelativeLayout>
     </LinearLayout>

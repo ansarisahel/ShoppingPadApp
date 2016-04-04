@@ -32,4 +32,6 @@ dependencies {
     compile 'com.oguzdev:CircularFloatingActionMenu:1.0.2'
     compile 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.cocosw:bottomsheet:1.+@aar'
+    compile files('libs/svg-android.jar')
 }

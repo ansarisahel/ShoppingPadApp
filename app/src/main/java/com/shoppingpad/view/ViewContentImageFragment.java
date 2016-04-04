@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.larvalabs.svgandroid.SVG;
+import com.larvalabs.svgandroid.SVGParser;
 import com.shoppingpad.R;
 
 
@@ -32,7 +34,9 @@ public class ViewContentImageFragment extends Fragment {
         View view = inflater.inflate(R.layout.view_content_image_fragment,container,false);
         int drawable = getArguments().getInt("drawable");
         ImageView imageView = (ImageView) view.findViewById(R.id.viewContentFragment1ImageView);
-        imageView.setImageResource(drawable);
+        SVG svgImage = SVGParser.getSVGFromResource(getResources(),drawable);
+        imageView.setImageDrawable(svgImage.createPictureDrawable());
+        imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         return view;
     }
 }
