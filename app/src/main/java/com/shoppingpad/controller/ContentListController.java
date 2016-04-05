@@ -6,8 +6,6 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Environment;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.shoppingpad.database.ContentListDatabase;
 import com.shoppingpad.model.ContentInfoModel;
@@ -170,10 +168,8 @@ public class ContentListController {
         if(dataFromContentInfoTbl != null) {
             while (dataFromContentInfoTbl.moveToNext()) {
                 contentInfoModelInstance.setContentInfoModelInstance(dataFromContentInfoTbl);
-                String image1Column = dataFromContentInfoTbl.getString(dataFromContentInfoTbl.getColumnIndex("image1Uri"));
-                String image2Column = dataFromContentInfoTbl.getString(dataFromContentInfoTbl.getColumnIndex("image2Uri"));
-                String zipUrl = dataFromContentInfoTbl.getString(dataFromContentInfoTbl.getColumnIndex("zip"));
-                if (image1Column == null && image2Column == null)
+                String contentLink = dataFromContentInfoTbl.getString(dataFromContentInfoTbl.getColumnIndex("contentLink"));
+                if (contentLink != null)
                 {
                    // mContentListRestInstance.downloadZip(zipUrl,zipTargetLocation);
                    // new ZipUtility().unZip(zipTargetLocation,zipExtractedLocation);

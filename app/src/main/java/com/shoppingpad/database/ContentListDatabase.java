@@ -28,7 +28,7 @@ public class ContentListDatabase extends SQLiteOpenHelper {
     Context context;
     private ContentListController mContentListController;
     private static final String DATABASE_NAME = "ShoppingPadDatabase";
-    private static final int VERSION = 16;
+    private static final int VERSION = 18;
     private static final String CONTENT_INFO_TABLE = "content_infoTbl";
     private static final String CONTENT_VIEW_TABLE = "content_viewTbl";
     private static final String CONTENT_LIST_VIEW_TABLE = "content_list_view_tbl";
@@ -52,8 +52,7 @@ public class ContentListDatabase extends SQLiteOpenHelper {
             "display_name VARCHAR(230),imagesLink VARCHAR(230)," +
             "contentLink VARCHAR(230),description VARCHAR(230)," +
             "syncDateTime VARCHAR(230),created_at VARCHAR(230)," +
-            "modified_at VARCHAR(230),zip VARCHAR(230)," +
-            "image1Uri VARCHAR(230),image2Uri VARCHAR(230));";
+            "modified_at VARCHAR(230),zip VARCHAR(230));";
 
     String content_viewTbl = "CREATE TABLE "+ CONTENT_VIEW_TABLE +"" +
             "(userContentId VARCHAR(230),userAdminId VARCHAR(230)," +
