@@ -96,7 +96,6 @@ public class ViewContent extends AppCompatActivity {
             shareImageBtn = (ImageButton) findViewById(R.id.shareImageBtn);
             viewPager = (ViewPager) findViewById(R.id.viewContentViewPager);
             txtPageNumber = (TextView) findViewById(R.id.txtPageNum);
-            final GridView gridView = (GridView) findViewById(R.id.gridView);
             final List<Fragment> fragments = getFragments();
             viewPager.setAdapter(new ViewContentImagePagerAdapter(getSupportFragmentManager(),fragments));
             txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(viewPager.getChildCount()+1));
@@ -238,9 +237,10 @@ public class ViewContent extends AppCompatActivity {
         // getting the fragment to display in viewpager
         private List<Fragment> getFragments() {
             List<Fragment> fragments = new ArrayList<>();
-            fragments.add(ViewContentImageFragment.getFragments(R.raw.computer));
-            fragments.add(ViewContentImageFragment.getFragments(R.raw.ic));
-            fragments.add(ViewContentImageFragment.getFragments(R.raw.ic_open_with_black_24px));
+            fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmSvgImage1()));
+            fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmSvgImage2()));
+          //  fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmPngImage1()));
+           // fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmPngImage2()));
             return fragments;
         }
 

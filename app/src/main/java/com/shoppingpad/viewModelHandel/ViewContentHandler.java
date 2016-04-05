@@ -38,6 +38,11 @@ public class ViewContentHandler {
         viewContentViewModelInstance.setmNoOfParticipants( contentViewModelInstance.mNumberOfParticipants + " participants");
         viewContentViewModelInstance.setmNoOfViews(contentViewModelInstance.mNumberOfViews + " views");
         viewContentViewModelInstance.setmTitle(contentViewModelInstance.mFirstName);
+        viewContentViewModelInstance.setmSvgImage1(contentInfoModelInstance.mSvgImage1);
+        viewContentViewModelInstance.setmSvgImage2(contentInfoModelInstance.mSvgImage2);
+        viewContentViewModelInstance.setmPngImage1(contentInfoModelInstance.mPngImage1);
+        viewContentViewModelInstance.setmPngImage2(contentInfoModelInstance.mPngImage2);
+
         return viewContentViewModelInstance;
     }
 

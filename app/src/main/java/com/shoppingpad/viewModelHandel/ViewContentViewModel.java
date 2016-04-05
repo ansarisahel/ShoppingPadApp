@@ -15,6 +15,44 @@ public class ViewContentViewModel extends BaseObservable {
     public String mTitle;
     public String mNoOfViews;
     public String mNoOfParticipants;
+    private String mSvgImage1;
+    private String mSvgImage2;
+    private String mPngImage1;
+    private String mPngImage2;
+
+    public String getmSvgImage1() {
+        return mSvgImage1;
+    }
+
+    public void setmSvgImage1(String mSvgImage1) {
+        this.mSvgImage1 = mSvgImage1;
+    }
+
+    public String getmPngImage2() {
+        return mPngImage2;
+    }
+
+    public void setmPngImage2(String mPngImage2) {
+        this.mPngImage2 = mPngImage2;
+    }
+
+    public String getmPngImage1() {
+        return mPngImage1;
+    }
+
+    public void setmPngImage1(String mPngImage1) {
+        this.mPngImage1 = mPngImage1;
+    }
+
+    public String getmSvgImage2() {
+        return mSvgImage2;
+    }
+
+    public void setmSvgImage2(String mSvgImage2) {
+        this.mSvgImage2 = mSvgImage2;
+    }
+
+
 
     public ViewContentViewModel()
     {

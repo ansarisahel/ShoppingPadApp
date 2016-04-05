@@ -16,6 +16,8 @@ import com.shoppingpad.model.ContentViewModel;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by bridgelabz on 13/3/16.
  * Purpose:
@@ -227,12 +229,23 @@ public class ContentListDatabase extends SQLiteOpenHelper {
         }
     }
 
-    public void updateContentInfoTblEntry(String image1Uri,String image2Uri,String contentId)
+    // update the content link so that images can be fetched through this link in sd card
+    public void updateContentInfoTblEntry(String contentId,String contentLink)
     {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put("image1Uri",image1Uri);
-        values.put("image2Uri",image2Uri);
+        values.put("contentLink",contentLink);
         db.update(CONTENT_INFO_TABLE,values,"content_id = ?",new String[] {contentId});
+    }
+
+    public ArrayList<Cursor> getDataFromSDCardDatabase(String uri)
+    {
+        ArrayList<Cursor> sdCardData = new ArrayList<>();
+        SQLiteDatabase db = SQLiteDatabase.openDatabase(uri,null,0);
+        Cursor pageData = db.rawQuery("SELECT page_svg FROM PageData",null);
+        Cursor pageMedia = db.rawQuery("SELECT media_file FROM PageMedia",null);
+        sdCardData.add(pageData);
+        sdCardData.add(pageMedia);
+        return sdCardData;
     }
 }

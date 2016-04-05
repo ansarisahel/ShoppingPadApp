@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 /**
  * Created by bridgelabz on 15/3/16.
  Purpose: This class is used to be populated retrieved from JSON
@@ -27,6 +29,10 @@ public class ContentInfoModel {
     public String mTitle;
     public String mContentType;
     public String mContentId;
+    public String mSvgImage1;
+    public String mSvgImage2;
+    public String mPngImage1;
+    public String mPngImage2;
 
 
     // this method will fetch the data form the JSONObject passed in the argument and
@@ -52,7 +58,7 @@ public class ContentInfoModel {
 
     // this method will fetch the data form the table row passed in the argument and
     // populate the contentInfoModelInstance
-    public void setContentInfoModelInstance(Cursor contentInfoData) {
+    public void setContentInfoModelInstance(Cursor contentInfoData,ArrayList<String> sdCardData) {
         try {
             mModified_at = contentInfoData.getString(contentInfoData.getColumnIndex("modified_at"));
             mCreated_at = contentInfoData.getString(contentInfoData.getColumnIndex("created_at"));
@@ -66,11 +72,16 @@ public class ContentInfoModel {
             mContentType = contentInfoData.getString(contentInfoData.getColumnIndex("contentType"));
             mContentId = contentInfoData.getString(contentInfoData.getColumnIndex("content_id"));
             mZip = contentInfoData.getString(contentInfoData.getColumnIndex("zip"));
+            if(sdCardData != null) {
+                mSvgImage1 = sdCardData.get(0);
+                mSvgImage2 = sdCardData.get(1);
+                mPngImage1 = sdCardData.get(2);
+                mPngImage2 = sdCardData.get(3);
+            }
         }
         catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }
 

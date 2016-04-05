@@ -18,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -161,21 +162,47 @@ public class ContentListController {
     // Retrieving particular record from the ContentInfoTbl by passing ContentId
     public ContentInfoModel getContentInfoDataFromTable(String mContentId)
     {
-        String zipTargetLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files/View_Content";
-        String zipExtractedLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files Extracted";
+        ArrayList<Cursor> sdcardDB;
+        ArrayList<String> sdCardData = new ArrayList<>();
+        String zipUrl = null;
+        String sdCardDBUri = null;
+        String zipTargetLocation;
+        String zipExtractedLocation;
         ContentInfoModel contentInfoModelInstance = new ContentInfoModel();
         Cursor dataFromContentInfoTbl = mDatabase.getSpecificDataFromContentInfoTbl(mContentId);
         if(dataFromContentInfoTbl != null) {
             while (dataFromContentInfoTbl.moveToNext()) {
-                contentInfoModelInstance.setContentInfoModelInstance(dataFromContentInfoTbl);
                 String contentLink = dataFromContentInfoTbl.getString(dataFromContentInfoTbl.getColumnIndex("contentLink"));
-                if (contentLink != null)
+                if (contentLink != null && contentLink.startsWith("http://"))
                 {
-                   // mContentListRestInstance.downloadZip(zipUrl,zipTargetLocation);
-                   // new ZipUtility().unZip(zipTargetLocation,zipExtractedLocation);
+                    zipUrl = dataFromContentInfoTbl.getString(dataFromContentInfoTbl.getColumnIndex("zip"));
+                    zipTargetLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files/View_Content";
+                    zipExtractedLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files Extracted1/ContentId"+mContentId;
+                    File file = new File(zipExtractedLocation);
+                    if(!file.isDirectory())
+                        file.mkdir();
+                    mContentListRestInstance.downloadZip(zipUrl,zipTargetLocation);
+                    new ZipUtility().unZip(zipTargetLocation,zipExtractedLocation);
+                    mDatabase.updateContentInfoTblEntry(mContentId,zipExtractedLocation);
                 }
-
             }
+            Cursor updatedDatafromContentInfoTbl = mDatabase.getSpecificDataFromContentInfoTbl(mContentId);
+            if(updatedDatafromContentInfoTbl.moveToFirst())
+            sdCardDBUri = updatedDatafromContentInfoTbl.getString(updatedDatafromContentInfoTbl
+                                                                .getColumnIndex("contentLink"))+"/Content/data/database.sqlite";
+            sdcardDB = mDatabase.getDataFromSDCardDatabase(sdCardDBUri);
+            Cursor pageData = sdcardDB.get(0);
+            Cursor pageMedia = sdcardDB.get(1);
+            while (pageData.moveToNext())
+            {
+                sdCardData.add(pageData.getString(pageData.getColumnIndex("page_svg")));
+            }
+            while (pageMedia.moveToNext())
+            {
+                sdCardData.add(pageMedia.getString(pageMedia.getColumnIndex("media_file")));
+            }
+
+            contentInfoModelInstance.setContentInfoModelInstance(updatedDatafromContentInfoTbl,sdCardData);
         }
         return contentInfoModelInstance;
     }
@@ -202,7 +229,7 @@ public class ContentListController {
         while (cursor.moveToNext())
         {
             ContentInfoModel contentInfoModelInstance = new ContentInfoModel();
-            contentInfoModelInstance.setContentInfoModelInstance(cursor);
+            contentInfoModelInstance.setContentInfoModelInstance(cursor,null);
             contentInfoModelList.add(contentInfoModelInstance);
         }
     }
