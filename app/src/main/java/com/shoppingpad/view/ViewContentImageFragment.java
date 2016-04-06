@@ -30,7 +30,7 @@ public class ViewContentImageFragment extends Fragment {
     public static Fragment getFragments(String imageUri,String contentId)
     {
         ViewContentImageFragment f = new ViewContentImageFragment();
-        Bundle bundle = new Bundle(1);
+        Bundle bundle = new Bundle(2);
         bundle.putString("imageUri",imageUri);
         bundle.putString("contentId",contentId);
         f.setArguments(bundle);

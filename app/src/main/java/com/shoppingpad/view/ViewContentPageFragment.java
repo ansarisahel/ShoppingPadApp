@@ -19,11 +19,15 @@ import java.util.List;
 public class ViewContentPageFragment extends Fragment {
 
     ViewPager viewPager;
-    List<Fragment> fragments;
+    String[] mImagePath;
+    String mContentId;
+    List<Fragment> mFragments;
 
-    public ViewContentPageFragment(ViewPager viewPager,List<Fragment> fragments) {
+    public ViewContentPageFragment(ViewPager viewPager,String[] imagePath,String contentId,List<Fragment> fragments) {
         this.viewPager = viewPager;
-        this.fragments = fragments;
+        this.mImagePath = imagePath;
+        this.mContentId = contentId;
+        this.mFragments = fragments;
     }
 
     @Nullable
@@ -31,7 +35,7 @@ public class ViewContentPageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.view_content_page_fragment,container,false);
         GridView gridView = (GridView) view.findViewById(R.id.gridView);
-        gridView.setAdapter(new GridViewAdapter(getActivity(),viewPager,fragments));
+        gridView.setAdapter(new GridViewAdapter(getActivity(),viewPager,mImagePath,mContentId,mFragments));
         return view;
     }
 }

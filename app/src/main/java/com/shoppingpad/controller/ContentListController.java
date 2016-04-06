@@ -163,7 +163,7 @@ public class ContentListController {
     public ContentInfoModel getContentInfoDataFromTable(String mContentId)
     {
         ArrayList<Cursor> sdcardDB;
-        ArrayList<String> sdCardData = new ArrayList<>();
+//        ArrayList<String> sdCardData = new ArrayList<>();
         String zipUrl = null;
         String sdCardDBUri = null;
         String zipTargetLocation;
@@ -191,18 +191,18 @@ public class ContentListController {
             sdCardDBUri = updatedDatafromContentInfoTbl.getString(updatedDatafromContentInfoTbl
                                                                 .getColumnIndex("contentLink"))+"/Content/data/database.sqlite";
             sdcardDB = mDatabase.getDataFromSDCardDatabase(sdCardDBUri);
-            Cursor pageData = sdcardDB.get(0);
-            Cursor pageMedia = sdcardDB.get(1);
-            while (pageData.moveToNext())
+            Cursor svgImages = sdcardDB.get(0);
+            Cursor pngImages = sdcardDB.get(1);
+          /*  while (pageData.moveToNext())
             {
                 sdCardData.add(pageData.getString(pageData.getColumnIndex("page_svg")));
             }
             while (pageMedia.moveToNext())
             {
                 sdCardData.add(pageMedia.getString(pageMedia.getColumnIndex("media_file")));
-            }
+            }*/
 
-            contentInfoModelInstance.setContentInfoModelInstance(updatedDatafromContentInfoTbl,sdCardData);
+            contentInfoModelInstance.setContentInfoModelInstance(updatedDatafromContentInfoTbl,svgImages,pngImages);
         }
         return contentInfoModelInstance;
     }
@@ -229,7 +229,7 @@ public class ContentListController {
         while (cursor.moveToNext())
         {
             ContentInfoModel contentInfoModelInstance = new ContentInfoModel();
-            contentInfoModelInstance.setContentInfoModelInstance(cursor,null);
+            contentInfoModelInstance.setContentInfoModelInstance(cursor,null,null);
             contentInfoModelList.add(contentInfoModelInstance);
         }
     }

@@ -104,17 +104,17 @@ public class ViewContent extends AppCompatActivity {
             pageImageBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager(),viewPager,fragments));
+                    viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager(),viewPager,viewContentViewModelInstance.getmSvgImages(), mContentId, fragments));
                 }
             });
 
 
-            mediaImageBtn.setOnClickListener(new View.OnClickListener() {
+          /*  mediaImageBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager(),viewPager,fragments));
                 }
-            });
+            });*/
 
             // share the image of the view pager.
             shareImageBtn.setOnClickListener(new View.OnClickListener() {
@@ -238,10 +238,10 @@ public class ViewContent extends AppCompatActivity {
         // getting the fragment to display in viewpager
         private List<Fragment> getFragments() {
             List<Fragment> fragments = new ArrayList<>();
-            fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmSvgImage1(),mContentId));
-            fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmSvgImage2(),mContentId));
-          //  fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmPngImage1()));
-           // fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmPngImage2()));
+            Log.e("svgImagesLength",""+viewContentViewModelInstance.getmSvgImages().length);
+            for(int i = 0; i < viewContentViewModelInstance.getmSvgImages().length; i++) {
+                fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmSvgImages()[i], mContentId));
+            }
             return fragments;
         }
 

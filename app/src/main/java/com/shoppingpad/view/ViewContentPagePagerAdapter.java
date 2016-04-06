@@ -4,10 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.View;
-import android.widget.BaseAdapter;
-
-import com.shoppingpad.R;
 
 import java.util.List;
 
@@ -17,16 +13,20 @@ import java.util.List;
 public class ViewContentPagePagerAdapter extends FragmentStatePagerAdapter {
 
     ViewPager viewPager;
-    List<Fragment> fragments;
-    public ViewContentPagePagerAdapter(FragmentManager fm, ViewPager viewPager,List<Fragment> fragments) {
+    String[] mImagePath;
+    String mContentId;
+    List<Fragment> mFragments;
+    public ViewContentPagePagerAdapter(FragmentManager fm, ViewPager viewPager,String[] imagePath,String contentId,List<Fragment> fragments) {
         super(fm);
         this.viewPager = viewPager;
-        this.fragments = fragments;
+        this.mImagePath = imagePath;
+        this.mContentId = contentId;
+        this.mFragments = fragments;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return new ViewContentPageFragment(viewPager,fragments);
+        return new ViewContentPageFragment(viewPager, mImagePath,mContentId,mFragments);
     }
 
     @Override
