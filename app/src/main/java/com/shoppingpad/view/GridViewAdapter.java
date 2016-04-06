@@ -2,12 +2,14 @@ package com.shoppingpad.view;
 
 import android.content.Context;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,6 @@ import java.util.List;
  */
 public class GridViewAdapter extends BaseAdapter {
 
-    int[] images = new int[] {R.raw.computer,R.raw.ic,R.raw.ic_open_with_black_24px};
     FragmentActivity context;
     ViewPager viewPager;
     String[] mImagePath;
@@ -65,22 +66,28 @@ public class GridViewAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = inflater.inflate(R.layout.grid_view_row_view,viewGroup,false);
         ImageView imageView = (ImageView) view.findViewById(R.id.gridViewImageView);
-        File imageFile = new File(Environment.getExternalStorageDirectory()+"/Zip Files Extracted1/ContentId"+mContentId+"/Content/"+mImagePath[i]);
-        try {
-            FileInputStream fileInputStream = new FileInputStream(imageFile);
-            SVG svgImage = SVGParser.getSVGFromInputStream(fileInputStream);
-            imageView.setImageDrawable(svgImage.createPictureDrawable());
-            imageView.setLayerType(View.LAYER_TYPE_SOFTWARE,null);
-            imageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    viewPager.setAdapter(new ViewContentImagePagerAdapter(context.getSupportFragmentManager(),mFragments));
-                    viewPager.setCurrentItem(i);
+        String imageUri = Environment.getExternalStorageDirectory()+"/Zip Files Extracted1/ContentId"+mContentId+"/Content/"+mImagePath[i];
+            try {
+                if(mImagePath[i].substring(mImagePath[i].lastIndexOf(".")+1).equals("svg")) {
+                    FileInputStream fileInputStream = new FileInputStream(new File(imageUri));
+                    SVG svgImage = SVGParser.getSVGFromInputStream(fileInputStream);
+                    imageView.setImageDrawable(svgImage.createPictureDrawable());
+                    imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
                 }
-            });
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+                if(mImagePath[i].substring(mImagePath[i].lastIndexOf(".")+1).equals("png"))
+                {
+                    imageView.setImageURI(Uri.parse(imageUri));
+                }
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        viewPager.setAdapter(new ViewContentImagePagerAdapter(context.getSupportFragmentManager(), mFragments));
+                        viewPager.setCurrentItem(i);
+                    }
+                });
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
         return view;
     }
 }

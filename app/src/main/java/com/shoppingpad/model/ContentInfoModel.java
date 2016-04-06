@@ -30,10 +30,6 @@ public class ContentInfoModel {
     public String mTitle;
     public String mContentType;
     public String mContentId;
-//    public String mSvgImage1;
-//    public String mSvgImage2;
-//    public String mPngImage1;
-//    public String mPngImage2;
     public String[] mSvgImages;
     public String[] mPngImages;
 

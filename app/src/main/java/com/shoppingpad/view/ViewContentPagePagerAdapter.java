@@ -16,7 +16,8 @@ public class ViewContentPagePagerAdapter extends FragmentStatePagerAdapter {
     String[] mImagePath;
     String mContentId;
     List<Fragment> mFragments;
-    public ViewContentPagePagerAdapter(FragmentManager fm, ViewPager viewPager,String[] imagePath,String contentId,List<Fragment> fragments) {
+    public ViewContentPagePagerAdapter(FragmentManager fm, ViewPager viewPager,String[] imagePath,
+                                       String contentId,List<Fragment> fragments) {
         super(fm);
         this.viewPager = viewPager;
         this.mImagePath = imagePath;

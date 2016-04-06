@@ -109,12 +109,12 @@ public class ViewContent extends AppCompatActivity {
             });
 
 
-          /*  mediaImageBtn.setOnClickListener(new View.OnClickListener() {
+            mediaImageBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager(),viewPager,fragments));
+                    viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager(),viewPager,viewContentViewModelInstance.getmPngImages(),mContentId,fragments));
                 }
-            });*/
+            });
 
             // share the image of the view pager.
             shareImageBtn.setOnClickListener(new View.OnClickListener() {
