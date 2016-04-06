@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +27,12 @@ import java.io.InputStream;
 public class ViewContentImageFragment extends Fragment {
 
 
-    public static Fragment getFragments(String imageUri)
+    public static Fragment getFragments(String imageUri,String contentId)
     {
         ViewContentImageFragment f = new ViewContentImageFragment();
         Bundle bundle = new Bundle(1);
         bundle.putString("imageUri",imageUri);
+        bundle.putString("contentId",contentId);
         f.setArguments(bundle);
         return f;
     }
@@ -40,9 +42,11 @@ public class ViewContentImageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.view_content_image_fragment,container,false);
         String imageUri = getArguments().getString("imageUri");
+        String contentId = getArguments().getString("contentId");
         ImageView imageView = (ImageView) view.findViewById(R.id.viewContentFragment1ImageView);
         try {
-            File imageUriOnSDCard = new File(Environment.getExternalStorageDirectory()+"/Zip Files Extracted1/ContentId1/Content/"+imageUri);
+            File imageUriOnSDCard = new File(Environment.getExternalStorageDirectory()+"/Zip Files Extracted1/ContentId"+contentId+"/Content/"+imageUri);
+            Log.e("ImageUriSvg",Environment.getExternalStorageDirectory()+"/Zip Files Extracted1/ContentId"+contentId+"/Content/"+imageUri);
             FileInputStream fileInputStream = new FileInputStream(imageUriOnSDCard);
             SVG svgImage = SVGParser.getSVGFromInputStream(fileInputStream);
             imageView.setImageDrawable(svgImage.createPictureDrawable());

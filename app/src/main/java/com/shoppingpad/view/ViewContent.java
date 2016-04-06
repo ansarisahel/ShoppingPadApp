@@ -30,15 +30,16 @@ import java.util.List;
 public class ViewContent extends AppCompatActivity {
 
     ViewContentHandler mViewContentHandler;
+    String mContentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         Bundle bundle = getIntent().getExtras();
-        String contentId = bundle.getString("mContentId");
+        mContentId = bundle.getString("mContentId");
         mViewContentHandler = new ViewContentHandler(this);
-        new ViewContentAsyncTask().execute(contentId);
+        new ViewContentAsyncTask().execute(mContentId);
 
     }
 
@@ -237,8 +238,8 @@ public class ViewContent extends AppCompatActivity {
         // getting the fragment to display in viewpager
         private List<Fragment> getFragments() {
             List<Fragment> fragments = new ArrayList<>();
-            fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmSvgImage1()));
-            fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmSvgImage2()));
+            fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmSvgImage1(),mContentId));
+            fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmSvgImage2(),mContentId));
           //  fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmPngImage1()));
            // fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmPngImage2()));
             return fragments;
