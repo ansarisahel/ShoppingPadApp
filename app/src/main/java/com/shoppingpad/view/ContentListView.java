@@ -78,6 +78,7 @@ public class ContentListView extends AppCompatActivity {
             mRecyclerView.setAdapter(new ContentListViewAdapter
                                 (mContentListViewModelInstance,ContentListView.this));
 
+
         }
     }
 }

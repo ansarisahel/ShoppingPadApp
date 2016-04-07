@@ -12,7 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -193,7 +192,6 @@ public class ViewContent extends AppCompatActivity {
                     if(viewPager.getCurrentItem() > 0) {
                         viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
                         int count = viewPager.getChildCount()+1;
-                        Log.e("count",""+count);
                         txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(fragments.size()));
                     }
                 }
@@ -206,8 +204,7 @@ public class ViewContent extends AppCompatActivity {
                     if (viewPager.getCurrentItem() < viewPager.getChildCount()) {
                         viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
                         int count = viewPager.getChildCount()+1;
-                        Log.e("count",""+count);
-                        txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(viewPager.getChildCount()+1));
+                        txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(fragments.size()));
                     }
                 }
             });
@@ -218,8 +215,7 @@ public class ViewContent extends AppCompatActivity {
                 public void onClick(View view) {
                     viewPager.setCurrentItem(0);
                     int count2 = viewPager.getChildCount()+1;
-                    Log.e("count",""+count2);
-                    txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(viewPager.getChildCount()+1));
+                    txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(fragments.size()));
                 }
             });
 
@@ -229,8 +225,7 @@ public class ViewContent extends AppCompatActivity {
                 public void onClick(View view) {
                     viewPager.setCurrentItem(viewPager.getChildCount());
                     int count3 = viewPager.getChildCount()+1;
-                    Log.e("count",""+count3);
-                    txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(viewPager.getChildCount()+1));
+                    txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(fragments.size()));
                 }
             });
         }

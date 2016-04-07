@@ -168,40 +168,69 @@ public class ContentListController {
         String sdCardDBUri = null;
         String zipTargetLocation;
         String zipExtractedLocation;
+
+        // make contentInfo Model to populate data get from database
         ContentInfoModel contentInfoModelInstance = new ContentInfoModel();
+
+        // get data from the contentInfoTbl to check whether the contentlink column of a particular
+        // contentId has got proper entry or not
         Cursor dataFromContentInfoTbl = mDatabase.getSpecificDataFromContentInfoTbl(mContentId);
+
+        // check if the data got from the contentInfoTbl is not null
         if(dataFromContentInfoTbl != null) {
+
+            // if the data is not null moved to that data
             while (dataFromContentInfoTbl.moveToNext()) {
+
+                // get the contentLink column data
                 String contentLink = dataFromContentInfoTbl.getString(dataFromContentInfoTbl.getColumnIndex("contentLink"));
+
+                // check if the contentLink column data is not null and and doesn't have the proper entry
                 if (contentLink != null && contentLink.startsWith("http://"))
                 {
+                    // get the zipUrl from the table to download the zip file
                     zipUrl = dataFromContentInfoTbl.getString(dataFromContentInfoTbl.getColumnIndex("zip"));
+
+                    // create the target location on the external SD card where the downloaded zip file will get stored
                     zipTargetLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files/View_Content";
+
+                    // if the target location doesn't exist then make the one
+                  //  File file1 = new File(Environment.getExternalStorageDirectory().getPath()+"/Zip Files");
+                  //  if(!file1.isDirectory())
+                    //    file1.mkdir();
+
+                    // create the location on the external SD card where the zip file will be extracted in
                     zipExtractedLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files Extracted1/ContentId"+mContentId;
+
+                    // if the folder where the zip file will be extracted doesn't exist then make the one
                     File file = new File(zipExtractedLocation);
                     if(!file.isDirectory())
                         file.mkdir();
+
+                    // download the zip file and store the downloaded zip file in location passed in the parameter of this method
                     mContentListRestInstance.downloadZip(zipUrl,zipTargetLocation);
+
+                    // extract the zip file and store the extracted zip file
                     new ZipUtility().unZip(zipTargetLocation,zipExtractedLocation);
+
+                    // once the file is downloaded and stored on the sd card, store that path in a local database so that
+                    // we can retrieve the path from the database
                     mDatabase.updateContentInfoTblEntry(mContentId,zipExtractedLocation);
                 }
             }
+            // after updating the path in the database, get the data from the database of a particular contentId
             Cursor updatedDatafromContentInfoTbl = mDatabase.getSpecificDataFromContentInfoTbl(mContentId);
+
+            // if table has the data
             if(updatedDatafromContentInfoTbl.moveToFirst())
             sdCardDBUri = updatedDatafromContentInfoTbl.getString(updatedDatafromContentInfoTbl
                                                                 .getColumnIndex("contentLink"))+"/Content/data/database.sqlite";
+
             sdcardDB = mDatabase.getDataFromSDCardDatabase(sdCardDBUri);
             Cursor svgImages = sdcardDB.get(0);
             Cursor pngImages = sdcardDB.get(1);
-          /*  while (pageData.moveToNext())
-            {
-                sdCardData.add(pageData.getString(pageData.getColumnIndex("page_svg")));
-            }
-            while (pageMedia.moveToNext())
-            {
-                sdCardData.add(pageMedia.getString(pageMedia.getColumnIndex("media_file")));
-            }*/
 
+            // populate the contentInfoModelInstance with the data got uptil now
             contentInfoModelInstance.setContentInfoModelInstance(updatedDatafromContentInfoTbl,svgImages,pngImages);
         }
         return contentInfoModelInstance;
