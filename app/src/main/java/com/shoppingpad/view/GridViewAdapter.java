@@ -1,6 +1,8 @@
 package com.shoppingpad.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Environment;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.larvalabs.svgandroid.SVG;
@@ -37,13 +40,15 @@ public class GridViewAdapter extends BaseAdapter {
     String[] mImagePath;
     String mContentId;
     List<Fragment> mFragments;
+    TextView mTextPageNumber;
 
-    public GridViewAdapter(FragmentActivity context, ViewPager viewPager,String[] imagePath,String contentId,List<Fragment> fragments) {
+    public GridViewAdapter(FragmentActivity context, ViewPager viewPager,String[] imagePath,String contentId,List<Fragment> fragments,TextView textView) {
         this.context = context;
         this.viewPager = viewPager;
         this.mImagePath = imagePath;
         this.mContentId = contentId;
         this.mFragments = fragments;
+        this.mTextPageNumber = textView;
     }
 
     @Override
@@ -76,13 +81,18 @@ public class GridViewAdapter extends BaseAdapter {
                 }
                 if(mImagePath[i].substring(mImagePath[i].lastIndexOf(".")+1).equals("png"))
                 {
-                    imageView.setImageURI(Uri.parse(imageUri));
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inSampleSize = 2;
+                    Bitmap bitmap = BitmapFactory.decodeFile(imageUri,options);
+                    imageView.setImageBitmap(bitmap);
                 }
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         viewPager.setAdapter(new ViewContentImagePagerAdapter(context.getSupportFragmentManager(), mFragments));
+                        Toast.makeText(context, "image to be shown", Toast.LENGTH_SHORT).show();
                         viewPager.setCurrentItem(i);
+                        mTextPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(mFragments.size()));
                     }
                 });
             } catch (FileNotFoundException e) {

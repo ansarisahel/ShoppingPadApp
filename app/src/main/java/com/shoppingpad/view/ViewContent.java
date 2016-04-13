@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -96,14 +95,16 @@ public class ViewContent extends AppCompatActivity {
             shareImageBtn = (ImageButton) findViewById(R.id.shareImageBtn);
             viewPager = (ViewPager) findViewById(R.id.viewContentViewPager);
             txtPageNumber = (TextView) findViewById(R.id.txtPageNum);
-            final List<Fragment> fragments = getFragments();
-            viewPager.setAdapter(new ViewContentImagePagerAdapter(getSupportFragmentManager(),fragments));
-            txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(viewPager.getChildCount()+1));
+            final List<Fragment> svgImageFragments = getFragments(viewContentViewModelInstance.getmSvgImages());
+            final List<Fragment> pngImageFragments = getFragments(viewContentViewModelInstance.getmPngImages());
+            viewPager.setAdapter(new ViewContentImagePagerAdapter(getSupportFragmentManager(),svgImageFragments));
+            txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(svgImageFragments.size()));
+
 
             pageImageBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager(),viewPager,viewContentViewModelInstance.getmSvgImages(), mContentId, fragments));
+                    viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager(),viewPager,viewContentViewModelInstance.getmSvgImages(), mContentId, svgImageFragments,txtPageNumber));
                 }
             });
 
@@ -111,7 +112,7 @@ public class ViewContent extends AppCompatActivity {
             mediaImageBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager(),viewPager,viewContentViewModelInstance.getmPngImages(),mContentId,fragments));
+                    viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager(),viewPager,viewContentViewModelInstance.getmPngImages(),mContentId,pngImageFragments,txtPageNumber));
                 }
             });
 
@@ -191,8 +192,7 @@ public class ViewContent extends AppCompatActivity {
 
                     if(viewPager.getCurrentItem() > 0) {
                         viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-                        int count = viewPager.getChildCount()+1;
-                        txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(fragments.size()));
+                        txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+svgImageFragments.size());
                     }
                 }
             });
@@ -203,8 +203,7 @@ public class ViewContent extends AppCompatActivity {
                 public void onClick(View view) {
                     if (viewPager.getCurrentItem() < viewPager.getChildCount()) {
                         viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-                        int count = viewPager.getChildCount()+1;
-                        txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(fragments.size()));
+                        txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+svgImageFragments.size());
                     }
                 }
             });
@@ -214,8 +213,7 @@ public class ViewContent extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     viewPager.setCurrentItem(0);
-                    int count2 = viewPager.getChildCount()+1;
-                    txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(fragments.size()));
+                    txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+svgImageFragments.size());
                 }
             });
 
@@ -224,18 +222,16 @@ public class ViewContent extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     viewPager.setCurrentItem(viewPager.getChildCount());
-                    int count3 = viewPager.getChildCount()+1;
-                    txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+(fragments.size()));
+                    txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+svgImageFragments.size());
                 }
             });
         }
 
         // getting the fragment to display in viewpager
-        private List<Fragment> getFragments() {
+        private List<Fragment> getFragments(String[] images) {
             List<Fragment> fragments = new ArrayList<>();
-            Log.e("svgImagesLength",""+viewContentViewModelInstance.getmSvgImages().length);
-            for(int i = 0; i < viewContentViewModelInstance.getmSvgImages().length; i++) {
-                fragments.add(ViewContentImageFragment.getFragments(viewContentViewModelInstance.getmSvgImages()[i], mContentId));
+            for(int i = 0; i < images.length; i++) {
+                fragments.add(ViewContentImageFragment.getFragments(images[i], mContentId));
             }
             return fragments;
         }

@@ -83,5 +83,4 @@ public class ViewContentViewModel extends BaseObservable {
     public void setmPngImages(String[] mPngImages) {
         this.mPngImages = mPngImages;
     }
-
 }

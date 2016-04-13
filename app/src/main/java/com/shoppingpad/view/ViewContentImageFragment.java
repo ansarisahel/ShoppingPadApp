@@ -1,15 +1,15 @@
 package com.shoppingpad.view;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 import com.shoppingpad.R;
@@ -17,8 +17,6 @@ import com.shoppingpad.R;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.InputStream;
 
 
 /**
@@ -45,12 +43,19 @@ public class ViewContentImageFragment extends Fragment {
         String contentId = getArguments().getString("contentId");
         ImageView imageView = (ImageView) view.findViewById(R.id.viewContentFragment1ImageView);
         try {
-            File imageUriOnSDCard = new File(Environment.getExternalStorageDirectory()+"/Zip Files Extracted1/ContentId"+contentId+"/Content/"+imageUri);
-            Log.e("ImageUriSvg",Environment.getExternalStorageDirectory()+"/Zip Files Extracted1/ContentId"+contentId+"/Content/"+imageUri);
-            FileInputStream fileInputStream = new FileInputStream(imageUriOnSDCard);
-            SVG svgImage = SVGParser.getSVGFromInputStream(fileInputStream);
-            imageView.setImageDrawable(svgImage.createPictureDrawable());
-            imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            String imageUriOnSDCard = Environment.getExternalStorageDirectory()+"/Zip Files Extracted1/ContentId"+contentId+"/Content/"+imageUri;
+            if(imageUriOnSDCard.substring(imageUriOnSDCard.lastIndexOf(".")+1).equals("svg")) {
+                FileInputStream fileInputStream = new FileInputStream(new File(imageUriOnSDCard));
+                SVG svgImage = SVGParser.getSVGFromInputStream(fileInputStream);
+                imageView.setImageDrawable(svgImage.createPictureDrawable());
+                imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+            }
+            if(imageUriOnSDCard.substring(imageUriOnSDCard.lastIndexOf(".")+1).equals("png")) {
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 2;
+                Bitmap bitmap = BitmapFactory.decodeFile(imageUriOnSDCard,options);
+                imageView.setImageBitmap(bitmap);
+            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

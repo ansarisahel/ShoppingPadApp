@@ -194,11 +194,6 @@ public class ContentListController {
                     // create the target location on the external SD card where the downloaded zip file will get stored
                     zipTargetLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files/View_Content";
 
-                    // if the target location doesn't exist then make the one
-                  //  File file1 = new File(Environment.getExternalStorageDirectory().getPath()+"/Zip Files");
-                  //  if(!file1.isDirectory())
-                    //    file1.mkdir();
-
                     // create the location on the external SD card where the zip file will be extracted in
                     zipExtractedLocation = Environment.getExternalStorageDirectory().getPath()+"/Zip Files Extracted1/ContentId"+mContentId;
 
