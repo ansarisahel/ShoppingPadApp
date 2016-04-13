@@ -3,6 +3,8 @@ package com.shoppingpad.model;
 import android.database.Cursor;
 import android.util.Log;
 
+import com.shoppingpad.database.ImagesURIModel;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -56,9 +58,8 @@ public class ContentInfoModel {
 
     // this method will fetch the data form the table row passed in the argument and
     // populate the contentInfoModelInstance
-    public void setContentInfoModelInstance(Cursor contentInfoData,Cursor svgImages, Cursor pngImages) {
+    public void setContentInfoModelInstance(Cursor contentInfoData,ImagesURIModel images) {
 
-        try {
             mModified_at = contentInfoData.getString(contentInfoData.getColumnIndex("modified_at"));
             mCreated_at = contentInfoData.getString(contentInfoData.getColumnIndex("created_at"));
             mSyncDateTime = contentInfoData.getString(contentInfoData.getColumnIndex("syncDateTime"));
@@ -72,25 +73,11 @@ public class ContentInfoModel {
             mContentId = contentInfoData.getString(contentInfoData.getColumnIndex("content_id"));
             mZip = contentInfoData.getString(contentInfoData.getColumnIndex("zip"));
 
-            if(svgImages != null && pngImages != null) {
-                int i = 0;
-                int j = 0;
-                mSvgImages = new String[svgImages.getCount()];
-                mPngImages = new String[pngImages.getCount()];
-
-                while (svgImages.getCount() > 0 && svgImages.moveToNext()) {
-                    mSvgImages[i] = svgImages.getString(svgImages.getColumnIndex("page_svg"));
-                    i++;
-                }
-                while (pngImages.getCount() > 0 && pngImages.moveToNext()) {
-                    mPngImages[j] = pngImages.getString(pngImages.getColumnIndex("media_file"));
-                    j++;
-                }
+            if(images != null) {
+                mSvgImages = images.getmSvgImages();
+                mPngImages = images.getmPngImages();
             }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+
     }
 }
 

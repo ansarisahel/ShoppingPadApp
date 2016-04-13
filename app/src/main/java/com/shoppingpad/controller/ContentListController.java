@@ -8,6 +8,7 @@ import android.net.NetworkInfo;
 import android.os.Environment;
 
 import com.shoppingpad.database.ContentListDatabase;
+import com.shoppingpad.database.ImagesURIModel;
 import com.shoppingpad.model.ContentInfoModel;
 import com.shoppingpad.model.ContentViewModel;
 import com.shoppingpad.rest.ContentListRest;
@@ -162,7 +163,7 @@ public class ContentListController {
     // Retrieving particular record from the ContentInfoTbl by passing ContentId
     public ContentInfoModel getContentInfoDataFromTable(String mContentId)
     {
-        ArrayList<Cursor> sdcardDB;
+        ImagesURIModel sdcardDB;
 //        ArrayList<String> sdCardData = new ArrayList<>();
         String zipUrl = null;
         String sdCardDBUri = null;
@@ -222,11 +223,9 @@ public class ContentListController {
                                                                 .getColumnIndex("contentLink"))+"/Content/data/database.sqlite";
 
             sdcardDB = mDatabase.getDataFromSDCardDatabase(sdCardDBUri);
-            Cursor svgImages = sdcardDB.get(0);
-            Cursor pngImages = sdcardDB.get(1);
 
             // populate the contentInfoModelInstance with the data got uptil now
-            contentInfoModelInstance.setContentInfoModelInstance(updatedDatafromContentInfoTbl,svgImages,pngImages);
+            contentInfoModelInstance.setContentInfoModelInstance(updatedDatafromContentInfoTbl,sdcardDB);
         }
         return contentInfoModelInstance;
     }
@@ -253,7 +252,7 @@ public class ContentListController {
         while (cursor.moveToNext())
         {
             ContentInfoModel contentInfoModelInstance = new ContentInfoModel();
-            contentInfoModelInstance.setContentInfoModelInstance(cursor,null,null);
+            contentInfoModelInstance.setContentInfoModelInstance(cursor,null);
             contentInfoModelList.add(contentInfoModelInstance);
         }
     }

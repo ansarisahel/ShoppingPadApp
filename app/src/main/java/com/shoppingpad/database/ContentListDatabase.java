@@ -238,14 +238,30 @@ public class ContentListDatabase extends SQLiteOpenHelper {
         db.update(CONTENT_INFO_TABLE,values,"content_id = ?",new String[] {contentId});
     }
 
-    public ArrayList<Cursor> getDataFromSDCardDatabase(String uri)
+    public ImagesURIModel getDataFromSDCardDatabase(String uri)
     {
-        ArrayList<Cursor> sdCardData = new ArrayList<>();
+        //ArrayList<Cursor> sdCardData = new ArrayList<>();
+        ImagesURIModel imagesURIModel = new ImagesURIModel();
         SQLiteDatabase db = SQLiteDatabase.openDatabase(uri,null,0);
         Cursor pageData = db.rawQuery("SELECT page_svg FROM PageData",null);
         Cursor pageMedia = db.rawQuery("SELECT media_file FROM PageMedia",null);
-        sdCardData.add(pageData);
-        sdCardData.add(pageMedia);
-        return sdCardData;
+//        sdCardData.add(pageData);
+//        sdCardData.add(pageMedia);
+        int i = 0;
+        while (pageData.getCount() > 0 && pageData.moveToNext())
+        {
+          //  imagesURIModel.mSvgImages = new String[pageData.getCount()];
+            imagesURIModel.mSvgImages[i] = pageData.getString(pageData.getColumnIndex("page_svg"));
+            i++;
+        }
+
+        int j = 0;
+        while(pageMedia.getCount() > 0 && pageMedia.moveToNext())
+        {
+           // imagesURIModel.mPngImages = new String[pageMedia.getCount()];
+            imagesURIModel.mPngImages[j] = pageMedia.getString(pageMedia.getColumnIndex("media_file"));
+            j++;
+        }
+        return imagesURIModel;
     }
 }

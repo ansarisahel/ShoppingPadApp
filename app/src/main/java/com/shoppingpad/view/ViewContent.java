@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -104,7 +105,7 @@ public class ViewContent extends AppCompatActivity {
             pageImageBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager(),viewPager,viewContentViewModelInstance.getmSvgImages(), mContentId, svgImageFragments,txtPageNumber));
+                    viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager(),viewPager,viewContentViewModelInstance.getmSvgImages(), mContentId, svgImageFragments, txtPageNumber));
                 }
             });
 
@@ -112,7 +113,7 @@ public class ViewContent extends AppCompatActivity {
             mediaImageBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager(),viewPager,viewContentViewModelInstance.getmPngImages(),mContentId,pngImageFragments,txtPageNumber));
+                    viewPager.setAdapter(new ViewContentPagePagerAdapter(getSupportFragmentManager(),viewPager,viewContentViewModelInstance.getmPngImages(),mContentId, pngImageFragments, txtPageNumber));
                 }
             });
 
@@ -191,6 +192,10 @@ public class ViewContent extends AppCompatActivity {
                 public void onClick(View view) {
 
                     if(viewPager.getCurrentItem() > 0) {
+                        int cde = viewPager.getCurrentItem();
+                        Log.e("currentItem",""+cde);
+                        int abc = viewPager.getCurrentItem() - 1;
+                        Log.e("abc",""+abc);
                         viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
                         txtPageNumber.setText("page "+(viewPager.getCurrentItem()+1)+" of "+svgImageFragments.size());
                     }
