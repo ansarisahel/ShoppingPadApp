@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 import com.shoppingpad.R;
@@ -81,10 +82,7 @@ public class GridViewAdapter extends BaseAdapter {
                 }
                 if(mImagePath[i].substring(mImagePath[i].lastIndexOf(".")+1).equals("png"))
                 {
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inSampleSize = 2;
-                    Bitmap bitmap = BitmapFactory.decodeFile(imageUri,options);
-                    imageView.setImageBitmap(bitmap);
+                    Glide.with(context).load(imageUri).into(imageView);
                 }
                 imageView.setOnClickListener(new View.OnClickListener() {
                     @Override

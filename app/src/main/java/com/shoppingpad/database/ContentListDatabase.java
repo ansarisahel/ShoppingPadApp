@@ -6,12 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
-
-import com.google.repacked.kotlin.properties.NULL_VALUE;
 import com.shoppingpad.controller.ContentListController;
-import com.shoppingpad.model.ContentInfoModel;
-import com.shoppingpad.model.ContentViewModel;
 
 import org.json.JSONException;
 import org.json.JSONObject;

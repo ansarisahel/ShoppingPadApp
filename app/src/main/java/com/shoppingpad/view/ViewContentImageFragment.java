@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 import com.shoppingpad.R;
@@ -51,10 +53,7 @@ public class ViewContentImageFragment extends Fragment {
                 imageView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
             }
             if(imageUriOnSDCard.substring(imageUriOnSDCard.lastIndexOf(".")+1).equals("png")) {
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 2;
-                Bitmap bitmap = BitmapFactory.decodeFile(imageUriOnSDCard,options);
-                imageView.setImageBitmap(bitmap);
+                Glide.with(getActivity()).load(imageUriOnSDCard).into(imageView);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
